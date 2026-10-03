@@ -1,0 +1,18 @@
+{
+  "name": "manifold-academy",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "流形学堂：以几何为语言、以数值为实验室的现代理论物理交互式学习站",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "katex": "^0.16.11"
+  },
+  "devDependencies": {
+    "vite": "^6.3.0"
+  }
+}
