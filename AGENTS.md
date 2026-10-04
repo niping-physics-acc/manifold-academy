@@ -101,5 +101,6 @@ manifold-academy/
 
 ## 5. 开发与部署工作流
 - **本地启动**：`npm run dev`（监听 `0.0.0.0:5173`，支持手机同一 Wi-Fi 访问）
-- **生产构建**：`npm run build`（输出至 `dist/`）
+- **生产构建**：`cmd /c "npm run build"`（Windows 环境下通过 cmd 构建，输出至 `dist/`）
 - **部署分支**：`main` 分支托管于 GitHub，通过 GitHub Pages 提供公网访问。
+- **强制同步规则 (CRITICAL)**：每一次内容修改与功能迭代后，完成构建校验必须立即执行 `git add`, `git commit` 并同步推送到 GitHub 远程仓库 (`git push origin main`)，确保最新改动实时与远端同步。

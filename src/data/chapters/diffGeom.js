@@ -459,6 +459,129 @@ export const diffGeomChapter = {
   </ol>
 </div>
 
+<div class="math-primer" style="margin-top: 20px;">
+  <div class="math-primer-title">
+    <span>🔍 关键破局：外微分 $d$ 作用在 1-形式上到底是什么？</span>
+  </div>
+  <p>
+    在上面的定义中，很多初学者最容易产生的困惑是：<strong>“0-形式的 $d$ 我很熟（就是普通的全微分梯度 $df$），但 1-形式本身已经带着微元 $dx^i$ 了，把 $d$ 拍在 1-形式上，它究竟算出了什么几何与物理量？”</strong><br/>
+    答案可以高度凝练为两句话：
+    <br/>• <strong>几何类型跃迁</strong>：1-形式是“线积分做功标尺”，而 <strong>$d(1\\text{-形式})$ 跃迁为了 2-形式（面元测量机）</strong>！
+    <br/>• <strong>物理测量本质</strong>：$d\\alpha$ 测量的正是 1-形式 $\\alpha$ 沿着<strong>无穷小闭合回线的“环量密度（Circulation Density）”或“旋度涡量（Vorticity）”</strong>！
+  </p>
+</div>
+
+<div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35);">
+  <div class="math-proof-title">
+    <span>📐 局部坐标显式推导：从反 Leibniz 律手把手计算 $d(1\\text{-形式})$</span>
+    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Step-by-step Algebra</span>
+  </div>
+  <div class="math-proof-steps">
+    <div class="proof-step-item">
+      <div class="proof-step-dot">1</div>
+      <div>
+        <strong>写出任意 1-形式的局部展开</strong>：<br/>
+        设 $\\alpha \\in \\Omega^1(M)$，在局部坐标卡下展开为：
+        $$\\alpha = \\sum_{j=1}^n \\alpha_j(x) \\, dx^j$$
+        其中系数 $\\alpha_j(x)$ 是普通的 0-形式（标量函数），而基底 $dx^j$ 是 1-形式基底。
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">2</div>
+      <div>
+        <strong>应用线性公理与反 Leibniz 乘积律</strong>：<br/>
+        由于 $d$ 是实线性的，且对乘积 $\\alpha_j \\cdot dx^j = \\alpha_j \\wedge dx^j$（0-形式与 1-形式的外积即普通标量乘法），按反 Leibniz 律展开：
+        $$d\\alpha = \\sum_{j=1}^n d\\left( \\alpha_j \\, dx^j \\right) = \\sum_{j=1}^n \\Big[ (d\\alpha_j) \\wedge dx^j + (-1)^0 \\, \\alpha_j \\wedge d(dx^j) \\Big]$$
+        根据公理 3，坐标基底的二阶微分恒为零：$d(dx^j) \\equiv 0$。因此第二项精确消失！
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">3</div>
+      <div>
+        <strong>展开标量函数的全微分 $d\\alpha_j$</strong>：<br/>
+        根据公理 1，标量函数 $\\alpha_j$ 的外微分就是普通全微分：$d\\alpha_j = \\sum_{i=1}^n \\frac{\\partial \\alpha_j}{\\partial x^i} dx^i$。代入上式得：
+        $$d\\alpha = \\sum_{j=1}^n \\left( \\sum_{i=1}^n \\frac{\\partial \\alpha_j}{\\partial x^i} dx^i \\right) \\wedge dx^j = \\sum_{i, j=1}^n \\frac{\\partial \\alpha_j}{\\partial x^i} \\, dx^i \\wedge dx^j$$
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">4</div>
+      <div>
+        <strong>利用外积的反对称骨架合并指标（反对称化梯度）</strong>：<br/>
+        由于楔积严格反对称：$dx^i \\wedge dx^j = - dx^j \\wedge dx^i$，且当 $i = j$ 时 $dx^i \\wedge dx^i = 0$。<br/>
+        我们将矩阵中的上三角 $(i < j)$ 与下三角项配对合并：
+        $$d\\alpha = \\sum_{1 \\le i < j \\le n} \\left( \\frac{\\partial \\alpha_j}{\\partial x^i} - \\frac{\\partial \\alpha_i}{\\partial x^j} \\right) dx^i \\wedge dx^j = \\frac{1}{2} \\sum_{i, j=1}^n \\left( \\partial_i \\alpha_j - \\partial_j \\alpha_i \\right) dx^i \\wedge dx^j$$
+        <span style="color:#38bdf8;"><strong>代数洞察</strong>：$d$ 作用在 1-形式上，自动完成了“指标偏导的全反对称化”！在黎曼几何中，即使考虑协变导数 $\\nabla_i \\alpha_j = \\partial_i \\alpha_j - \\Gamma^k_{ij}\\alpha_k$，由于克里斯托费尔联络关于下指标对称 $\\Gamma^k_{ij} = \\Gamma^k_{ji}$，在反对称差中联络项精确对消：$\\nabla_i \\alpha_j - \\nabla_j \\alpha_i \\equiv \\partial_i \\alpha_j - \\partial_j \\alpha_i$。<strong>外微分算子完全独立于黎曼度规与联络，是绝对内蕴的纯拓扑微分！</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="math-intuition">
+  <div class="math-intuition-title">
+    <span>💡 物理与几何图像：$d\\alpha$ 究竟在测量什么？—— 无穷小闭合回线的“环量密度”</span>
+  </div>
+  <p>
+    既然 $d\\alpha \\in \\Omega^2(M)$ 是一个 2-形式，它的使命就是<strong>吃进两个切向量 $X, Y \\in T_p M$，吐出一个实数 $(d\\alpha)(X, Y)$</strong>。<br/>
+    这个数在物理上到底代表什么？让我们做一个<strong>微观思想实验（Stokes 微元与闭合 Wilson 回路）</strong>：
+    <br/>• 在流形点 $p$ 处，以无穷小位移向量 $\\epsilon X$ 与 $\\epsilon Y$ 为相邻边，围成一个微型平行四边形面元 $\\Sigma$；
+    <br/>• 面元的边界是一圈闭合定向回路 $\\partial \\Sigma$：$p \\to p+\\epsilon X \\to p+\\epsilon X+\\epsilon Y \\to p+\\epsilon Y \\to p$；
+    <br/>• 让我们计算 1-形式 $\\alpha$ 沿该闭合回路的<strong>总环流线积分（Circulation / 做功）</strong>：
+    $$\\oint_{\\partial \\Sigma} \\alpha = \\int_{\\text{底边}} \\alpha + \\int_{\\text{右边}} \\alpha - \\int_{\\text{顶边}} \\alpha - \\int_{\\text{左边}} \\alpha$$
+    • 顶边与底边的微小差值正好反映了 $\\alpha(X)$ 沿 $Y$ 方向的偏导增量；右边与左边的差值反映了 $\\alpha(Y)$ 沿 $X$ 方向的偏导增量。<br/>
+    根据广义 Stokes 定理，闭合回路积分除以微元面积，正是 2-形式在切向量 $(X, Y)$ 上的取值：
+    $$(d\\alpha)(X, Y) = \\lim_{\\epsilon \\to 0} \\frac{1}{\\epsilon^2} \\oint_{\\partial \\Sigma(\\epsilon X, \\epsilon Y)} \\alpha$$
+    <strong style="color: #38bdf8;">结论：$d(1\\text{-形式})$ 就是该 1-形式在 2 维面元上的“局域环量密度（旋度涡量）”！</strong>
+    <br/>• 若 $\\alpha$ 是流体速度场 $\\vec{v}$，$\\oint \\alpha$ 是流体环量，$d\\alpha$ 就是<strong>流体的涡度（Vorticity）</strong>；
+    <br/>• 若 $\\alpha = A$ 是电磁矢势，$\\oint A = \\Phi_B$ 是磁通量，$dA = F$ 就是<strong>磁感应强度 / 电磁场强 2-形式</strong>；
+    <br/>• 若 $\\alpha = df$ 是梯度保守场（恰当形式），其沿任意闭合回路的做功恒为 $\\oint df = 0$，因此它的环量密度处处死掉：<strong>$d(df) \\equiv 0$！这就是“保守场必无旋”的底层几何本质！</strong>
+  </p>
+</div>
+
+<div class="math-definition">
+  <div class="math-definition-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+    <span>严格内蕴无坐标表述：Cartan 恒等式 (Palais-Cartan Formula)</span>
+  </div>
+  <p>现代微分几何彻底抛弃坐标系时，将 $d\\alpha$ 作为 2-形式的作用规律定义为（对任意光滑向量场 $X, Y \\in \\mathfrak{X}(M)$）：</p>
+  $$(d\\alpha)(X, Y) := X\\big(\\alpha(Y)\\big) - Y\\big(\\alpha(X)\\big) - \\alpha\\big([X, Y]\\big)$$
+  <div style="font-size:0.9rem; color:#cbd5e1; line-height:1.75; margin-top:8px;">
+    <strong>项项拆解几何意义：</strong>
+    <br/>• $X(\\alpha(Y))$：沿切向 $X$ 观察“向量 $Y$ 上的线积分测量值”如何变化；
+    <br/>• $-Y(\\alpha(X))$：沿切向 $Y$ 观察“向量 $X$ 上的线积分测量值”如何变化；
+    <br/>• $-\\alpha([X, Y])$：<strong>几何闭合缺陷补偿</strong>！如果两个向量场不能对易（$[X, Y] \\neq 0$），在流形上位移 $\\epsilon X$ 后沿 $\\epsilon Y$、与先 $\epsilon Y$ 后 $\epsilon X$ 并不能精准闭合成四边形，差出的位移缺口正是李括号 $[X, Y]$，最后一项负责将这个闭合缺口的做功精确扣除！
+    <br/>• <strong>自洽性验证</strong>：若代入坐标切基矢 $X = \\frac{\\partial}{\\partial x^i}, Y = \\frac{\\partial}{\\partial x^j}$，因坐标切基矢天生对易 $[\\partial_i, \\partial_j] = 0$，李括号项为 0，直接得出：
+    $$(d\\alpha)\\left(\\frac{\\partial}{\\partial x^i}, \\frac{\\partial}{\\partial x^j}\\right) = \\frac{\\partial}{\\partial x^i}\\left(\\alpha_j\\right) - \\frac{\\partial}{\\partial x^j}\\left(\\alpha_i\\right) = \\partial_i \\alpha_j - \\partial_j \\alpha_i$$
+    这与我们利用反 Leibniz 律算出的局部坐标结果严格一致！
+  </div>
+</div>
+
+<div class="primer-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin: 16px 0;">
+  <div class="primer-card">
+    <div class="primer-card-title">🌀 1. 经典三维微积分：就是旋度 $\\text{curl}$</div>
+    <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+      取 1-形式 $\\alpha = A_x dx + A_y dy + A_z dz$。则：
+      $$d\\alpha = \\left( \\frac{\\partial A_y}{\\partial x} - \\frac{\\partial A_x}{\\partial y} \\right) dx \\wedge dy + \\left( \\frac{\\partial A_z}{\\partial y} - \\frac{\\partial A_y}{\\partial z} \\right) dy \\wedge dz + \\left( \\frac{\\partial A_x}{\\partial z} - \\frac{\\partial A_z}{\\partial x} \\right) dz \\wedge dx$$
+      通过霍奇对偶，这正是经典的旋度矢量：$*(d\\alpha) = (\\vec{\\nabla} \\times \\vec{A}) \\cdot d\\vec{r}$！
+    </p>
+  </div>
+  <div class="primer-card">
+    <div class="primer-card-title">⚡ 2. 四维电动力学：场强张量 $F = dA$</div>
+    <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+      取电磁 4-势 1-形式 $A = A_\\mu dx^\\mu = -\\phi dt + A_x dx + A_y dy + A_z dz$。其外微分就是物理中的电磁场强 2-形式：
+      $$F = dA = \\frac{1}{2} F_{\\mu\\nu} dx^\\mu \\wedge dx^\\nu, \\quad F_{\\mu\\nu} = \\partial_\\mu A_\\nu - \\partial_\\nu A_\\mu$$
+      反对称分量直接组成了电场 $\\vec{E}$ 与磁感应强度 $\\vec{B}$！
+    </p>
+  </div>
+  <div class="primer-card">
+    <div class="primer-card-title">⚛️ 3. 经典力学与加速器：相空间辛形式 $\\omega = -d\\theta$</div>
+    <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+      在哈密顿相空间中，定义庞加莱正则 1-形式（Liouville 形式）$\\theta = \\sum p_i dq^i$。对其施加外微分：
+      $$d\\theta = \\sum d(p_i dq^i) = \\sum dp_i \\wedge dq^i = - \\sum dq^i \\wedge dp_i = - \\omega$$
+      相空间的辛 2-形式 $\\omega$ 居然就是正则 1-形式外微分的相反数！而 $d\\omega = -d(d\\theta) \\equiv 0$ 自动奠定了刘维尔定理与相体积保面积性！
+    </p>
+  </div>
+</div>
+
 <div class="math-proof">
   <div class="math-proof-title">
     <span>【核心定理 1.1】外微分算子的幂零律证明：$d \\circ d \\equiv 0$</span>
