@@ -280,17 +280,60 @@ export const diffGeomChapter = {
 
 <div class="math-proof">
   <div class="math-proof-title">
-    <span>【亲自动手算一次】为什么外积 $dx \\wedge dy$ 自动等于行列式 (Determinant)？</span>
+    <span>【亲自动手算一次】为什么外积 $dx^1 \\wedge dx^2$ 自动等于行列式 (Determinant)？</span>
   </div>
   <p>
-    设有两个切向量 $u = (u_x, u_y) = u_x \\frac{\\partial}{\\partial x} + u_y \\frac{\\partial}{\\partial y}$ 与 $v = (v_x, v_y) = v_x \\frac{\\partial}{\\partial x} + v_y \\frac{\\partial}{\\partial y}$。<br/>
-    我们让测量机 $dx \\wedge dy$ 作用在它们身上。按照双线性与反对称律展开：
-    $$(dx \\wedge dy)(u, v) = dx(u) \\cdot dy(v) - dx(v) \\cdot dy(u) = u_x v_y - v_x u_y$$
-    请看这个算式：$u_x v_y - v_x u_y$ 恰好就是二阶矩阵的行列式：
-    $$(dx \\wedge dy)(u, v) = \\det \\begin{pmatrix} u_x & v_x \\\\ u_y & v_y \\end{pmatrix}$$
+    为了看清本质，我们选定流形上的<strong>任意局部坐标卡 $(x^1, x^2)$</strong>（注意：它<strong>绝不限于</strong>平直笛卡尔坐标，可以是球面经纬度 $(\\theta, \\phi)$、极坐标 $(r, \\theta)$ 或加速器弯转轨道坐标 $(x, s)$）。<br/>
+    任意两个微观切向量均可按坐标基底唯一分解：
+    $$u = u^1 \\frac{\\partial}{\\partial x^1} + u^2 \\frac{\\partial}{\\partial x^2}, \\qquad v = v^1 \\frac{\\partial}{\\partial x^1} + v^2 \\frac{\\partial}{\\partial x^2}$$
+    我们让测量机 $dx^1 \\wedge dx^2$ 作用在它们身上。按照双线性与反对称律展开：
+    $$(dx^1 \\wedge dx^2)(u, v) = dx^1(u) \\cdot dx^2(v) - dx^1(v) \\cdot dx^2(u) = u^1 v^2 - v^1 u^2$$
+    请看这个算式：$u^1 v^2 - v^1 u^2$ 恰好就是二阶矩阵的行列式：
+    $$(dx^1 \\wedge dx^2)(u, v) = \\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$$
     <strong>初学者的顿悟时刻</strong>：
     在初等线性代数中，很多人死记硬背行列式的交叉相乘法则；但在微分几何中我们看到——<strong>行列式根本不是人为制造的算法，它就是反对称外积作用在两根向量上自然吐出的有向投影面积！</strong>
   </p>
+</div>
+
+<div class="math-primer">
+  <div class="math-primer-title">
+    <span>🧐 深度追问：这是否假定了笛卡尔直角坐标？在任意复杂弯曲流形中到底是什么样的？</span>
+  </div>
+  <p>
+    许多初学者看到上面的公式，会产生一个极其深刻的疑问：<strong>“这里的坐标轴如果不是互相垂直的直角坐标系，面积难道还能直接等于行列式吗？”</strong><br/>
+    这是通往现代微分几何最高殿堂的<strong>分水岭问题</strong>。物理与几何真相如下：
+  </p>
+  <div class="primer-grid">
+    <div class="primer-card">
+      <div class="primer-card-title">🌐 1. 坐标轴可以任意倾斜弯曲、任意非等长！</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        在任意弯曲流形（如球面 $S^2$）上，经纬度坐标 $(x^1, x^2) = (\\theta, \\phi)$ 的切基底 $\\frac{\\partial}{\\partial \\theta}$ 与 $\\frac{\\partial}{\\partial \\phi}$ 在两极附近<strong>严重汇聚，长度也随纬度改变</strong>。但无论坐标线怎么弯曲倾斜，基底与对偶基底的代数对偶律 $\\langle dx^i, \\frac{\\partial}{\\partial x^j} \\rangle = \\delta^i_j$ 处处绝对成立！因此上面的代数展开在<strong>任意弯曲坐标下毫发无损，完全正确</strong>。
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">📐 2. 行列式算的到底是什么面积？——“网格数”而非“平方米”！</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        在弯曲坐标下，行列式 $\\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$ 测量的并不是“平方米（$\\text{m}^2$）”，而是<strong>该平行四边形在当前坐标图卡中跨越了多少个坐标网格单元 $(\\Delta x^1 \\times \\Delta x^2)$</strong>！它量度的是纯代数、纯拓扑的<strong>无量纲网格面积</strong>。
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">📏 3. 真实物理面积与度规 $\\sqrt{\\det g}$ 的完美解耦</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        <strong>外代数本身完全不需要度规（Metric-Free）！</strong><br/>
+        只有当你赋予流形一个黎曼度规 $g_{ij}$（提供了实际尺子和夹角）时，真实物理面积形式才由度规行列式给出：
+        $$d\\text{Area} = \\sqrt{\\det g} \\, dx^1 \\wedge dx^2$$
+        例如在半径为 $R$ 的球面上，$ds^2 = R^2 d\\theta^2 + R^2 \\sin^2\\theta d\\phi^2$，度规行列式开方为 $\\sqrt{\\det g} = R^2 \\sin\\theta$。物理面积形式就是 $R^2 \\sin\\theta \\, d\\theta \\wedge d\\phi$。前面的系数 $R^2 \\sin\\theta$ 负责把“经纬度网格数”换算成“真实平方米”，而<strong>底层的反对称代数骨架依然是纯粹的外积 $d\\theta \\wedge d\\phi$</strong>！
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">⚛️ 4. 为什么加速器相空间更崇拜“无度规”的外代数？</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        在粒子相空间 $(x, p_x)$ 中，横坐标是位置（米），纵坐标是动量（$\\text{GeV}/c$）。两者量纲不同，在物理上你<strong>根本无法定义勾股定理 $x^2 + p_x^2$（相空间天然没有黎曼度规！）</strong>。然而，相空间却拥有坚不可摧的辛 2-形式：
+        $$\\omega = dx \\wedge dp_x$$
+        它的量纲天然是 $[\\text{米}] \\times [\\text{动量}] = [\\text{作用量}]$，精确对应单粒子发射度 $\\pi\\epsilon$。<strong>正因为外代数完全不依赖度规，它才成为哈密顿力学与相空间动力学唯一合法的几何语言！</strong>
+      </p>
+    </div>
+  </div>
 </div>
 
 <div class="math-intuition">
