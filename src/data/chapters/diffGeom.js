@@ -280,45 +280,45 @@ export const diffGeomChapter = {
 
 <div class="math-proof">
   <div class="math-proof-title">
-    <span>【严格数学根源】从张量积 $\otimes$ 到外积 $\wedge$：反对称化算子 (Antisymmetrizer)</span>
+    <span>【严格数学根源】从张量积 $\\otimes$ 到外积 $\\wedge$：反对称化算子 (Antisymmetrizer)</span>
   </div>
   <p>
-    为了回答“两项相减从何而来”的严谨性问题，我们必须请出多重线性代数中最原始的乘法——<strong>张量积（Tensor Product, $\otimes$）</strong>：
+    为了回答“两项相减从何而来”的严谨性问题，我们必须请出多重线性代数中最原始的乘法——<strong>张量积（Tensor Product, $\\otimes$）</strong>：
   </p>
   <div class="primer-grid">
     <div class="primer-card">
-      <div class="primer-card-title">✖️ 1. 最朴素的乘积：张量积 $\alpha \otimes \beta$</div>
+      <div class="primer-card-title">✖️ 1. 最朴素的乘积：张量积 $\\alpha \\otimes \\beta$</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        给定两个 1-形式 $\alpha, \beta \in T_p^*M$，它们最直接的双线性乘积定义为：
-        $$(\alpha \otimes \beta)(u, v) \stackrel{\text{def}}{=} \alpha(u) \cdot \beta(v)$$
-        输入两根向量，分别输入给 $\alpha$ 和 $\beta$ 求值后相乘。但张量积<strong>完全不具备反对称性</strong>（交换 $u, v$，乘积 $\alpha(v)\beta(u)$ 不等于 $-\alpha(u)\beta(v)$），无法直接测量有向面元。
+        给定两个 1-形式 $\\alpha, \\beta \\in T_p^*M$，它们最直接的双线性乘积定义为：
+        $$(\\alpha \\otimes \\beta)(u, v) \\stackrel{\\text{def}}{=} \\alpha(u) \\cdot \\beta(v)$$
+        输入两根向量，分别输入给 $\\alpha$ 和 $\\beta$ 求值后相乘。但张量积<strong>完全不具备反对称性</strong>（交换 $u, v$，乘积 $\\alpha(v)\\beta(u)$ 不等于 $-\\alpha(u)\\beta(v)$），无法直接测量有向面元。
       </p>
     </div>
     <div class="primer-card">
-      <div class="primer-card-title">✂️ 2. 反对称化算子：外积 $\wedge$ 的严格数学定义</div>
+      <div class="primer-card-title">✂️ 2. 反对称化算子：外积 $\\wedge$ 的严格数学定义</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
         为了提取张量中的纯定向面元，数学家定义了唯一的反对称投影算子。在微分几何标准约定（Cartan 约定）中，<strong>两个 1-形式的外积，严格定义为其张量积的反对称化</strong>：
-        $$\alpha \wedge \beta \stackrel{\text{严格定义}}{=} \alpha \otimes \beta - \beta \otimes \alpha$$
+        $$\\alpha \\wedge \\beta \\stackrel{\\text{严格定义}}{=} \\alpha \\otimes \\beta - \\beta \\otimes \\alpha$$
       </p>
     </div>
   </div>
 
   <p style="margin-top: 14px;">
     <strong>把任意两根切向量 $(u, v)$ 代入外积定义式：</strong>
-    $$\begin{aligned}
-    (\alpha \wedge \beta)(u, v) &= (\alpha \otimes \beta)(u, v) - (\beta \otimes \alpha)(u, v) \\\\
-    &= \alpha(u)\beta(v) - \beta(u)\alpha(v) \\\\
-    &= \alpha(u)\beta(v) - \alpha(v)\beta(u)
-    \end{aligned}$$
-    现在选定流形上的<strong>任意局部坐标卡 $(x^1, x^2)$</strong>（可以是球面经纬度 $(\theta, \phi)$ 或弯转轨道坐标 $(x, s)$），令 $\alpha = dx^1, \beta = dx^2$：
-    $$(dx^1 \wedge dx^2)(u, v) = dx^1(u) dx^2(v) - dx^1(v) dx^2(u) = u^1 v^2 - v^1 u^2 = \det \begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \end{pmatrix}$$
-    <strong>数学结论</strong>：这个公式绝非单纯借用二维叉乘，它是<strong>张量积 $\alpha \otimes \beta$ 经过唯一的反对称投影后的严格代数必然！</strong>
+    $$\\begin{aligned}
+    (\\alpha \\wedge \\beta)(u, v) &= (\\alpha \\otimes \\beta)(u, v) - (\\beta \\otimes \\alpha)(u, v) \\\\
+    &= \\alpha(u)\\beta(v) - \\beta(u)\\alpha(v) \\\\
+    &= \\alpha(u)\\beta(v) - \\alpha(v)\\beta(u)
+    \\end{aligned}$$
+    现在选定流形上的<strong>任意局部坐标卡 $(x^1, x^2)$</strong>（可以是球面经纬度 $(\\theta, \\phi)$ 或弯转轨道坐标 $(x, s)$），令 $\\alpha = dx^1, \\beta = dx^2$：
+    $$(dx^1 \\wedge dx^2)(u, v) = dx^1(u) dx^2(v) - dx^1(v) dx^2(u) = u^1 v^2 - v^1 u^2 = \\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$$
+    <strong>数学结论</strong>：这个公式绝非单纯借用二维叉乘，它是<strong>张量积 $\\alpha \\otimes \\beta$ 经过唯一的反对称投影后的严格代数必然！</strong>
   </p>
 </div>
 
 <div class="math-primer">
   <div class="math-primer-title">
-    <span>💡 深度辨析：外积 $\wedge$ 与普通乘法 $\times$ 到底有什么本质区别？难道只是多了方向和正负号？</span>
+    <span>💡 深度辨析：外积 $\\wedge$ 与普通乘法 $\\times$ 到底有什么本质区别？难道只是多了方向和正负号？</span>
   </div>
   <p>
     绝不仅仅是加了正负号！外积与普通乘法在代数结构与拓扑物理上有四大根本性跨越：
@@ -327,25 +327,25 @@ export const diffGeomChapter = {
     <div class="primer-card">
       <div class="primer-card-title">🚀 1. 几何维度的“升阶性” (Graded Algebra)</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        普通数乘是同维封闭的（实数 $\times$ 实数 = 实数）。而外积是<strong>几何升阶算子</strong>：1-形式 $\wedge$ 1-形式 = <strong>2-形式（面元测量机）</strong>；2-形式 $\wedge$ 1-形式 = <strong>3-形式（体元测量机）</strong>。它把低维几何探针缝合成高维几何探针。
+        普通数乘是同维封闭的（实数 $\\times$ 实数 = 实数）。而外积是<strong>几何升阶算子</strong>：1-形式 $\\wedge$ 1-形式 = <strong>2-形式（面元测量机）</strong>；2-形式 $\\wedge$ 1-形式 = <strong>3-形式（体元测量机）</strong>。它把低维几何探针缝合成高维几何探针。
       </p>
     </div>
     <div class="primer-card">
       <div class="primer-card-title">🛑 2. 流形物理维数的天然感知与截断</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        普通乘法可以无限相乘。而外积能<strong>天然感知空间的物理维数</strong>：在 $n$ 维流形上，由于抽屉原理，任何超过 $n$ 个基底相乘必有重复项（$dx^i \wedge dx^i = 0$），导致整个外代数空间在流形维数处<strong>直接自动归零死亡：$\Omega^{k > n}(M) = \{0\}$！</strong>
+        普通乘法可以无限相乘。而外积能<strong>天然感知空间的物理维数</strong>：在 $n$ 维流形上，由于抽屉原理，任何超过 $n$ 个基底相乘必有重复项（$dx^i \\wedge dx^i = 0$），导致整个外代数空间在流形维数处<strong>直接自动归零死亡：$\\Omega^{k > n}(M) = \\{0\\}$！</strong>
       </p>
     </div>
     <div class="primer-card">
       <div class="primer-card-title">🔒 3. 非除法代数与拓扑零因子</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        普通非零实数都有逆元（除法）。在外代数中，任何 1-形式自积必定为零：$\alpha \wedge \alpha = 0$。外代数充满了“零因子”，根本不存在普通意义的除法，这奠定了动力学系统的不可逆性。
+        普通非零实数都有逆元（除法）。在外代数中，任何 1-形式自积必定为零：$\\alpha \\wedge \\alpha = 0$。外代数充满了“零因子”，根本不存在普通意义的除法，这奠定了动力学系统的不可逆性。
       </p>
     </div>
     <div class="primer-card">
       <div class="primer-card-title">🍩 4. 拓扑环洞探测器 (德拉姆上同调)</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        外积 $\wedge$ 与外微分 $d$ 联手满足反向 Leibniz 律，构成了<strong>上同调代数环 $H^*(M)$</strong>。它能直接计算出流形上有几个环洞（如环面 $T^2$ vs 球面 $S^2$），这是普通乘法完全不具备的拓扑威力。
+        外积 $\\wedge$ 与外微分 $d$ 联手满足反向 Leibniz 律，构成了<strong>上同调代数环 $H^*(M)$</strong>。它能直接计算出流形上有几个环洞（如环面 $T^2$ vs 球面 $S^2$），这是普通乘法完全不具备的拓扑威力。
       </p>
     </div>
   </div>
