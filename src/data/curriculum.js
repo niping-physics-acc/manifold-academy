@@ -21,7 +21,7 @@ export const DISCIPLINES = [
     glow: 'rgba(0, 242, 254, 0.25)',
     icon: 'compass',
     tag: '基础架构',
-    topics: ['光滑流形与导数定义', '切丛 TQ 与余切丛 T*Q', '微分形式与外代数 d²=0', '李导数与 Cartan 恒等式', '辛流形与 Darboux 定理'],
+    topics: ['切空间与导数算子', '向量丛与截面空间 Γ', 'Grassmann 外代数', '外微分幂零律 d²=0', '外积分与 Stokes 定理', '李导数与 Cartan 公式', '相空间发射度守恒'],
     masterChapterId: 'diff-geom-01',
     labId: 'diff-geom-lab'
   },
