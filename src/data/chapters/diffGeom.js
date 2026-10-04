@@ -2,17 +2,12 @@
  * Modern Differential Geometry Master Chapter
  * Fully hierarchical, graduate-level geometric theoretical physics & beam dynamics.
  * 
- * Every new geometric concept is introduced with:
- * 1. Zero-barrier primer (intuitive real-world and physical analogies).
- * 2. Rigorous coordinate-free definition.
- * 3. Physical mapping (accelerator beam dynamics & field theory).
- * 
- * Sections:
- * 1.1 现代几何动机与概念基石 (什么是流形、图卡与内蕴几何)
+ * Step-by-step cognitive progression:
+ * 1.1 现代几何动机与概念基石 (流形、图卡与内蕴几何)
  * 1.2 切空间 T_pM：切向量作为方向导数算子 (Derivation)
  * 1.3 余切空间 T_p^*M：微分 1-形式作为几何测量尺
- * 1.4 向量丛与截面空间 Γ：从单点代数到全流形物理场 (详解底流形、总空间、纤维与场化算子 Γ)
- * 1.5 外代数 (Exterior Algebra)：高维有向体积的反对称演算 (Grassmann 代数与行列式本质)
+ * 1.4 向量丛与截面空间 Γ：从“点”到“场” (底流形、纤维、总空间与场化算子 Γ)
+ * 1.5 外代数 (Exterior Algebra)：从 1-形式到 2-形式、3-形式与面积测度 (反对称楔积与行列式本质)
  * 1.6 外微分算子 d 与拓扑幂零律：d² = 0 严格证明 (闭形式、恰当形式与 ∂²=0 对偶)
  * 1.7 流形上的外积分 (Exterior Integration) 与广义 Stokes 定理 (定向、单位分解与相椭圆发射度守恒)
  * 1.8 李导数 L_X 与 Cartan 魔术公式严密推导 (流线、拉回、内积收缩与相流保辛性)
@@ -26,7 +21,7 @@ export const diffGeomChapter = {
   level: 'Graduate Core / 现代几何根基',
   prereqs: ['多变量微积分', '实分析与拓扑初步', '线性代数对偶空间'],
   readingTime: '70 min',
-  summary: '本章系统重构现代微分几何的内蕴体系，全篇坚持“新概念必有通俗物理基石”原则：从流形图卡的世界地图隐喻、切向量方向导数算子本质、余切 1-形式等高线对偶，深入到向量丛“底流形、纤维、总空间与截面 Γ”的完整物理拆解；建立反对称外代数（Grassmann 代数）的高维体积测度理论，严格证明外微分幂零律（d²=0）；阐明外代数天生自带换元法的外积分理论与广义 Stokes 定理大一统，并完整证明动力学几何灵魂 Cartan 魔术公式及其在加速器束流相空间保辛守恒中的决定性应用。',
+  summary: '本章系统重构现代微分几何的内蕴体系，全篇坚持“新概念必有通俗物理基石、认知绝不超前跳步”原则：从流形图卡的世界地图隐喻、切向量方向导数算子本质、余切 1-形式等高线对偶，进入向量丛“底流形、纤维、总空间与截面 Γ”的完整物理拆解；从“如何用 1-形式测量二维面元”的朴素几何问题出发，自然推导反对称外代数（Wedge Product）、2-形式与 3-形式阶梯，揭秘行列式的外代数起源；严格证明外微分幂零律（d²=0）；阐明外代数天生自带换元法的外积分理论与广义 Stokes 定理大一统，并完整证明动力学几何灵魂 Cartan 魔术公式及其在加速器束流相空间保辛守恒中的决定性应用。',
   sections: [
     {
       id: 'sec-1',
@@ -44,7 +39,7 @@ export const diffGeomChapter = {
     <div class="primer-card">
       <div class="primer-card-title">🌐 1. 流形 (Manifold) —— 局部像平地，整体很奇妙</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        站在筑波市地面上看，四周是平坦的二维平面 $\\mathbb{R}^2$（所以古人以为天圆地方）；但当你走遍全球，会发现它是一个闭合的二维球面 $S^2$。<strong>流形就是任何“局部微观具有平坦欧氏空间性质，但宏观整体可能弯曲、闭合或扭曲的几何空间”</strong>。例如：物理时空、环形加速器真空室（甜甜圈环面 $T^2$）、质点系统的位形空间 $Q$。
+        站在地面上看，四周是平坦的二维平面 $\\mathbb{R}^2$（所以古人以为天圆地方）；但当你走遍全球，会发现它是一个闭合的二维球面 $S^2$。<strong>流形就是任何“局部微观具有平坦欧氏空间性质，但宏观整体可能弯曲、闭合或扭曲的几何空间”</strong>。例如：物理时空、环形加速器真空室（甜甜圈环面 $T^2$）、质点系统的位形空间 $Q$。
       </p>
     </div>
     <div class="primer-card">
@@ -161,41 +156,45 @@ export const diffGeomChapter = {
     {
       id: 'sec-4',
       number: '1.4',
-      heading: '向量丛与截面空间 $\\Gamma$：从单点代数到全流形物理场',
+      heading: '向量丛与截面空间 $\\Gamma$：从单点的切/余切空间，到遍布全流形的“场”',
       content: `
+<div class="math-motivation">
+  <strong>【认知承上启下】</strong>：在第 1.2 与 1.3 节中，我们仅仅研究了流形上<strong>单个孤立点 $p$</strong> 处的切向量 $X_p \\in T_pM$ 与 1-形式 $\\alpha_p \\in T_p^*M$。但在真实物理学中，我们关心的绝不是孤立一点，而是<strong>遍布整个时空或整个相空间的连续物理场</strong>（如流体速度场、引力场、动量场）。我们如何从“点”上的代数空间，跃升到“全流形”上的连续物理场？答案就是<strong>向量丛 (Vector Bundle) 与截面 (Section)</strong>。
+</div>
+
 <div class="math-primer">
   <div class="math-primer-title">
     <span>🌱 初学者必读：向量丛“四大金刚”通俗物理拆解</span>
   </div>
   <p>
-    公式 <strong>$\\Omega^k(M) := \\Gamma\\left(\\bigwedge^k T^*M\\right)$</strong> 常常让初学者望而生畏。我们用最接地气的物理例子逐一拆解其中的四个核心概念：
+    不要被数学名词吓退，向量丛的四个组成部分，在物理上都有极其生动的实体模型：
   </p>
   <div class="primer-grid">
     <div class="primer-card">
       <div class="primer-card-title">🏛️ 1. 底流形 (Base Manifold, $M$) —— 舞台/地面</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        你脚下站着的舞台空间。例如：地球表面（二维球面 $S^2$）、加速器真空管道的中心轨道坐标 $s$、或者物理真实的时空流形 $\\mathbb{R}^{3,1}$。
+        你脚下站着的舞台空间。例如：地球表面（二维球面 $S^2$）、加速器真空管道的中心设计轨道坐标 $s$、或者物理真实的时空流形 $\\mathbb{R}^{3,1}$。
       </p>
     </div>
     <div class="primer-card">
-      <div class="primer-card-title">🎋 2. 纤维 (Fiber, $E_p$) —— 每个点上竖立的天线</div>
+      <div class="primer-card-title">🎋 2. 纤维 (Fiber, $E_p$) —— 每个地面点上竖起的天线</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        在底流形上的某一个固定点 $p$，拔地而起的一个专属向量空间！<br/>
-        • <em>风速丛</em>：在某经纬度点 $p$，该点所有可能刮的风速矢量集合 $\\mathbb{R}^2$ 就是纤维；<br/>
-        • <em>相空间丛</em>：在管道位置 $x$ 处，粒子所有可能拥有的动量空间 $\\mathbb{R}^n$ 就是纤维。
+        在底流形某个固定点 $p$，拔地而起的一个专属线性向量空间！<br/>
+        • <em>切纤维</em>：点 $p$ 处所有可能的速度向量构成的切空间 $T_pM$；<br/>
+        • <em>余切纤维</em>：点 $p$ 处所有可能的动量/做功标尺构成的余切空间 $T_p^*M$。
       </p>
     </div>
     <div class="primer-card">
       <div class="primer-card-title">🌌 3. 总空间 (Total Space, $E$) —— 舞台加天线的大合体</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        把底流形 $M$ 以及长在每个点上的所有纤维整体打包在一起构成的更高维大空间！<br/>
-        <strong>经典物理典范</strong>：粒子位形空间 $Q$ 是 $n$ 维底流形，动量纤维是 $n$ 维，合体构成的 $2n$ 维<strong>哈密顿相空间（Phase Space, $T^*Q$）正是典型的总空间</strong>！
+        把底流形 $M$ 以及所有点上的纤维整体打包构成的高维大流形！<br/>
+        <strong>经典物理典范</strong>：如果质点位置构成的位形流形 $Q$ 是 $n$ 维底流形，每个位置挂着一个 $n$ 维动量空间纤维，两者合体构成的 $2n$ 维<strong>哈密顿相空间（Phase Space, $T^*Q$）正是典型的总空间</strong>！
       </p>
     </div>
     <div class="primer-card">
-      <div class="primer-card-title">📐 4. 投影映射 (Projection, $\\pi: E \\to M$) —— 拍回地面</div>
+      <div class="primer-card-title">📐 4. 投影映射 (Projection, $\\pi: E \\to M$) —— 垂直拍回地面</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        一个天然的操作：把总空间中的点（位置 + 动量/速度）直接拍扁回它所属的地基位置：$\\pi(x, v) = x$。
+        一个把总空间中的点（位置 + 动量/速度）直接拍扁回它所属的地基位置的天然操作：$\\pi(q, p) = q$。
       </p>
     </div>
   </div>
@@ -203,10 +202,10 @@ export const diffGeomChapter = {
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 14px 18px; margin-top: 14px;">
     <strong style="color: #38bdf8;">✨ 5. 什么是“截面 (Section, $s$)”与算符 $\\Gamma$？—— 截面就是物理学中的“场 (Field)”！</strong>
     <p style="margin: 6px 0 0 0; font-size: 0.92rem; color: #e2e8f0; line-height: 1.75;">
-      想象给满头的头发梳头（每根头发是一根纤维）。在头皮的每一个位置 $p$，梳理出一根具体的头发朝向 $s(p)$。随着你在头皮上移动，头发朝向光滑连续变化。<br/>
-      • <strong>在气象学中</strong>：在地球每一个经纬度 $p$，指定今天此时此刻该点实际刮的风速大小和方向 $v(p)$ —— 这就是一个<strong>风速矢量场</strong>！<br/>
-      • <strong>在规范场论中</strong>：在时空每一个点 $x^\\mu$，指定该处的电磁 4-势 $A_\\mu(x)$ —— 这就是一个<strong>规范场</strong>！<br/>
-      • <strong>算符 $\\Gamma(E)$ 的定义</strong>：就是该向量丛上<strong>所有可能的光滑截面（光滑物理场）构成的母体集合</strong>。
+      想象给满头的头发梳头（每根头发是一根纤维）。在头皮的每个位置 $p$，梳理出一根具体的头发朝向 $s(p)$。随着你在头皮上移动，头发朝向光滑连续变化。<br/>
+      • <strong>切丛的截面 $\\Gamma(TM)$</strong>：在每个点指定一个速度向量 $v(p)$ —— 这就是<strong>流体速度场 / 切向量场</strong>！<br/>
+      • <strong>余切丛的截面 $\\Gamma(T^*M)$</strong>：在每个点指定一个 1-形式测量尺 $\\alpha(p)$ —— 这就是<strong>1-形式场</strong>（如力的做功场 $dW = F_i dq^i$、四维电磁矢势 $A = A_\\mu dx^\\mu$）！<br/>
+      • <strong>算符 $\\Gamma(E)$ 的本质</strong>：就是该向量丛上<strong>所有可能的光滑截面（连续物理场）构成的母体集合</strong>！它是一个把“局域点上的代数空间”升华为“全空间连续物理场”的“场化算子”。
     </p>
   </div>
 </div>
@@ -214,60 +213,116 @@ export const diffGeomChapter = {
 <div class="math-definition">
   <div class="math-definition-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
-    <span>严格数学表述：向量丛与微分形式空间 $\\Omega^k(M)$</span>
+    <span>严格数学表述：向量丛 $(E, \\pi, M)$ 与截面空间 $\\Gamma(E)$</span>
   </div>
   <p>一个光滑<strong>向量丛（Vector Bundle）</strong>三元组 $(E, \\pi, M)$ 满足：对任意 $p \\in M$，原像 $E_p := \\pi^{-1}(p)$ 具有实向量空间结构（称为纤维 Fiber）。光滑截面 $s: M \\to E$ 满足：</p>
   $$\\pi \\circ s = \\text{id}_M \\quad (\\text{即对任意 } p \\in M, \\; s(p) \\in E_p)$$
-  <p>全流形上所有平滑截面所组成的实线性空间记为 $\\Gamma(E)$。特别地：</p>
-  $$\\Omega^k(M) := \\Gamma\\left(\\bigwedge\\nolimits^k T^*M\\right)$$
+  <p>全流形上所有平滑截面所组成的实线性空间记为 $\\Gamma(E)$。在当前阶段，我们掌握了两个最重要的物理丛：</p>
   <ul>
-    <li><strong>$\\Omega^0(M) = C^\\infty(M)$</strong>：标量场（电势 $\\phi$、温度场 $T$、哈密顿量 $H$）；</li>
-    <li><strong>$\\Omega^1(M) = \\Gamma(T^*M)$</strong>：1-形式场（做功微元 $dW = F_i dx^i$、正则动量形式 $\\theta = p_i dq^i$、四维电磁矢势 $A = A_\\mu dx^\\mu$）；</li>
-    <li><strong>$\\Omega^2(M) = \\Gamma(\\bigwedge^2 T^*M)$</strong>：2-形式场（电磁场强张量 $F = dA$、哈密顿相空间辛 2-形式 $\\omega = dq \\wedge dp$）；</li>
-    <li><strong>$\\Omega^n(M)$</strong>：最高阶体积形式空间（Liouville 相空间体积元 $\\Omega = \\prod dq^i \\wedge dp_i$）；</li>
-    <li><strong>$k > n$ 阶</strong>：$\\Omega^k(M) = \\{0\\}$ 空间退化截断（流形维数处封顶）。</li>
+    <li><strong>切丛 $TM$ 的截面空间：$\\Gamma(TM) = \\mathfrak{X}(M)$</strong> —— 光滑切向量场（流体速度场、相空间哈密顿流场 $X_H$）；</li>
+    <li><strong>余切丛 $T^*M$ 的截面空间：$\\Gamma(T^*M) = \\Omega^1(M)$</strong> —— 光滑 1-形式场（外力做功微元场、电磁 4-势 $A = A_\\mu dx^\\mu$）。</li>
   </ul>
+</div>
+
+<div style="background: rgba(30, 41, 59, 0.7); border-left: 3px solid #38bdf8; padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-size: 0.92rem; color: #cbd5e1;">
+  <strong style="color: #38bdf8;">🤔 迈向下一节的几何思考：</strong>
+  现在，我们已经有了 1-形式场（沿一维曲线测量做功的标尺）。然而在物理学中，我们到处都需要测量<strong>穿过二维曲面的通量</strong>（例如穿过曲面的磁通量 $\\iint \\vec{B} \\cdot d\\vec{S}$、加速器横向相空间中的相椭圆面积）。我们如何用手头的 1-形式标尺，去度量二维平行四边形的面积？这就必须把 1-形式乘起来！但该怎么乘？这就是第 1.5 节的核心：<strong>外代数（Exterior Algebra）</strong>。
 </div>
       `
     },
     {
       id: 'sec-5',
       number: '1.5',
-      heading: '外代数 (Exterior Algebra)：高维有向体积的反对称演算',
+      heading: '外代数 (Exterior Algebra)：从 1-形式到 2-形式、3-形式与面积测度',
       content: `
 <div class="math-primer">
   <div class="math-primer-title">
-    <span>🌱 零门槛基石：为什么普通代数不够用？为什么要发明“外积 $\\wedge$”？</span>
+    <span>🌱 第一性原理：如何用两根“1-形式测量尺”去度量一个二维平行四边形的面元？</span>
   </div>
   <p>
-    在初等几何中，两根向量 $\\vec{u}, \\vec{v}$ 张成一个平行四边形。如果用普通的张量乘法 $\\vec{u} \\otimes \\vec{v}$，它既包含对称部分也包含反对称部分，无法体现“定向面积”的物理本质：
-    <br/>1. <strong>有向面积的正负反转</strong>：从 $\\vec{u}$ 旋转到 $\vec{v}$（逆时针）与从 $\\vec{v}$ 旋转到 $\vec{u}$（顺时针），法线方向正好相反！因此必须满足反对称：$u \\wedge v = - (v \\wedge u)$；
-    <br/>2. <strong>平行共线无面积</strong>：如果两根向量平行重合（$u = c v$），它们根本张不出二维面元，面积必定为零！因此必须满足自积为零：$v \\wedge v = 0$。
+    设在流形某点处有两个微观切向量 $u, v \\in T_p M$（比如带电粒子束流的两个微观偏转速度，它们在相空间张成一个微观平行四边形面元）。<br/>
+    我们手头有两个基本的 1-形式测量尺：
+    <br/>• $dx$：专门测量向量在 $x$ 方向的投影跨度；
+    <br/>• $dy$：专门测量向量在 $y$ 方向的投影跨度。
+    <br/>现在，我们想要构建一个<strong>“二维面元测量机”</strong>，输入这两个切向量 $(u, v)$，自动吐出它们张成的<strong>有向平行四边形面积</strong>。这个新的测量仪器，就记为 <strong>$dx \\wedge dy$</strong>（读作 $dx$ 楔积 $dy$）。
   </p>
 </div>
 
 <div class="math-definition">
   <div class="math-definition-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    <span>定义 1.4：Grassmann 外代数与反对称外积 $\\wedge$ (Wedge Product)</span>
+    <span>定义 1.4：外积 $\\wedge$ (Wedge Product) 的三大几何物理铁律</span>
   </div>
-  <p>设 $V$ 为实数域上的 $n$ 维向量空间。将全张量代数 $T(V) = \\bigoplus_{k=0}^\\infty V^{\otimes k}$ 模去由所有退化对称张量 $\\{v \\otimes v \\mid v \\in V\\}$ 生成的双边理想 $I$，得到的商代数称为 <strong>Grassmann 外代数（Exterior Algebra）</strong>，记为 $\\bigwedge V$：</p>
-  $$\\bigwedge V = T(V) / I = \\bigoplus_{k=0}^n \\bigwedge\\nolimits^k V$$
-  <p>外积运算 $\\wedge$ 满足<strong>结合律</strong>与<strong>反交换律（Anticommutativity）</strong>：</p>
-  $$\\alpha \\wedge \\beta = (-1)^{k \\cdot l} \\beta \\wedge \\alpha \\quad (\\alpha \\in \\bigwedge\\nolimits^k V, \\; \\beta \\in \\bigwedge\\nolimits^l V)$$
-  <p>特别地，对任意 1-形式 $\\alpha, \\beta \\in V^*$，恒有：$$\\alpha \\wedge \\beta = - \\beta \\wedge \\alpha, \\qquad \\alpha \\wedge \\alpha = 0$$</p>
+  <p>任何测量有向面积的乘法运算 $\\wedge$，必须严格服从三条天然的几何规则：</p>
+  <div class="primer-grid">
+    <div class="primer-card">
+      <div class="primer-card-title">⚖️ 1. 双线性律 (Bilinearity)</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        如果平行四边形的一条边长度扩大 $c$ 倍，它所包含的面元面积也必须成正比扩大 $c$ 倍；对向量加法满足乘法分配律。
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">🔄 2. 反对称律 (Antisymmetry)</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        二维平面是有定向的！从向量 $u$ 旋向向量 $v$（逆时针）与从 $v$ 旋向 $u$（顺时针），法线朝向完全相反。因此调换输入向量的顺序，面积必须变号：
+        $$dx \\wedge dy = - dy \\wedge dx$$
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">🚫 3. 退化归零律 (Nilpotency)</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
+        如果两根向量平行共线（$u = v$），它们根本张不出二维面元，压成了一条直线，面积必定为零！因此任何 1-形式与自身的乘积必恒为零：
+        $$dx \\wedge dx = 0, \\qquad dy \\wedge dy = 0$$
+      </p>
+    </div>
+  </div>
 </div>
 
 <div class="math-proof">
   <div class="math-proof-title">
-    <span>【代数揭秘】为什么 1-形式的外积天然就是行列式 (Determinant)？</span>
+    <span>【亲自动手算一次】为什么外积 $dx \\wedge dy$ 自动等于行列式 (Determinant)？</span>
   </div>
   <p>
-    设两个基底 1-形式 $dx^1, dx^2 \\in T_p^*M$，以及两个切向量 $u = u^1 \\frac{\\partial}{\\partial x^1} + u^2 \\frac{\\partial}{\\partial x^2}$ 与 $v = v^1 \\frac{\\partial}{\\partial x^1} + v^2 \\frac{\\partial}{\\partial x^2}$。<br/>
-    根据反对称双线性张量定义展开计算：
-    $$(dx^1 \\wedge dx^2)(u, v) = dx^1(u) dx^2(v) - dx^1(v) dx^2(u) = u^1 v^2 - v^1 u^2 = \\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$$
-    <strong>深层结论：行列式绝非人工拼凑的矩阵代数技巧，它本质上就是反对称外积作用在向量组上自然吐出的有向投影面积！</strong>
+    设有两个切向量 $u = (u_x, u_y) = u_x \\frac{\\partial}{\\partial x} + u_y \\frac{\\partial}{\\partial y}$ 与 $v = (v_x, v_y) = v_x \\frac{\\partial}{\\partial x} + v_y \\frac{\\partial}{\\partial y}$。<br/>
+    我们让测量机 $dx \\wedge dy$ 作用在它们身上。按照双线性与反对称律展开：
+    $$(dx \\wedge dy)(u, v) = dx(u) \\cdot dy(v) - dx(v) \\cdot dy(u) = u_x v_y - v_x u_y$$
+    请看这个算式：$u_x v_y - v_x u_y$ 恰好就是二阶矩阵的行列式：
+    $$(dx \\wedge dy)(u, v) = \\det \\begin{pmatrix} u_x & v_x \\\\ u_y & v_y \\end{pmatrix}$$
+    <strong>初学者的顿悟时刻</strong>：
+    在初等线性代数中，很多人死记硬背行列式的交叉相乘法则；但在微分几何中我们看到——<strong>行列式根本不是人为制造的算法，它就是反对称外积作用在两根向量上自然吐出的有向投影面积！</strong>
   </p>
+</div>
+
+<div class="math-intuition">
+  <div class="math-intuition-title">
+    <span>💡 什么是 2-形式 (2-form)？物理中的鲜活实例</span>
+  </div>
+  <p>
+    任何形如 $\\omega = \\sum_{i < j} B_{ij}(x) \\, dx^i \\wedge dx^j$ 的几何对象，就叫做一个 <strong>2-形式（2-form）</strong>。<br/>
+    它的物理本质就是一个<strong>“曲面面元测量机”</strong>：你给它输入两个切向量，它立刻吐出有向面元大小！
+    <br/>• <strong>物理实例 1（电磁学中的磁通量）</strong>：
+    在三维空间中，磁感应强度 $\\vec{B}$ 穿过曲面产生的磁通量 $\\Phi = \\iint \\vec{B} \\cdot d\\vec{S}$，在微分几何中被统一写为一个纯净的 2-形式：
+    $$B = B_x dy \\wedge dz + B_y dz \\wedge dx + B_z dx \\wedge dy$$
+    • <strong>物理实例 2（加速器束流相空间面积）</strong>：
+    在哈密顿横向相空间 $(x, p_x)$ 中，单粒子围绕平衡轨道回旋时，其相椭圆面积微元就是一个天然的辛 2-形式：
+    $$\\omega = dx \\wedge dp_x$$
+  </p>
+</div>
+
+<div class="math-definition">
+  <div class="math-definition-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+    <span>形式的物理通量阶梯 (The Ladder of Forms) 与母体空间 $\\Omega^k(M)$</span>
+  </div>
+  <p>至此，初学者脑海中可以建立起一座宏伟的<strong>几何测量阶梯</strong>：</p>
+  <ul>
+    <li><strong>0-形式 $\\Omega^0(M) = C^\\infty(M)$</strong>：<strong>0 维点测量</strong>（计算某点处的标量取值：电势 $\\phi$、温度 $T$、势能 $V$）；</li>
+    <li><strong>1-形式 $\\Omega^1(M) = \\Gamma(T^*M)$</strong>：<strong>1 维线测量</strong>（计算沿轨线的线积分做功：$\\int_C \\mathbf{F} \\cdot d\\mathbf{r} = \\int_C F_i dx^i$、动量形式 $p_i dq^i$）；</li>
+    <li><strong>2-形式 $\\Omega^2(M) = \\Gamma(\\bigwedge^2 T^*M)$</strong>：<strong>2 维面测量</strong>（计算穿过曲面的通量：磁通量 $\\iint_S B$、辛相空间面积元 $dq \\wedge dp$）；</li>
+    <li><strong>3-形式 $\\Omega^3(M) = \\Gamma(\\bigwedge^3 T^*M)$</strong>：<strong>3 维体测量</strong>（计算封闭体积内的总电荷或总质量：$\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$）；</li>
+    <li><strong>$k$-形式 $\\Omega^k(M) = \\Gamma(\\bigwedge^k T^*M)$</strong>：<strong>$k$ 维有向体积的测量尺</strong>！</li>
+    <li><strong>维数封顶截断</strong>：当 $k > n = \\dim M$ 时，由于抽屉原理，任何超过 $n$ 个坐标基底相乘必有重复项（如在二维平面上 $dx \\wedge dy \\wedge dx = - dx \\wedge dx \\wedge dy = 0$），因此形式阶数在空间维数处自动截断：$\\Omega^{k > n}(M) = \\{0\\}$。</li>
+  </ul>
 </div>
       `
     },
@@ -281,9 +336,11 @@ export const diffGeomChapter = {
     <span>🌱 零门槛基石：什么是外微分 $d$？什么是闭形式与恰当形式？</span>
   </div>
   <p>
-    • <strong>外微分算子 $d$</strong>：传统微积分里的梯度（标量变矢量）、旋度（环流变通量）、散度（通量变体密度），在流形上被统一成同一个算符 $d: \\Omega^k(M) \\to \\Omega^{k+1}(M)$。它的物理功效就是<strong>计算边界环流密度，把 $k$ 阶微元提升到 $(k+1)$ 阶</strong>；<br/>
-    • <strong>闭形式 (Closed Form, $d\\omega = 0$)</strong>：没有局域的“旋度源”或“散度源”（例如静电场无旋 $\\nabla \\times \\vec{E} = 0$，磁场无散 $\\nabla \\cdot \\vec{B} = 0$）；<br/>
-    • <strong>恰当形式 (Exact Form, $\\omega = d\\alpha$)</strong>：可以表达为某个低阶势场的全微分（例如保守力场 $\\vec{F} = -\\nabla V$，磁场 $\\vec{B} = \\nabla \\times \\vec{A}$）。<br/>
+    现在我们有了从 0 形式到 $n$ 形式的阶梯。外微分算子 $d$ 正是<strong>沿着阶梯往上爬一步的微分算子</strong>：
+    $$\\Omega^0(M) \\xrightarrow{\\quad d \\quad} \\Omega^1(M) \\xrightarrow{\\quad d \\quad} \\Omega^2(M) \\xrightarrow{\\quad d \\quad} \\Omega^3(M) \\xrightarrow{\\quad d \\quad} \\cdots$$
+    • <strong>算符 $d$ 的物理功效</strong>：它是传统矢量微积分中梯度 (grad)、旋度 (curl)、散度 (div) 的统一无坐标推广！它计算的是“微元边界上的净通量/环流密度”；<br/>
+    • <strong>闭形式 (Closed Form, $d\\omega = 0$)</strong>：局域上没有任何“旋度涡流”或“散度源”；<br/>
+    • <strong>恰当形式 (Exact Form, $\\omega = d\\alpha$)</strong>：它本身是某个低一阶势场的导数（例如保守力场 $\\vec{F} = - dV$，磁场 $\\vec{B} = dA$）；<br/>
     • <strong>幂零律 $d^2 = 0$ 的物理宣称</strong>：<strong>所有恰当形式必为闭形式（保守场必无旋）！</strong>
   </p>
 </div>
