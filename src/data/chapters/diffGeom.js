@@ -143,7 +143,8 @@ export const diffGeomChapter = {
         $$X_p(f) = 0 + \\sum_{i=1}^n \\left.\\frac{\\partial f}{\\partial x^i}\\right|_p X_p(x^i - a^i) + 0 = \\sum_{i=1}^n \\underbrace{X_p(x^i)}_{:= v^i \\in \\mathbb{R}} \\left.\\frac{\\partial f}{\\partial x^i}\\right|_p$$
         由于 $f$ 是任意光滑函数，这证明了任意抽象导数算子 $X_p$ 都可以唯一表为 $n$ 个偏导算子的线性组合：
         $$X_p = \\sum_{i=1}^n v^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p, \\quad v^i = X_p(x^i)$$
-        反之，若 $\\sum_i v^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p = 0$，将其作用于坐标函数 $x^j$ 即得 $v^j = 0$（线性无关）。因此 $\\left\\{ \\left.\\frac{\\partial}{\\partial x^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial x^n}\\right|_p \\right\\}$ 构成 $T_p M$ 的一组基，<strong>$\\dim T_p M = n$ 严格得证！</strong>
+        <span style="color:#38bdf8;"><strong>自由度剖析（为什么恰好是 $n$ 个自由度？）</strong>：在构造切向量 $X_p$ 时，这 $n$ 个实数 $(v^1, \\dots, v^n) = \\big(X_p(x^1), \\dots, X_p(x^n)\\big) \\in \\mathbb{R}^n$ <strong>是可以完全任意、彼此独立选取的</strong>（因为对任意给定的一组实数 $v^i$，算子 $\\sum_i v^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p$ 天然满足线性与 Leibniz 律，且作用在 $x^j$ 上恰好还原出 $v^j$）；但<strong>一旦你选定了它在 $n$ 个坐标函数 $x^i$ 上的取值，$X_p$ 在宇宙间所有其他光滑函数 $f$ 上的取值就不再有任何自由度，被完全锁死！</strong></span><br/>
+        最后验证线性无关：若 $\\sum_i v^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p = 0$，将其作用于坐标函数 $x^j$ 即得 $v^j = 0$。因此 $\\left\\{ \\left.\\frac{\\partial}{\\partial x^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial x^n}\\right|_p \\right\\}$ 构成 $T_p M$ 的一组基，<strong>$\\dim T_p M = n$ 严格得证！</strong>
       </div>
     </div>
   </div>
