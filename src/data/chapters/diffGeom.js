@@ -212,74 +212,147 @@ export const diffGeomChapter = {
       heading: '向量丛与截面空间 $\\Gamma$：从单点的切/余切空间，到遍布全流形的“场”',
       content: `
 <div class="math-motivation">
-  <strong>【认知承上启下】</strong>：在第 1.2 与 1.3 节中，我们仅仅研究了流形上<strong>单个孤立点 $p$</strong> 处的切向量 $X_p \\in T_pM$ 与 1-形式 $\\alpha_p \\in T_p^*M$。但在真实物理学中，我们关心的绝不是孤立一点，而是<strong>遍布整个时空或整个相空间的连续物理场</strong>（如流体速度场、引力场、动量场）。我们如何从“点”上的代数空间，跃升到“全流形”上的连续物理场？答案就是<strong>向量丛 (Vector Bundle) 与截面 (Section)</strong>。
+  <strong>【认知承上启下：为什么在弯曲流形上定义“场”这么麻烦？】</strong><br/>
+  在第 1.2 与 1.3 节中，我们只研究了流形上<strong>单个孤立点 $p$</strong> 处的切空间 $T_pM$ 与余切空间 $T_p^*M$。而在物理学中，我们需要的是<strong>遍布整个空间的连续物理场</strong>（如全球风速场、电磁场）。<br/>
+  在平直欧氏空间 $\\mathbb{R}^3$ 中，所有点的切空间都可以平移重合，所以向量场可以直接写成映射 $\\vec{v}: \\mathbb{R}^3 \\to \\mathbb{R}^3$。但在弯曲流形（如地球表面 $S^2$）上，<strong>东京地面上的切平面 $T_{\\text{东京}}S^2$ 与纽约地面上的切平面 $T_{\\text{纽约}}S^2$ 是倾斜方向完全不同的两个独立空间！</strong>点 $p$ 处的速度向量 $v(p)$ 只能住在它自己专属的切空间 $T_pM$ 里——<strong>映射的“靶空间”随着自变量 $p$ 的移动而在不断改变！</strong>为了严格处理这种“每个点各自顶着一个专属向量空间”的几何结构，数学家建立了<strong>向量丛 (Vector Bundle)</strong> 与<strong>截面 (Section)</strong>。
 </div>
 
 <div class="math-primer">
   <div class="math-primer-title">
-    <span>🌱 初学者必读：向量丛“四大金刚”通俗物理拆解</span>
+    <span>🌱 第一步：先破除最大误区 —— 一个总空间里到底装了什么纤维？</span>
   </div>
-  <p>
-    不要被数学名词吓退，向量丛的四个组成部分，在物理上都有极其生动的实体模型：
+  <p style="margin-bottom: 12px;">
+    初学者最容易混淆的问题是：<strong>“总空间 $E$ 打包的纤维，是把切纤维和余切纤维全塞在一起，还是只装其中一种？”</strong><br/>
+    答案是：<strong style="color:#38bdf8;">每一个具体的向量丛，严格只打包同一种类型的纤维！（“一丛一世界，各司其职，绝不混装”）</strong><br/>
+    “向量丛 $(E, \\pi, M)$”是一个<strong>通用的抽象母模板</strong>（就像编程里的泛型容器 <code>Bundle&lt;Fiber&gt;</code>）。根据你在地面点 $p$ 头顶上挂载的纤维类型不同，会分别组装出两座完全独立的大楼：
   </p>
   <div class="primer-grid">
-    <div class="primer-card">
-      <div class="primer-card-title">🏛️ 1. 底流形 (Base Manifold, $M$) —— 舞台/地面</div>
-      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        你脚下站着的舞台空间。例如：地球表面（二维球面 $S^2$）、加速器真空管道的中心设计轨道坐标 $s$、或者物理真实的时空流形 $\\mathbb{R}^{3,1}$。
+    <div class="primer-card" style="border-color: rgba(56, 189, 248, 0.35);">
+      <div class="primer-card-title">🏛️ 大楼 A：切丛 (Tangent Bundle, $E = TM$)</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.7;">
+        • <strong>挂载的纤维</strong>：每个点 $p \\in M$ 头顶<strong>只挂切空间 $T_pM$</strong>（速度向量空间）；<br/>
+        • <strong>总空间 $TM := \\bigsqcup_{p \\in M} T_pM$</strong>：把所有点的切空间无交并打包成的 $2n$ 维流形；<br/>
+        • <strong>总空间里的一个点</strong>：是一对绑定数据 $(q, \\dot{q})$（即<strong>位置 + 广义速度</strong>），里面<strong>绝不包含动量/余切向量</strong>；<br/>
+        • <strong>物理归属</strong>：这是第 2 章<strong>现代拉格朗日力学</strong>生活的舞台（拉格朗日量 $L(q, \\dot{q})$ 就是定义在 $TM$ 上的函数）。
       </p>
     </div>
-    <div class="primer-card">
-      <div class="primer-card-title">🎋 2. 纤维 (Fiber, $E_p$) —— 每个地面点上竖起的天线</div>
-      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        在底流形某个固定点 $p$，拔地而起的一个专属线性向量空间！<br/>
-        • <em>切纤维</em>：点 $p$ 处所有可能的速度向量构成的切空间 $T_pM$；<br/>
-        • <em>余切纤维</em>：点 $p$ 处所有可能的动量/做功标尺构成的余切空间 $T_p^*M$。
+    <div class="primer-card" style="border-color: rgba(199, 125, 255, 0.35);">
+      <div class="primer-card-title" style="color:#c77dff;">🏛️ 大楼 B：余切丛 (Cotangent Bundle, $E = T^*M$)</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.7;">
+        • <strong>挂载的纤维</strong>：每个点 $p \\in M$ 头顶<strong>只挂余切空间 $T_p^*M$</strong>（1-形式/动量空间）；<br/>
+        • <strong>总空间 $T^*M := \\bigsqcup_{p \\in M} T_p^*M$</strong>：把所有点的余切空间无交并打包成的 $2n$ 维流形；<br/>
+        • <strong>总空间里的一个点</strong>：是一对绑定数据 $(q, p)$（即<strong>位置 + 正则动量</strong>），里面<strong>绝不包含速度向量</strong>；<br/>
+        • <strong>物理归属</strong>：这是第 3 章<strong>哈密顿相空间与加速器束流动力学</strong>生活的舞台（哈密顿量 $H(q, p)$ 就是定义在相空间 $T^*M$ 上的函数）。
       </p>
     </div>
-    <div class="primer-card">
-      <div class="primer-card-title">🌌 3. 总空间 (Total Space, $E$) —— 舞台加天线的大合体</div>
-      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        把底流形 $M$ 以及所有点上的纤维整体打包构成的高维大流形！<br/>
-        <strong>经典物理典范</strong>：如果质点位置构成的位形流形 $Q$ 是 $n$ 维底流形，每个位置挂着一个 $n$ 维动量空间纤维，两者合体构成的 $2n$ 维<strong>哈密顿相空间（Phase Space, $T^*Q$）正是典型的总空间</strong>！
-      </p>
-    </div>
-    <div class="primer-card">
-      <div class="primer-card-title">📐 4. 投影映射 (Projection, $\\pi: E \\to M$) —— 垂直拍回地面</div>
-      <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        一个把总空间中的点（位置 + 动量/速度）直接拍扁回它所属的地基位置的天然操作：$\\pi(q, p) = q$。
-      </p>
-    </div>
-  </div>
-
-  <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 14px 18px; margin-top: 14px;">
-    <strong style="color: #38bdf8;">✨ 5. 什么是“截面 (Section, $s$)”与算符 $\\Gamma$？—— 截面就是物理学中的“场 (Field)”！</strong>
-    <p style="margin: 6px 0 0 0; font-size: 0.92rem; color: #e2e8f0; line-height: 1.75;">
-      想象给满头的头发梳头（每根头发是一根纤维）。在头皮的每个位置 $p$，梳理出一根具体的头发朝向 $s(p)$。随着你在头皮上移动，头发朝向光滑连续变化。<br/>
-      • <strong>切丛的截面 $\\Gamma(TM)$</strong>：在每个点指定一个速度向量 $v(p)$ —— 这就是<strong>流体速度场 / 切向量场</strong>！<br/>
-      • <strong>余切丛的截面 $\\Gamma(T^*M)$</strong>：在每个点指定一个 1-形式测量尺 $\\alpha(p)$ —— 这就是<strong>1-形式场</strong>（如力的做功场 $dW = F_i dq^i$、四维电磁矢势 $A = A_\\mu dx^\\mu$）！<br/>
-      • <strong>算符 $\\Gamma(E)$ 的本质</strong>：就是该向量丛上<strong>所有可能的光滑截面（连续物理场）构成的母体集合</strong>！它是一个把“局域点上的代数空间”升华为“全空间连续物理场”的“场化算子”。
-    </p>
   </div>
 </div>
 
-<div class="math-definition">
-  <div class="math-definition-title">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
-    <span>严格数学表述：向量丛 $(E, \\pi, M)$ 与截面空间 $\\Gamma(E)$</span>
+<div class="math-primer">
+  <div class="math-primer-title">
+    <span>🔍 第二步：慢放拆解向量丛 $(E, \\pi, M)$ 的四大核心构件</span>
   </div>
-  <p>一个光滑<strong>向量丛（Vector Bundle）</strong>三元组 $(E, \\pi, M)$ 满足：对任意 $p \\in M$，原像 $E_p := \\pi^{-1}(p)$ 具有实向量空间结构（称为纤维 Fiber）。光滑截面 $s: M \\to E$ 满足：</p>
-  $$\\pi \\circ s = \\text{id}_M \\quad (\\text{即对任意 } p \\in M, \\; s(p) \\in E_p)$$
-  <p>全流形上所有平滑截面所组成的实线性空间记为 $\\Gamma(E)$。在当前阶段，我们掌握了两个最重要的物理丛：</p>
-  <ul>
-    <li><strong>切丛 $TM$ 的截面空间：$\\Gamma(TM) = \\mathfrak{X}(M)$</strong> —— 光滑切向量场（流体速度场、相空间哈密顿流场 $X_H$）；</li>
-    <li><strong>余切丛 $T^*M$ 的截面空间：$\\Gamma(T^*M) = \\Omega^1(M)$</strong> —— 光滑 1-形式场（外力做功微元场、电磁 4-势 $A = A_\\mu dx^\\mu$）。</li>
-  </ul>
+  <p>
+    为了不流于表面名词，我们把通用的 $k$ 维向量丛 $(E, \\pi, M)$ 的四个构件逐一拆开看清它的内部齿轮：
+  </p>
+  <div class="primer-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <div class="primer-card">
+      <div class="primer-card-title">1. 底流形 (Base Manifold, $M$) —— 脚下的地基</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.7;">
+        物理事件发生的基础 $n$ 维空间。比如：地球表面 $S^2$、机械系统的 $n$ 维位形空间 $Q$、或者四维时空流形 $\\mathbb{R}^{3,1}$。它只提供“位置坐标 $p$”，本身还没有挂载任何向量。
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">2. 单点纤维 (Fiber, $E_p$) —— 固定点 $p$ 头顶的专属标尺空间</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.7;">
+        固定底流形上的某一个点 $p \\in M$，挂在它头顶上的那个 $k$ 维实线性空间就叫点 $p$ 处的<strong>纤维 $E_p$</strong>（对切丛而言 $E_p = T_pM$，维数 $k=n$）。<br/>
+        <strong>关键性质</strong>：不同地面点 $p \\neq q$ 上的纤维 $E_p$ 与 $E_q$ 是<strong>完全不相交（$E_p \\cap E_q = \\emptyset$）</strong>的两个独立向量空间，你不能直接把 $E_p$ 里的向量和 $E_q$ 里的向量相加！
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">3. 总空间 (Total Space, $E$) —— 无交并 $\\bigsqcup_{p \\in M} E_p$</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.7;">
+        把底流形所有点 $p \\in M$ 上的纤维 $E_p$ 全部汇集并粘合成一个 $(n+k)$ 维的光滑大流形：
+        $$E := \\bigsqcup_{p \\in M} E_p = \\big\\{ (p, v) \\;\\big|\\; p \\in M, \\; v \\in E_p \\big\\}$$
+        <strong>总空间里的一个“点”是什么？</strong> 它是<strong>“地面位置 $p$ + 该点纤维上的一个具体向量 $v \\in E_p$”组成的配对 $(p, v)$</strong>！要定位总空间里的一个点，你需要 $n$ 个地面坐标外加 $k$ 个纤维分量坐标，共 $n+k$ 个实数。
+      </p>
+    </div>
+    <div class="primer-card">
+      <div class="primer-card-title">4. 投影映射 ($\\pi: E \\to M$) 与原像 $\\pi^{-1}(p)$</div>
+      <p style="font-size:0.88rem; color:#cbd5e1; margin:0; line-height:1.7;">
+        既然总空间 $E$ 里的元素是 $(p, v)$，那么<strong>投影映射 $\\pi$</strong> 就是一个极其自然的“降维读取器”——<strong>抹掉纤维上的向量 $v$，只报告它站在地面上的哪个点 $p$</strong>：
+        $$\\pi(p, v) = p$$
+        反过来，什么叫<strong>原像 $\\pi^{-1}(p)$</strong>？就是在总空间 $E$ 里找出所有“拍回地面后落在点 $p$”的元素集合：$\\pi^{-1}(p) = \\{ (p, v) \\mid v \\in E_p \\} \\equiv E_p$。所以<strong>点 $p$ 的原像 $\\pi^{-1}(p)$ 恰好就是点 $p$ 头顶上的整根纤维 $E_p$！</strong>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="math-intuition">
+  <div class="math-intuition-title">
+    <span>💡 第三步：为什么叫“丛 (Bundle)”而不直接叫“笛卡尔直积 $M \\times \\mathbb{R}^k$”？</span>
+  </div>
+  <p>
+    你可能会问：在每个点 $p \\in M$ 上挂一个 $k$ 维向量空间 $\\mathbb{R}^k$，那总空间 $E$ 不就是简单的笛卡尔乘积 $M \\times \\mathbb{R}^k$ 吗？为什么要发明“向量丛”这个新词？<br/>
+    • <strong>局部来看（局部平凡化 Local Trivialization）</strong>：在底流形的一小块局部图卡 $U \\subset M$ 上，向量丛确实和直积 $U \\times \\mathbb{R}^k$ 完全一样（就像牙刷上排列整齐的一排刷毛）；<br/>
+    • <strong>整体来看（全局拓扑扭转）</strong>：当你在弯曲的底流形 $M$ 上绕一圈回到起点时，纤维在粘合时可能发生<strong>整体扭转</strong>！<br/>
+    最直观的例子是底流形为圆圈 $M = S^1$，每点挂载一维直线纤维 $\\mathbb{R}^1$：<br/>
+    1. 如果绕一圈不扭转直接粘合，总空间是<strong>无限高圆柱面 $S^1 \\times \\mathbb{R}$</strong>（这叫<strong>平凡丛 Trivial Bundle</strong>）；<br/>
+    2. 如果绕一圈将直线纤维上下翻转 $180^\\circ$ 粘合，总空间就变成了<strong>莫比乌斯带 (Möbius Strip)</strong>！它在局部每一小段都像 $U \\times \\mathbb{R}$，但整体绝不等于 $S^1 \\times \\mathbb{R}$。这正是“向量丛”比“直积空间”更深刻的原因。
+  </p>
+</div>
+
+<div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35);">
+  <div class="math-proof-title">
+    <span>✨ 第四步：彻底搞懂“截面 (Section, $s$)”与场化算符 $\\Gamma(E)$</span>
+    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Sections as Physical Fields</span>
+  </div>
+  <div class="math-proof-steps">
+    <div class="proof-step-item">
+      <div class="proof-step-dot">1</div>
+      <div>
+        <strong>先用“普通函数图像”建立直观</strong>：<br/>
+        对于普通实变函数 $f: \\mathbb{R} \\to \\mathbb{R}$，如果在每个横坐标 $x$ 处画一条竖直线（纤维 $\\mathbb{R}$），函数 $f$ 就是在每条竖直线上挑一个高度点 $(x, f(x))$。当 $x$ 连续变动时，这些挑出来的点连成一条光滑曲线，<strong>把每一根竖直纤维都横向截断一次</strong>——这就是几何上“<strong>截面 (Cross-Section)</strong>”一词的由来！
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">2</div>
+      <div>
+        <strong>向量丛的截面 $s: M \\to E$ 是什么？—— 就是物理学中的“场 (Field)”！</strong><br/>
+        现在把竖直线换成点 $p$ 头顶上的向量空间纤维 $E_p$。我们要定义一个遍布全流形的“连续向量场”，操作就是在每个地面点 $p \\in M$，<strong>从它头顶专属的纤维 $E_p$ 中光滑地挑选出一个具体的代表向量 $s(p) \\in E_p$</strong>。<br/>
+        这个从底流形 $M$ 映射到总空间 $E$ 的光滑映射 $s: M \\to E$，就叫做向量丛的一个<strong>光滑截面（Smooth Section）</strong>。
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">3</div>
+      <div>
+        <strong>为什么数学定义里一定要写公式 $\\pi \\circ s = \\text{id}_M$？</strong><br/>
+        随便写一个映射 $s: M \\to E$，万一它把“东京地面点 $p$”映射到了“纽约头顶纤维里的某个向量”怎么办？那就不叫东京的风速了！<br/>
+        为了<strong>严禁跨点串门</strong>，数学上加上了一条极其优雅的铁律：对任意 $p \\in M$，先用 $s$ 挑出向量 $s(p) \\in E$，再用投影 $\\pi$ 把它拍回地面，<strong>必须精准落回出发点 $p$ 本身</strong>：
+        $$\\pi\\big(s(p)\\big) = p \\quad \\iff \\quad \\pi \\circ s = \\text{id}_M \\quad \\iff \\quad \\text{对任意 } p \\in M, \\; s(p) \\in E_p$$
+        <strong>一句话翻译 $\\pi \\circ s = \\text{id}_M$</strong>：每个点 $p$ 的场值 $s(p)$，必须老老实实待在 $p$ 自己头顶的纤维 $E_p$ 里！
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">4</div>
+      <div>
+        <strong>算符 $\\Gamma(E)$ 是什么？—— 收集所有可能物理场的“母空间”！</strong><br/>
+        • <strong>单个截面 $s$</strong>：代表<strong>某一个具体的物理场</strong>（例如今天下午 3 点全球的一张具体风速分布图）；<br/>
+        • <strong>截面空间 $\\Gamma(E)$</strong>：把向量丛 $E$ 上<strong>所有可能的光滑截面全部收集在一起构成的无穷维实线性空间</strong>（因为两个截面在同一纤维内可以逐点相加 $(s_1 + s_2)(p) = s_1(p) + s_2(p) \\in E_p$）。<br/>
+        至此，微分几何中最核心的三套“场空间”记号彻底打通：
+        <ul style="margin: 8px 0 0 20px;">
+          <li><strong>切向量场空间 $\\Gamma(TM) \\equiv \\mathfrak{X}(M)$</strong>：切丛 $TM$ 的所有光滑截面（如流体速度场、哈密顿相流场 $X_H$）；</li>
+          <li><strong>1-形式场空间 $\\Gamma(T^*M) \\equiv \\Omega^1(M)$</strong>：余切丛 $T^*M$ 的所有光滑截面（如力做功场 $F_i dx^i$、电磁四维势场 $A_\\mu dx^\\mu$）；</li>
+          <li><strong>$k$-形式场空间 $\\Gamma(\\bigwedge^k T^*M) \\equiv \\Omega^k(M)$</strong>：$k$ 阶外积余切丛的所有光滑截面（这就是下一节即将登场的通量形式场！）。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div style="background: rgba(30, 41, 59, 0.7); border-left: 3px solid #38bdf8; padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-size: 0.92rem; color: #cbd5e1;">
   <strong style="color: #38bdf8;">🤔 迈向下一节的几何思考：</strong>
-  现在，我们已经有了 1-形式场（沿一维曲线测量做功的标尺）。然而在物理学中，我们到处都需要测量<strong>穿过二维曲面的通量</strong>（例如穿过曲面的磁通量 $\\iint \\vec{B} \\cdot d\\vec{S}$、加速器横向相空间中的相椭圆面积）。我们如何用手头的 1-形式标尺，去度量二维平行四边形的面积？这就必须把 1-形式乘起来！但该怎么乘？这就是第 1.5 节的核心：<strong>外代数（Exterior Algebra）</strong>。
+  现在，我们已经有了 1-形式场 $\\Omega^1(M) = \\Gamma(T^*M)$（在流形每个点放置一把一维线测量尺）。然而在物理学中，我们到处都需要测量<strong>穿过二维曲面的通量</strong>（例如磁通量 $\\iint \\vec{B} \\cdot d\\vec{S}$、加速器横向相空间中的相椭圆面积）。我们如何在每个点的纤维上，把手头的 1-形式标尺“乘”起来，拼装成二维面元测量机 $\\bigwedge^2 T_p^*M$？这就是第 1.5 节的核心：<strong>外代数（Exterior Algebra）</strong>。
 </div>
       `
     },
