@@ -318,9 +318,14 @@ export const diffGeomChapter = {
     <div class="proof-step-item">
       <div class="proof-step-dot">2</div>
       <div>
-        <strong>向量丛的截面 $s: M \\to E$ 是什么？—— 就是物理学中的“场 (Field)”！</strong><br/>
-        现在把竖直线换成点 $p$ 头顶上的向量空间纤维 $E_p$。我们要定义一个遍布全流形的“连续向量场”，操作就是在每个地面点 $p \\in M$，<strong>从它头顶专属的纤维 $E_p$ 中光滑地挑选出一个具体的代表向量 $s(p) \\in E_p$</strong>。<br/>
-        这个从底流形 $M$ 映射到总空间 $E$ 的光滑映射 $s: M \\to E$，就叫做向量丛的一个<strong>光滑截面（Smooth Section）</strong>。
+        <strong>为什么截面要定义为“从底流形 $M$ 到总空间 $E$ 的映射 $s: M \\to E$”？它和“切向量场”有什么区别？</strong><br/>
+        • <strong>为什么靶空间必须是总空间 $E$？</strong> 因为不同地面点 $p \\neq q$ 头顶上的纤维 $E_p$ 与 $E_q$ 是完全不同的向量空间，没有任何单一的 $E_p$ 能同时装下全流形所有点的向量！唯一能把所有点的纤维 $E_p$ 全装进去的公共大池子，就是总空间 $E = \\bigsqcup_{p \\in M} E_p$。因此在数学上，“在每个点 $p$ 挑一个向量 $v_p \\in E_p$”就必须写成映射 $s: M \\to E, \\; p \\mapsto (p, v_p) \\in E_p \\subset E$。<br/>
+        • <strong>“截面”和“切向量场”有什么区别？——“通用母概念”与“具体特例”的关系！</strong><br/>
+        <strong>当总空间取切丛 $E = TM$ 时，切丛的一个光滑截面 $X: M \\to TM$ 与“一个切向量场”没有任何区别，它们 100% 是同一个东西的两种叫法！</strong><br/>
+        之所以引入“截面 (Section)”这个词，是因为物理学中不仅有切向量场，还有各种不同类型的“场”（截面就是所有“场”的通用数学统称）：
+        <br/>① 若总空间取<strong>切丛 $E = TM$</strong>，它的一个截面 $X: M \\to TM$ 就是<strong>一个切向量场</strong>（如流体速度场）；
+        <br/>② 若总空间取<strong>余切丛 $E = T^*M$</strong>，它的一个截面 $\\alpha: M \\to T^*M$ 就是<strong>一个 1-形式场 / 余切向量场</strong>（如电磁四维势场 $A_\\mu dx^\\mu$）——它也是截面，但不是切向量场；
+        <br/>③ 若总空间取<strong>外积余切丛 $E = \\bigwedge^k T^*M$</strong>，它的一个截面 $\\omega: M \\to \\bigwedge^k T^*M$ 就是<strong>一个 $k$-形式场</strong>（如电磁场强 2-形式场 $F$）。
       </div>
     </div>
     <div class="proof-step-item">
