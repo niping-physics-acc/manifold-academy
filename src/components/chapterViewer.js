@@ -65,12 +65,13 @@ export function createChapterViewer(chapterId, onNavigate) {
                   <div class="tree-sub-list">
                     ${chapter.sections.map((sec, sIdx) => {
                       const secId = sec.id || `sec-${sIdx + 1}`;
-                      const shortHeading = sec.heading.split('：')[0].replace(/[\$]/g, '');
+                      const shortHeading = sec.heading.split('：')[0];
+                      const cleanTitle = sec.heading.replace(/[\$]/g, '');
                       return `
                         <a href="#${secId}" class="tree-sub-item" data-target="${secId}">
                           <span class="tree-sub-dot"></span>
-                          <span style="font-family:var(--font-mono); font-weight:700; color:var(--accent-cyan); font-size:0.72rem;">${sec.number || (sIdx + 1)}</span>
-                          <span title="${sec.heading}">${shortHeading}</span>
+                          <span style="font-family:var(--font-mono); font-weight:700; color:var(--accent-cyan); font-size:0.72rem; flex-shrink:0;">${sec.number || (sIdx + 1)}</span>
+                          <span title="${cleanTitle}" style="overflow:hidden; text-overflow:ellipsis;">${shortHeading}</span>
                         </a>
                       `;
                     }).join('')}
@@ -148,7 +149,7 @@ export function createChapterViewer(chapterId, onNavigate) {
           <div class="toc-pills">
             ${chapter.sections.map((sec, sIdx) => {
               const secId = sec.id || `sec-${sIdx + 1}`;
-              const shortHeading = sec.heading.split('：')[0].replace(/[\$]/g, '');
+              const shortHeading = sec.heading.split('：')[0];
               return `
                 <a href="#${secId}" class="toc-pill">
                   <span class="toc-pill-num">${sec.number || (sIdx + 1)}</span>

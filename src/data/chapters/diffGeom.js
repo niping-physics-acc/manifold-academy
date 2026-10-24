@@ -326,10 +326,11 @@ export const diffGeomChapter = {
     <div class="proof-step-item">
       <div class="proof-step-dot">3</div>
       <div>
-        <strong>为什么数学定义里一定要写公式 $\\pi \\circ s = \\text{id}_M$？</strong><br/>
-        随便写一个映射 $s: M \\to E$，万一它把“东京地面点 $p$”映射到了“纽约头顶纤维里的某个向量”怎么办？那就不叫东京的风速了！<br/>
-        为了<strong>严禁跨点串门</strong>，数学上加上了一条极其优雅的铁律：对任意 $p \\in M$，先用 $s$ 挑出向量 $s(p) \\in E$，再用投影 $\\pi$ 把它拍回地面，<strong>必须精准落回出发点 $p$ 本身</strong>：
-        $$\\pi\\big(s(p)\\big) = p \\quad \\iff \\quad \\pi \\circ s = \\text{id}_M \\quad \\iff \\quad \\text{对任意 } p \\in M, \\; s(p) \\in E_p$$
+        <strong>什么是 $\\text{id}_M$？为什么数学定义里一定要写公式 $\\pi \\circ s = \\text{id}_M$？</strong><br/>
+        • <strong>符号 $\\text{id}_M$（Identity Map，恒等映射）</strong>：$\\text{id}$ 是英文 Identity 的缩写，$\\text{id}_M: M \\to M$ 代表流形 $M$ 上的“<strong>原地不动映射</strong>”——你输入任意一个点 $p \\in M$，它原封不动地吐回 $p$ 本身，即 $\\text{id}_M(p) \\equiv p$（在线性代数中，它就相当于单位矩阵 $I$）；<br/>
+        • <strong>符号 $\\circ$（映射复合）</strong>：$\\pi \\circ s$ 表示“先执行截面映射 $s: M \\to E$，紧接着执行投影映射 $\\pi: E \\to M$”的串联操作，即 $(\\pi \\circ s)(p) := \\pi\\big(s(p)\\big)$。<br/>
+        • <strong>为什么必须要求 $\\pi \\circ s = \\text{id}_M$？</strong> 如果随便写一个映射 $s: M \\to E$，万一它把“东京地面点 $p$”映射到了“纽约头顶纤维里的某个向量”怎么办？那就不叫东京的风速了！为了<strong>严禁跨点串门</strong>，数学上规定：从任意点 $p \\in M$ 出发，先用 $s$ 挑出向量 $s(p) \\in E$，再用投影 $\\pi$ 把它拍回地面，<strong>结果必须等于恒等映射 $\\text{id}_M(p) = p$（精准落回出发点 $p$ 本身）</strong>：
+        $$(\\pi \\circ s)(p) = \\pi\\big(s(p)\\big) = \\text{id}_M(p) = p \\quad \\iff \\quad \\text{对任意 } p \\in M, \\; s(p) \\in E_p$$
         <strong>一句话翻译 $\\pi \\circ s = \\text{id}_M$</strong>：每个点 $p$ 的场值 $s(p)$，必须老老实实待在 $p$ 自己头顶的纤维 $E_p$ 里！
       </div>
     </div>
