@@ -91,11 +91,63 @@ export const diffGeomChapter = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
     <span>定义 1.1：光滑流形与切向量的导数定义 (Derivation)</span>
   </div>
-  <p>设 $M$ 为 $n$ 维光滑流形，$p \\in M$。流形上点 $p$ 处的<strong>切向量 $X_p$</strong>，定义为一个作用在点 $p$ 局域光滑标量函数芽空间 $C^\\infty(p)$ 上的<strong>实线性映射</strong>：</p>
+  <p>设 $M$ 为 $n$ 维光滑流形，$p \\in M$。流形上点 $p$ 处的<strong>切向量 $X_p$</strong>，定义为一个作用在点 $p$ 局域光滑标量函数芽空间 $C^\\infty(p)$ 上的<strong>实线性泛函</strong>：</p>
   $$X_p: C^\\infty(p) \\to \\mathbb{R}$$
   <p>且对任意 $f, g \\in C^\\infty(p)$，满足 <strong>Leibniz 乘积法则（导数性质）</strong>：</p>
   $$X_p(f g) = f(p) X_p(g) + g(p) X_p(f)$$
-  <p>所有满足上述条件的切向量集合在实数域上构成一个 $n$ 维实线性空间，称为流形在点 $p$ 的<strong>切空间（Tangent Space）</strong>，记为 $T_p M$。</p>
+  <p>点 $p$ 处所有满足上述条件的导数算子构成的集合称为流形在点 $p$ 的<strong>切空间（Tangent Space）</strong>，记为 $T_p M$。</p>
+</div>
+
+<div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); margin-top: 16px;">
+  <div class="math-proof-title">
+    <span>【核心定理 1.0】为什么无穷维函数空间上的算子集 $T_p M$ 恰好是 $n$ 维线性空间？</span>
+    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Hadamard Lemma & Basis Theorem</span>
+  </div>
+  <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:12px;">
+    <strong>深刻质疑</strong>：$C^\\infty(p)$（点 $p$ 附近的光滑函数空间）明明是<strong>无穷维</strong>的！定义在其上的线性泛函也是无穷维的。凭什么仅仅加上一条 Leibniz 乘积法则，$T_p M$ 的维数就坍缩成了有限的流形维数 $n$？这不是“显然的公理”，而是一个依赖<strong>莱布尼茨高阶抹杀机制</strong>与<strong>Hadamard 引理</strong>的严密定理：
+  </p>
+  <div class="math-proof-steps">
+    <div class="proof-step-item">
+      <div class="proof-step-dot">1</div>
+      <div>
+        <strong>第一步：验证线性空间结构与“杀死常数”性质</strong>：<br/>
+        若 $X_p, Y_p \\in T_p M$，直接验证可知线性组合 $(a X_p + b Y_p)$ 仍满足实线性与 Leibniz 律，故 $T_p M$ 是实线性空间。<br/>
+        进一步，将恒等于 $1$ 的常数函数代入 Leibniz 律：$X_p(1) = X_p(1 \\cdot 1) = 1 \\cdot X_p(1) + 1 \\cdot X_p(1) = 2 X_p(1) \\implies X_p(1) = 0$。由线性性，对任意常数 $c \\in \\mathbb{R}$，必有：
+        $$X_p(c) = c X_p(1) \\equiv 0 \\quad (\\text{零阶常数项被完全抹杀})$$
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">2</div>
+      <div>
+        <strong>第二步：Leibniz 律的“高阶无穷小处决机制”</strong>：<br/>
+        设 $h_1, h_2 \\in C^\\infty(p)$ 是在点 $p$ 取值为零的两个函数，即 $h_1(p) = 0, \\; h_2(p) = 0$（代表一阶及以上无穷小量）。对它们的乘积作用 $X_p$：
+        $$X_p(h_1 h_2) = h_1(p) X_p(h_2) + h_2(p) X_p(h_1) = 0 \\cdot X_p(h_2) + 0 \\cdot X_p(h_1) \\equiv 0$$
+        <span style="color:#38bdf8;"><strong>核心洞察</strong>：任何两个在 $p$ 点为零的函数之积（即泰勒展开中所有二次项 $(x-p)^2$、三次项及一切高阶余项），在 Leibniz 算子 $X_p$ 面前<strong>全军覆没、精确归零</strong>！$X_p$ 只对函数在 $p$ 点的<strong>一阶线性斜率</strong>敏感！</span>
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">3</div>
+      <div>
+        <strong>第三步：Hadamard 引理（带光滑余项的精确一阶展开）</strong>：<br/>
+        在点 $p$ 附近取局部坐标 $(x^1, \\dots, x^n)$，记 $p$ 点坐标为 $a = (a^1, \\dots, a^n)$。对任意 $f \\in C^\\infty(p)$，利用微积分基本定理沿连线 $t \\in [0, 1]$ 积分：
+        $$f(x) - f(a) = \\int_0^1 \\frac{d}{dt} f\\big(a + t(x-a)\\big) dt = \\sum_{i=1}^n (x^i - a^i) \\underbrace{\\int_0^1 \\frac{\\partial f}{\\partial x^i}\\big(a + t(x-a)\\big) dt}_{:= g_i(x) \\in C^\\infty(p)}$$
+        其中 $g_i(a) = \\left.\\frac{\\partial f}{\\partial x^i}\\right|_p$。将 $g_i(x)$ 拆分为常数主部与在 $p$ 点为零的余部 $\\tilde{g}_i(x) := g_i(x) - g_i(a)$（满足 $\\tilde{g}_i(a) = 0$），得到<strong>无截断误差的精确恒等式</strong>：
+        $$f(x) = \\underbrace{f(a)}_{\\text{常数}} + \\sum_{i=1}^n \\left.\\frac{\\partial f}{\\partial x^i}\\right|_p (x^i - a^i) + \\sum_{i=1}^n \\underbrace{(x^i - a^i) \\tilde{g}_i(x)}_{\\text{两个在 } p \\text{ 点为 0 的函数之积}}$$
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">4</div>
+      <div>
+        <strong>第四步：作用 $X_p$ 并导出 $n$ 维基底展开</strong>：<br/>
+        对上述恒等式两边同时作用任意切向量 $X_p \\in T_p M$：常数项被第一步抹杀，二次乘积余项被第二步抹杀，唯有中间的一阶项存活：
+        $$X_p(f) = 0 + \\sum_{i=1}^n \\left.\\frac{\\partial f}{\\partial x^i}\\right|_p X_p(x^i - a^i) + 0 = \\sum_{i=1}^n \\underbrace{X_p(x^i)}_{:= v^i \\in \\mathbb{R}} \\left.\\frac{\\partial f}{\\partial x^i}\\right|_p$$
+        由于 $f$ 是任意光滑函数，这证明了任意抽象导数算子 $X_p$ 都可以唯一表为 $n$ 个偏导算子的线性组合：
+        $$X_p = \\sum_{i=1}^n v^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p, \\quad v^i = X_p(x^i)$$
+        反之，若 $\\sum_i v^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p = 0$，将其作用于坐标函数 $x^j$ 即得 $v^j = 0$（线性无关）。因此 $\\left\\{ \\left.\\frac{\\partial}{\\partial x^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial x^n}\\right|_p \\right\\}$ 构成 $T_p M$ 的一组基，<strong>$\\dim T_p M = n$ 严格得证！</strong>
+      </div>
+    </div>
+  </div>
+  <div class="qed-symbol">■ Q.E.D.</div>
 </div>
 
 <div class="math-intuition">
@@ -457,34 +509,6 @@ export const diffGeomChapter = {
     </li>
     <li>对局部坐标微分形式，二阶微分为零：$d(dx^i) = 0$。</li>
   </ol>
-</div>
-
-<div class="math-intuition" style="margin-top: 16px;">
-  <div class="math-intuition-title">
-    <span>💡 破除公理的“神秘主义”：$d$ 究竟想代表什么？为什么公理 2 和 3 是必然的？</span>
-  </div>
-  <p>
-    现代数学教材往往习惯“倒反天罡”——把推导出来的代数性质倒装为高高在上的公理，却不解释动机，让学习者产生巨大的认知断层：<strong>“在还不知道 $d$ 究竟想代表什么的时候，凭什么平白无故规定一条带 $(-1)^k$ 的乘积律？凭什么规定坐标二阶微分为 0？”</strong><br/>
-    让我们从物理与几何的第一性原理出发，拆解这三条规则背后真正想表达的底层现实：
-  </p>
-  <div style="font-size:0.92rem; color:#e2e8f0; line-height:1.8;">
-    <strong style="color:#38bdf8;">1. $d$ 到底想代表什么？—— 它是几何“取边界算子 $\\partial$”在积分世界中的对偶镜像！</strong><br/>
-    若定义区域与形式的积分配对为 $\\langle \\Omega, \\omega \\rangle := \\int_\\Omega \\omega$，那么广义 Stokes 公式揭示了一个惊人的对称：
-    $$\\langle \\partial \\Omega, \\omega \\rangle = \\langle \\Omega, d\\omega \\rangle \\quad \\left( \\int_{\\partial \\Omega} \\omega = \\int_\\Omega d\\omega \\right)$$
-    在几何上，$\\partial$ 是<strong>把一个几何区域降一维取边界</strong>（如将三维球体变成二维球面）；而在代数上，$d$ 则是<strong>把测量尺升一维（将 0-形式变成 1-形式、1-形式变成 2-形式）</strong>。<strong>外微分 $d$ 在本质上就是“作用在被积形式上的取边界算子”！</strong>
-    <br/><br/>
-    <strong style="color:#38bdf8;">2. 为什么公理 3（$d(dx^i) = 0$）在物理与几何上是极其显而易见的？</strong><br/>
-    • <strong>物理直观（回路无净位移）</strong>：$dx^i$ 的物理本质是测量坐标 $x^i$ 的微小增量。沿着任何闭合闭合回线 $\\gamma$（从某点出发再回到该点），坐标的净改变量必然为零：$\\oint_\\gamma dx^i = x^i(\\text{终点}) - x^i(\\text{起点}) \\equiv 0$。由于它在<strong>任意</strong>无穷小微元回路上的环流量恒为 0，按照“环量密度”的定义，它的旋度/环量密度必然处处为零：$d(dx^i) \\equiv 0$！这与物理中“重力或静电势沿闭合回路做功恒为 0，因而重力/静电场必然无旋”是同一个道理，一眼即可看穿。<br/>
-    • <strong>几何直观（边界的边界为空）</strong>：既然 $d$ 对偶于 $\\partial$，那么 $d(d\\omega)$ 必然对偶于 $\\partial(\\partial \\Omega)$。而<strong>“边界的边界永远为空”</strong>（三维球的边界是二维球面，二维球面没有边界 $\\partial S^2 = \\emptyset$；圆盘的边界是圆周，圆周没有端点 $\\partial S^1 = \\emptyset$）是拓扑中最显而易见的常识，故 $\\partial^2 \\equiv 0$ 必然强制要求代数上的二阶外微分为零：$d^2 \\equiv 0$。而 $dx^i = d(x^i)$ 本身已经是坐标函数的 $d$，再求一次 $d(dx^i) = d^2(x^i)$ 必然恒为 0。
-    <br/><br/>
-    <strong style="color:#38bdf8;">3. 为什么公理 2（反 Leibniz 律）必须带有 $(-1)^k$？</strong><br/>
-    • <strong>代数微元穿透代价</strong>：在局部坐标中，外微分本质上是带有 1-形式微元的导数算子：$d = \\sum_i dx^i \\wedge \\frac{\\partial}{\\partial x^i}$。当它作用在外积 $\\alpha \\wedge \\beta$ 上时：
-    $$d(\\alpha \\wedge \\beta) = \\sum_i dx^i \\wedge \\partial_i (\\alpha \\wedge \\beta) = \\sum_i dx^i \\wedge (\\partial_i \\alpha \\wedge \\beta + \\alpha \\wedge \\partial_i \\beta)$$
-    第一项中 $dx^i$ 直接与 $\\partial_i \\alpha$ 结合成为 $d\\alpha \\wedge \\beta$。但在第二项中，算子前面的 1-形式基底 $dx^i$ 必须<strong>穿过形式 $\\alpha$</strong>，才能与后面的 $\\partial_i \\beta$ 汇合形成 $d\\beta$！<br/>
-    因为 $\\alpha$ 是一个 $k$-形式（由 $k$ 个 1-形式基底外积而成：$dx^{j_1} \\wedge \\dots \\wedge dx^{j_k}$），根据外代数的反对称性（两个 1-形式交换一次变一个符号 $dx \\wedge dy = - dy \\wedge dx$），<strong>$dx^i$ 穿过由 $k$ 个 1-形式排成的队伍，必须依次对换 $k$ 次，因此必定产生 $(-1)^k$ 个负号</strong>：
-    $$dx^i \\wedge \\alpha = (-1)^k \\alpha \\wedge dx^i$$
-    因此第二项必然变为 $(-1)^k \\alpha \\wedge (dx^i \\wedge \\partial_i \\beta) = (-1)^k \\alpha \\wedge d\\beta$！这个 $(-1)^k$ 根本不是人为设定的公理，它是<strong>外积的反对称骨架在允许微分算子穿透时必然征收的“置换过路费”</strong>！
-  </div>
 </div>
 
 <div class="math-primer" style="margin-top: 20px;">
