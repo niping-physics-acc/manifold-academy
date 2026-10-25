@@ -568,33 +568,32 @@ export const diffGeomChapter = {
     <div class="proof-step-item">
       <div class="proof-step-dot">1</div>
       <div>
-        <strong>第一步：积分区域 $V$ 的网格剖分，就是“切向量喂食器”！</strong><br/>
-        要做重积分 $\\iiint_V \\omega$，第一步是把三维积分区域 $V$ 像切豆腐一样，剖分成无数个无穷小平行六面体微元（小砖块）。<br/>
-        在每一个小砖块的顶点 $p$ 处，<strong>沿着小砖块的三条相邻棱，天然张成了三个无穷小切向量 $(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) \\in T_p M$</strong>！<br/>
-        <span style="color:#38bdf8;"><strong>关键真相</strong>：积分号下的 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$ 是“待喂食的测量机”，而积分号下标里的几何区域 $\\iiint_V$ 则负责把区域切碎，把每个小砖块的三条棱切向量 $(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3)$ 塞进 3-形式的三个插槽里！</span>
+        <strong>第一步（极其关键的严谨区分）：弯曲流形上没有“直线小立方体”！切向量是怎么从坐标曲线变出来的？</strong><br/>
+        我们在 1.2 节反复强调：<strong>在弯曲流形 $M$ 上根本不存在“有向直线段”，切向量绝不是流形上的小线段，而是切空间 $T_p M$ 里的方向导数算子！</strong>那 3-形式 $\\omega_p \\in \\bigwedge^3 T_p^* M$ 吃掉的三个切向量从哪来？<br/>
+        • 真正的“直边小立方体网格” $(\\Delta x, \\Delta y, \\Delta z)$ 切在<strong>平直的坐标参数空间（地图纸 $\\phi(U) \\subset \\mathbb{R}^3$）</strong>里；<br/>
+        • 在弯曲流形 $M$ 的点 $p$ 处，顺着 $(x, y, z)$ 三个坐标方向穿过点 $p$ 的是<strong>三条弯曲的坐标网格曲线</strong>；<br/>
+        • 按照 1.2 节的定义，这三条穿过点 $p$ 的弯曲坐标曲线，在<strong>同一个点 $p$ 的切空间 $T_p M$ 中各自生成了一个纯正的方向导数算子</strong> $\\left.\\frac{\\partial}{\\partial x}\\right|_p, \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\left.\\frac{\\partial}{\\partial z}\\right|_p \\in T_p M$；<br/>
+        • 再用参数地图上的步长实数 $\\Delta x, \\Delta y, \\Delta z$ 去数乘这三个方向导数算子，就得到了<strong>严格位于点 $p$ 切空间 $T_p M$ 内的三个切向量算子</strong>：
+        $$\\vec{\\varepsilon}_1 = \\Delta x \\left.\\frac{\\partial}{\\partial x}\\right|_p, \\qquad \\vec{\\varepsilon}_2 = \\Delta y \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\qquad \\vec{\\varepsilon}_3 = \\Delta z \\left.\\frac{\\partial}{\\partial z}\\right|_p \\in T_p M$$
+        <span style="color:#38bdf8;"><strong>核心真相</strong>：3-形式 $\\omega_p$ 吃掉的<strong>绝不是流形上弯曲微元的三条曲线棱</strong>，而是那三条坐标曲线在点 $p$ 处的<strong>方向导数算子 $\\left.\\frac{\\partial}{\\partial x^i}\\right|_p$（乘以参数步长 $\\Delta x^i$）</strong>！</span>
       </div>
     </div>
     <div class="proof-step-item">
       <div class="proof-step-dot">2</div>
       <div>
-        <strong>第二步：如果在 $(x, y, z)$ 坐标网格下切分，它吃掉的是什么？</strong><br/>
-        若直接顺着 $(x, y, z)$ 坐标线切分空间 $V$（步长分别为 $\\Delta x, \\Delta y, \\Delta z$），则每个小砖块的三条棱切向量正是三个坐标偏导基底乘以步长：
-        $$\\vec{\\varepsilon}_1 = \\Delta x \\frac{\\partial}{\\partial x}, \\qquad \\vec{\\varepsilon}_2 = \\Delta y \\frac{\\partial}{\\partial y}, \\qquad \\vec{\\varepsilon}_3 = \\Delta z \\frac{\\partial}{\\partial z}$$
-        现在让 3-形式 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$ <strong>吃掉这三个切向量</strong>，根据行列式定义与对偶律 $\\langle dx^i, \\frac{\\partial}{\\partial x^j} \\rangle = \\delta^i_j$：
-        $$\\omega(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) = \\rho(p) \\cdot (dx \\wedge dy \\wedge dz)\\left(\\Delta x \\frac{\\partial}{\\partial x}, \\; \\Delta y \\frac{\\partial}{\\partial y}, \\; \\Delta z \\frac{\\partial}{\\partial z}\\right) = \\rho(p) \\det \\begin{pmatrix} \\Delta x & 0 & 0 \\\\ 0 & \\Delta y & 0 \\\\ 0 & 0 & \\Delta z \\end{pmatrix} = \\rho(p) \\, \\Delta x \\Delta y \\Delta z$$
-        然后将所有小砖块吐出的实数加起来取极限：$\\sum \\omega(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) \\to \\iiint \\rho \\, dx dy dz$！
+        <strong>第二步：3-形式吃掉方向导数算子，吐出黎曼和实数</strong>：<br/>
+        现在让点 $p$ 处的 3-形式 $\\omega_p = \\rho(p) \\, (dx \\wedge dy \\wedge dz)_p$ <strong>吃掉 $T_p M$ 里的这三个方向导数算子</strong>。根据多线性性与对偶律 $\\langle dx^i, \\frac{\\partial}{\\partial x^j} \\rangle = \\delta^i_j$：
+        $$\\omega_p(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) = \\rho(p) \\cdot (dx \\wedge dy \\wedge dz)_p\\left(\\left.\\frac{\\partial}{\\partial x}\\right|_p, \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\left.\\frac{\\partial}{\\partial z}\\right|_p\\right) \\Delta x \\Delta y \\Delta z = \\rho(p) \\cdot 1 \\cdot \\Delta x \\Delta y \\Delta z$$
+        当参数网格步长 $\\Delta x, \\Delta y, \\Delta z \\to 0$ 时，切空间 $T_p M$ 里用方向导数算子算出的线性主部，与流形微元的真实测度之差是高阶无穷小 $O(\\Delta x^4)$，在对所有网格求和取极限时高阶误差精确归零：$\\sum \\omega_p(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) \\to \\iiint_{\\phi(V)} \\rho \\, dx dy dz$！
       </div>
     </div>
     <div class="proof-step-item">
       <div class="proof-step-dot">3</div>
       <div>
-        <strong>第三步：为什么现代“算子吃切向量”思想彻底秒杀传统“三微元相乘”思想？</strong><br/>
-        • <strong>传统微元思想的骗局</strong>：传统微积分省略了“3-形式吃掉三条棱切向量”的中间过程，直接把吃完后吐出的实数结果 $\\Delta x \\Delta y \\Delta z$ 简记为 $dx dy dz$，让人误以为 $dx, dy, dz$ 只是三个普通微小实数相乘。但一旦换用球坐标 $(r, \\theta, \\phi)$ 切分空间，因为普通实数相乘满足交换律，你无论如何也从 $dx dy dz$ 代数推不出 $r^2\\sin\\theta \\, dr d\\theta d\\phi$，只能靠画图硬背！<br/>
-        • <strong>现代微分形式的威力</strong>：当你改用球坐标网格 $(\\Delta r, \\Delta \\theta, \\Delta \\phi)$ 切分空间 $V$ 时，小砖块的三条棱切向量变成了：
-        $$\\vec{\\varepsilon}_1 = \\Delta r \\frac{\\partial}{\\partial r}, \\qquad \\vec{\\varepsilon}_2 = \\Delta \\theta \\frac{\\partial}{\\partial \\theta}, \\qquad \\vec{\\varepsilon}_3 = \\Delta \\phi \\frac{\\partial}{\\partial \\phi}$$
-        把这三条棱喂给<strong>同一个</strong> 3-形式 $dx \\wedge dy \\wedge dz$，由于 $\\langle dx, \\frac{\\partial}{\\partial r} \\rangle = \\frac{\\partial x}{\\partial r}$，3-形式瞬间自动算出 $3 \\times 3$ 雅可比行列式：
-        $$(dx \\wedge dy \\wedge dz)(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) = \\det\\left(\\frac{\\partial(x,y,z)}{\\partial(r,\\theta,\\phi)}\\right) \\Delta r \\Delta \\theta \\Delta \\phi = r^2 \\sin\\theta \\, \\Delta r \\Delta \\theta \\Delta \\phi$$
-        <strong>不论你用什么形状的网格去切分空间 $V$，只要把切出来的小砖块的三条棱切向量喂给 3-形式 $\\omega$，它永远自动吐出正确转换后的体积微元实数！</strong>
+        <strong>第三步：为什么现代“算子吃方向导数”思想彻底秒杀传统“三微元相乘”思想？</strong><br/>
+        • <strong>传统微元思想的缺陷</strong>：传统微积分省略了“3-形式吃掉方向导数算子 $\\left.\\frac{\\partial}{\\partial x^i}\\right|_p$”的过程，直接把吃完后剩余的参数步长乘积 $\\Delta x \\Delta y \\Delta z$ 简记为 $dx dy dz$，让人误以为 $dx, dy, dz$ 只是三个普通微小实数相乘。一旦换用球坐标 $(r, \\theta, \\phi)$，因为实数乘法可交换，从 $dx dy dz$ 根本代数推不出雅可比行列式 $r^2\\sin\\theta \\, dr d\\theta d\\phi$！<br/>
+        • <strong>现代微分形式的威力</strong>：当你改用球坐标参数 $(r, \\theta, \\phi)$ 画出流形上的三条坐标曲线时，它们在点 $p$ 生成的方向导数算子变成了 $\\left.\\frac{\\partial}{\\partial r}\\right|_p, \\left.\\frac{\\partial}{\\partial \\theta}\\right|_p, \\left.\\frac{\\partial}{\\partial \\phi}\\right|_p \\in T_p M$。把它们喂给<strong>同一个</strong> 3-形式 $dx \\wedge dy \\wedge dz$，由于 $\\langle dx, \\frac{\\partial}{\\partial r} \\rangle = \\frac{\\partial x}{\\partial r}$，立刻自动吐出 $3 \\times 3$ 雅可比行列式：
+        $$(dx \\wedge dy \\wedge dz)_p\\left(\\Delta r \\frac{\\partial}{\\partial r}, \\; \\Delta \\theta \\frac{\\partial}{\\partial \\theta}, \\; \\Delta \\phi \\frac{\\partial}{\\partial \\phi}\\right) = \\det\\left(\\frac{\\partial(x,y,z)}{\\partial(r,\\theta,\\phi)}\\right) \\Delta r \\Delta \\theta \\Delta \\phi = r^2 \\sin\\theta \\, \\Delta r \\Delta \\theta \\Delta \\phi$$
       </div>
     </div>
   </div>
@@ -835,11 +834,11 @@ export const diffGeomChapter = {
 <div class="math-definition">
   <div class="math-definition-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
-    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms) —— 从切向量喂食到黎曼积分</span>
+    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms) —— 从方向导数算子喂食到黎曼积分</span>
   </div>
-  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集 $n$-形式。在局部正向坐标卡 $(U, \\phi)$ 下，形式写为 $\\omega = f(x^1, \\dots, x^n) dx^1 \\wedge \\dots \\wedge dx^n$。将坐标区域 $\\phi(U) \\subset \\mathbb{R}^n$ 剖分为无穷小超立方体网格 $(\\Delta x^1, \\dots, \\Delta x^n)$，每个网格的 $n$ 条棱给出流形上的 $n$ 个切向量 $\\vec{\\varepsilon}_i = \\Delta x^i \\frac{\\partial}{\\partial x^i}$。将它们喂给 $n$-形式 $\\omega$ 并对所有网格求和取极限，即定义出流形上的外积分：</p>
-  $$\\int_U \\omega := \\lim_{\\Delta x \\to 0} \\sum_{\\text{网格}} \\omega\\left(\\Delta x^1 \\frac{\\partial}{\\partial x^1}, \\dots, \\Delta x^n \\frac{\\partial}{\\partial x^n}\\right) = \\int_{\\phi(U)} f(x^1, \\dots, x^n) \\, dx^1 \\dots dx^n$$
-  <p style="font-size:0.88rem; color:#94a3b8; margin-top:-6px;">（注：等号最右端去掉了楔积符号 $\\wedge$ 的 $dx^1 \\dots dx^n$，表示 $n$-形式吃完切向量 $\\Delta x^i \\frac{\\partial}{\\partial x^i}$ 后已经吐出了纯实数乘积 $\\Delta x^1 \\cdots \\Delta x^n$，从而正式化归为欧氏空间 $\\mathbb{R}^n$ 上普通的多重黎曼积分！）</p>
+  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集 $n$-形式。在局部正向坐标卡 $(U, \\phi)$ 下，形式写为 $\\omega = f(x^1, \\dots, x^n) dx^1 \\wedge \\dots \\wedge dx^n$。将平直坐标参数域 $\\phi(U) \\subset \\mathbb{R}^n$ 剖分为无穷小超立方体网格 $(\\Delta x^1, \\dots, \\Delta x^n)$；在流形点 $p$ 处，穿过点 $p$ 的 $n$ 条坐标曲线在切空间 $T_p M$ 中生成 $n$ 个方向导数算子 $\\left.\\frac{\\partial}{\\partial x^i}\\right|_p$。将经步长数乘后的算子 $\\vec{\\varepsilon}_i = \\Delta x^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p \\in T_p M$ 喂给 $n$-形式 $\\omega_p$，并对所有网格求和取极限，即定义出流形上的外积分：</p>
+  $$\\int_U \\omega := \\lim_{\\Delta x \\to 0} \\sum_{\\text{网格}} \\omega_p\\left(\\Delta x^1 \\left.\\frac{\\partial}{\\partial x^1}\\right|_p, \\dots, \\Delta x^n \\left.\\frac{\\partial}{\\partial x^n}\\right|_p\\right) = \\int_{\\phi(U)} f(x^1, \\dots, x^n) \\, dx^1 \\dots dx^n$$
+  <p style="font-size:0.88rem; color:#94a3b8; margin-top:-6px;">（注：等号最右端去掉了楔积符号 $\\wedge$ 的 $dx^1 \\dots dx^n$，表示 $n$-形式吃完方向导数算子 $\\Delta x^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p$ 后已经吐出了参数空间里的纯实数步长乘积 $\\Delta x^1 \\cdots \\Delta x^n$，从而正式化归为欧氏参数空间 $\\mathbb{R}^n$ 上普通的多重黎曼积分！）</p>
   <p>对全流形，借助从属于开覆盖的<strong>单位分解（Partition of Unity）</strong> $\\{\\rho_\\alpha\\}$ 定义：</p>
   $$\\int_M \\omega = \\sum_\\alpha \\int_{U_\\alpha} \\rho_\\alpha \\omega$$
 </div>
@@ -849,12 +848,12 @@ export const diffGeomChapter = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
     <span>对偶维度匹配原则：为什么 $k$-形式必须且只能在 $k$-维流形上积分？</span>
   </div>
-  <p>在现代微分几何中，被积形式的阶数 $k$ 与积分几何区域的维数 $k$ 必须<strong>严格相等</strong>——因为<strong>只有 $k$ 维流形的网格微元，才能不多不少刚好提供 $k$ 条独立棱切向量 $(\\vec{\\varepsilon}_1, \\dots, \\vec{\\varepsilon}_k)$，去填满 $k$-形式 $\\omega(\\cdot, \\dots, \\cdot)$ 的 $k$ 个输入插槽！</strong></p>
+  <p>在现代微分几何中，被积形式的阶数 $k$ 与积分几何区域的维数 $k$ 必须<strong>严格相等</strong>——因为<strong>只有 $k$ 维流形的 $k$ 个独立参数坐标曲线，才能在点 $p$ 的切空间 $T_p M$ 中不多不少刚好生成 $k$ 个独立的方向导数算子 $\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right)$，去填满 $k$-形式 $\\omega_p(\\cdot, \\dots, \\cdot)$ 的 $k$ 个输入插槽！</strong></p>
   <ul>
     <li><strong>0-形式 $f$（0 个插槽）</strong> 积在 <strong>0-维流形（离散点集）</strong>：无需切向量，直接代入点求值 $\\int_{\\{p\\}} f = f(p)$；</li>
-    <li><strong>1-形式 $\\alpha \\in \\Omega^1(M)$（1 个插槽）</strong> 积在 <strong>1-维有向曲线 $\\gamma(t)$</strong>：曲线每小段提供 1 个切向量 $\\vec{\\varepsilon}_1 = \\dot{\\gamma}(t)dt$，喂给 $\\alpha$ 得到 $\\int_\\gamma \\alpha = \\int_a^b \\alpha\\big(\\dot{\\gamma}(t)\\big) dt = \\int_a^b \\alpha_i(\\gamma(t)) \\dot{\\gamma}^i(t) dt$（物理：做功 $\\int \\mathbf{F} \\cdot d\\mathbf{r}$）；</li>
-    <li><strong>2-形式 $\\beta \\in \\Omega^2(M)$（2 个插槽）</strong> 积在 <strong>2-维有向曲面 $\\Sigma(u,v)$</strong>：曲面每个小网格提供 2 个切向量 $\\big(\\frac{\\partial \\Sigma}{\\partial u}du, \\frac{\\partial \\Sigma}{\\partial v}dv\\big)$，喂给 $\\beta$ 得到 $\\iint_\\Sigma \\beta = \\iint \\beta\\big(\\frac{\\partial \\Sigma}{\\partial u}, \\frac{\\partial \\Sigma}{\\partial v}\\big) du dv$（物理：磁通量 $\\iint \\mathbf{B} \\cdot d\\mathbf{S}$、相椭圆辛面积）；</li>
-    <li><strong>$n$-形式 $\\Omega_{\\text{vol}} \\in \\Omega^n(M)$（$n$ 个插槽）</strong> 积在 <strong>$n$-维实体流形 $V$</strong>：每个 $n$ 维超立方体微元提供 $n$ 条棱切向量填满 $\\Omega_{\\text{vol}}$，算出总质量、总电荷或相空间总概率 $\\int_V \\Omega_{\\text{vol}}$。</li>
+    <li><strong>1-形式 $\\alpha \\in \\Omega^1(M)$（1 个插槽）</strong> 积在 <strong>1-维有向曲线 $\\gamma(t)$</strong>：单参数曲线在每点生成 1 个切导数算子 $\\dot{\\gamma}(t) \\in T_{\\gamma(t)}M$，喂给 $\\alpha$ 并乘以参数微元 $dt$ 得到 $\\int_\\gamma \\alpha = \\int_a^b \\alpha\\big(\\dot{\\gamma}(t)\\big) dt = \\int_a^b \\alpha_i(\\gamma(t)) \\dot{\\gamma}^i(t) dt$（物理：做功 $\\int \\mathbf{F} \\cdot d\\mathbf{r}$）；</li>
+    <li><strong>2-形式 $\\beta \\in \\Omega^2(M)$（2 个插槽）</strong> 积在 <strong>2-维有向曲面 $\\Sigma(u,v)$</strong>：双参数曲面在每点生成 2 个偏导算子 $\\big(\\frac{\\partial \\Sigma}{\\partial u}, \\frac{\\partial \\Sigma}{\\partial v}\\big)$，喂给 $\\beta$ 并乘以参数网格面积 $du dv$ 得到 $\\iint_\\Sigma \\beta = \\iint \\beta\\big(\\frac{\\partial \\Sigma}{\\partial u}, \\frac{\\partial \\Sigma}{\\partial v}\\big) du dv$（物理：磁通量 $\\iint \\mathbf{B} \\cdot d\\mathbf{S}$、相椭圆辛面积）；</li>
+    <li><strong>$n$-形式 $\\Omega_{\\text{vol}} \\in \\Omega^n(M)$（$n$ 个插槽）</strong> 积在 <strong>$n$-维实体流形 $V$</strong>：$n$ 条坐标曲线在每点生成 $n$ 个方向导数算子填满 $\\Omega_{\\text{vol}}$，算出总质量、总电荷或相空间总概率 $\\int_V \\Omega_{\\text{vol}}$。</li>
   </ul>
 </div>
 
