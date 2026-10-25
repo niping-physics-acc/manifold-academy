@@ -555,6 +555,50 @@ export const diffGeomChapter = {
     <li><strong>维数封顶截断</strong>：当 $k > n = \\dim M$ 时，由于抽屉原理，任何超过 $n$ 个坐标基底相乘必有重复项（如在二维平面上 $dx \\wedge dy \\wedge dx = - dx \\wedge dx \\wedge dy = 0$），因此形式阶数在空间维数处自动截断：$\\Omega^{k > n}(M) = \\{0\\}$。</li>
   </ul>
 </div>
+
+<div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); margin-top: 20px;">
+  <div class="math-proof-title">
+    <span>🌉 核心思维转换：在积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$ 中，3-形式到底吃掉了哪三个切向量？</span>
+    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Classical Infinitesimals vs. Differential Forms</span>
+  </div>
+  <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:12px;">
+    <strong>初学者最大的认知冲突</strong>：在高等微积分里，大家习惯把 $\\iiint_V \\rho \\, dx dy dz$ 中的 $dx, dy, dz$ 当成“三个微小实数长度相乘”。但现在我们说 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$ 是一个 <strong>3-形式（带有 3 个空插槽 $\\omega(\\cdot, \\cdot, \\cdot)$、必须吃进 3 个切向量才能吐出实数的测量算子）</strong>！那么问题来了：<strong>在写下积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$ 时，并没有看到显式写出的切向量，它究竟作用在了哪三个切向量上，才变成了可以相加求和的实数？</strong>
+  </p>
+  <div class="math-proof-steps">
+    <div class="proof-step-item">
+      <div class="proof-step-dot">1</div>
+      <div>
+        <strong>第一步：积分区域 $V$ 的网格剖分，就是“切向量喂食器”！</strong><br/>
+        要做重积分 $\\iiint_V \\omega$，第一步是把三维积分区域 $V$ 像切豆腐一样，剖分成无数个无穷小平行六面体微元（小砖块）。<br/>
+        在每一个小砖块的顶点 $p$ 处，<strong>沿着小砖块的三条相邻棱，天然张成了三个无穷小切向量 $(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) \\in T_p M$</strong>！<br/>
+        <span style="color:#38bdf8;"><strong>关键真相</strong>：积分号下的 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$ 是“待喂食的测量机”，而积分号下标里的几何区域 $\\iiint_V$ 则负责把区域切碎，把每个小砖块的三条棱切向量 $(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3)$ 塞进 3-形式的三个插槽里！</span>
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">2</div>
+      <div>
+        <strong>第二步：如果在 $(x, y, z)$ 坐标网格下切分，它吃掉的是什么？</strong><br/>
+        若直接顺着 $(x, y, z)$ 坐标线切分空间 $V$（步长分别为 $\\Delta x, \\Delta y, \\Delta z$），则每个小砖块的三条棱切向量正是三个坐标偏导基底乘以步长：
+        $$\\vec{\\varepsilon}_1 = \\Delta x \\frac{\\partial}{\\partial x}, \\qquad \\vec{\\varepsilon}_2 = \\Delta y \\frac{\\partial}{\\partial y}, \\qquad \\vec{\\varepsilon}_3 = \\Delta z \\frac{\\partial}{\\partial z}$$
+        现在让 3-形式 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$ <strong>吃掉这三个切向量</strong>，根据行列式定义与对偶律 $\\langle dx^i, \\frac{\\partial}{\\partial x^j} \\rangle = \\delta^i_j$：
+        $$\\omega(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) = \\rho(p) \\cdot (dx \\wedge dy \\wedge dz)\\left(\\Delta x \\frac{\\partial}{\\partial x}, \\; \\Delta y \\frac{\\partial}{\\partial y}, \\; \\Delta z \\frac{\\partial}{\\partial z}\\right) = \\rho(p) \\det \\begin{pmatrix} \\Delta x & 0 & 0 \\\\ 0 & \\Delta y & 0 \\\\ 0 & 0 & \\Delta z \\end{pmatrix} = \\rho(p) \\, \\Delta x \\Delta y \\Delta z$$
+        然后将所有小砖块吐出的实数加起来取极限：$\\sum \\omega(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) \\to \\iiint \\rho \\, dx dy dz$！
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">3</div>
+      <div>
+        <strong>第三步：为什么现代“算子吃切向量”思想彻底秒杀传统“三微元相乘”思想？</strong><br/>
+        • <strong>传统微元思想的骗局</strong>：传统微积分省略了“3-形式吃掉三条棱切向量”的中间过程，直接把吃完后吐出的实数结果 $\\Delta x \\Delta y \\Delta z$ 简记为 $dx dy dz$，让人误以为 $dx, dy, dz$ 只是三个普通微小实数相乘。但一旦换用球坐标 $(r, \\theta, \\phi)$ 切分空间，因为普通实数相乘满足交换律，你无论如何也从 $dx dy dz$ 代数推不出 $r^2\\sin\\theta \\, dr d\\theta d\\phi$，只能靠画图硬背！<br/>
+        • <strong>现代微分形式的威力</strong>：当你改用球坐标网格 $(\\Delta r, \\Delta \\theta, \\Delta \\phi)$ 切分空间 $V$ 时，小砖块的三条棱切向量变成了：
+        $$\\vec{\\varepsilon}_1 = \\Delta r \\frac{\\partial}{\\partial r}, \\qquad \\vec{\\varepsilon}_2 = \\Delta \\theta \\frac{\\partial}{\\partial \\theta}, \\qquad \\vec{\\varepsilon}_3 = \\Delta \\phi \\frac{\\partial}{\\partial \\phi}$$
+        把这三条棱喂给<strong>同一个</strong> 3-形式 $dx \\wedge dy \\wedge dz$，由于 $\\langle dx, \\frac{\\partial}{\\partial r} \\rangle = \\frac{\\partial x}{\\partial r}$，3-形式瞬间自动算出 $3 \\times 3$ 雅可比行列式：
+        $$(dx \\wedge dy \\wedge dz)(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) = \\det\\left(\\frac{\\partial(x,y,z)}{\\partial(r,\\theta,\\phi)}\\right) \\Delta r \\Delta \\theta \\Delta \\phi = r^2 \\sin\\theta \\, \\Delta r \\Delta \\theta \\Delta \\phi$$
+        <strong>不论你用什么形状的网格去切分空间 $V$，只要把切出来的小砖块的三条棱切向量喂给 3-形式 $\\omega$，它永远自动吐出正确转换后的体积微元实数！</strong>
+      </div>
+    </div>
+  </div>
+</div>
       `
     },
     {
@@ -791,10 +835,11 @@ export const diffGeomChapter = {
 <div class="math-definition">
   <div class="math-definition-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
-    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms)</span>
+    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms) —— 从切向量喂食到黎曼积分</span>
   </div>
-  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集顶形式。在局部坐标卡 $(U, \\phi)$ 下，形式写为 $\\omega = f(x^1, \\dots, x^n) dx^1 \\wedge \\dots \\wedge dx^n$。定义其外积分为：</p>
-  $$\\int_U \\omega = \\int_{\\phi(U)} f(x^1, \\dots, x^n) dx^1 \\dots dx^n$$
+  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集 $n$-形式。在局部正向坐标卡 $(U, \\phi)$ 下，形式写为 $\\omega = f(x^1, \\dots, x^n) dx^1 \\wedge \\dots \\wedge dx^n$。将坐标区域 $\\phi(U) \\subset \\mathbb{R}^n$ 剖分为无穷小超立方体网格 $(\\Delta x^1, \\dots, \\Delta x^n)$，每个网格的 $n$ 条棱给出流形上的 $n$ 个切向量 $\\vec{\\varepsilon}_i = \\Delta x^i \\frac{\\partial}{\\partial x^i}$。将它们喂给 $n$-形式 $\\omega$ 并对所有网格求和取极限，即定义出流形上的外积分：</p>
+  $$\\int_U \\omega := \\lim_{\\Delta x \\to 0} \\sum_{\\text{网格}} \\omega\\left(\\Delta x^1 \\frac{\\partial}{\\partial x^1}, \\dots, \\Delta x^n \\frac{\\partial}{\\partial x^n}\\right) = \\int_{\\phi(U)} f(x^1, \\dots, x^n) \\, dx^1 \\dots dx^n$$
+  <p style="font-size:0.88rem; color:#94a3b8; margin-top:-6px;">（注：等号最右端去掉了楔积符号 $\\wedge$ 的 $dx^1 \\dots dx^n$，表示 $n$-形式吃完切向量 $\\Delta x^i \\frac{\\partial}{\\partial x^i}$ 后已经吐出了纯实数乘积 $\\Delta x^1 \\cdots \\Delta x^n$，从而正式化归为欧氏空间 $\\mathbb{R}^n$ 上普通的多重黎曼积分！）</p>
   <p>对全流形，借助从属于开覆盖的<strong>单位分解（Partition of Unity）</strong> $\\{\\rho_\\alpha\\}$ 定义：</p>
   $$\\int_M \\omega = \\sum_\\alpha \\int_{U_\\alpha} \\rho_\\alpha \\omega$$
 </div>
@@ -802,14 +847,14 @@ export const diffGeomChapter = {
 <div class="math-definition">
   <div class="math-definition-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
-    <span>对偶维度匹配原则：$k$-形式与 $k$-维流形</span>
+    <span>对偶维度匹配原则：为什么 $k$-形式必须且只能在 $k$-维流形上积分？</span>
   </div>
-  <p>在现代微分几何中，被积形式的阶数与几何积分区域的维数必须<strong>严格对偶相等</strong>：</p>
+  <p>在现代微分几何中，被积形式的阶数 $k$ 与积分几何区域的维数 $k$ 必须<strong>严格相等</strong>——因为<strong>只有 $k$ 维流形的网格微元，才能不多不少刚好提供 $k$ 条独立棱切向量 $(\\vec{\\varepsilon}_1, \\dots, \\vec{\\varepsilon}_k)$，去填满 $k$-形式 $\\omega(\\cdot, \\dots, \\cdot)$ 的 $k$ 个输入插槽！</strong></p>
   <ul>
-    <li><strong>0-形式 $f$</strong> 积在 <strong>0-维流形（离散点集）</strong>：$\\int_{\\{p\\}} f = f(p)$；</li>
-    <li><strong>1-形式 $\\alpha \\in \\Omega^1(M)$</strong> 积在 <strong>1-维有向曲线 $\\gamma$</strong>：$\\int_\\gamma \\alpha = \\int_a^b \\alpha_i(\\gamma(t)) \\dot{\\gamma}^i(t) dt$（物理：做功 $\\int \\mathbf{F} \\cdot d\\mathbf{r}$、正则相线积分 $\\oint p dq$）；</li>
-    <li><strong>2-形式 $\\beta \\in \\Omega^2(M)$</strong> 积在 <strong>2-维有向曲面 $\\Sigma$</strong>：$\\iint_\\Sigma \\beta$（物理：穿过截面的磁通量 $\\iint \\mathbf{B} \\cdot d\\mathbf{S}$、相空间辛面积）；</li>
-    <li><strong>$n$-形式 $\\Omega_{\\text{vol}} \\in \\Omega^n(M)$</strong> 积在 <strong>$n$-维实体流形 $V$</strong>：$\\int_V \\Omega_{\\text{vol}}$（物理：相空间总概率、全电荷量）。</li>
+    <li><strong>0-形式 $f$（0 个插槽）</strong> 积在 <strong>0-维流形（离散点集）</strong>：无需切向量，直接代入点求值 $\\int_{\\{p\\}} f = f(p)$；</li>
+    <li><strong>1-形式 $\\alpha \\in \\Omega^1(M)$（1 个插槽）</strong> 积在 <strong>1-维有向曲线 $\\gamma(t)$</strong>：曲线每小段提供 1 个切向量 $\\vec{\\varepsilon}_1 = \\dot{\\gamma}(t)dt$，喂给 $\\alpha$ 得到 $\\int_\\gamma \\alpha = \\int_a^b \\alpha\\big(\\dot{\\gamma}(t)\\big) dt = \\int_a^b \\alpha_i(\\gamma(t)) \\dot{\\gamma}^i(t) dt$（物理：做功 $\\int \\mathbf{F} \\cdot d\\mathbf{r}$）；</li>
+    <li><strong>2-形式 $\\beta \\in \\Omega^2(M)$（2 个插槽）</strong> 积在 <strong>2-维有向曲面 $\\Sigma(u,v)$</strong>：曲面每个小网格提供 2 个切向量 $\\big(\\frac{\\partial \\Sigma}{\\partial u}du, \\frac{\\partial \\Sigma}{\\partial v}dv\\big)$，喂给 $\\beta$ 得到 $\\iint_\\Sigma \\beta = \\iint \\beta\\big(\\frac{\\partial \\Sigma}{\\partial u}, \\frac{\\partial \\Sigma}{\\partial v}\\big) du dv$（物理：磁通量 $\\iint \\mathbf{B} \\cdot d\\mathbf{S}$、相椭圆辛面积）；</li>
+    <li><strong>$n$-形式 $\\Omega_{\\text{vol}} \\in \\Omega^n(M)$（$n$ 个插槽）</strong> 积在 <strong>$n$-维实体流形 $V$</strong>：每个 $n$ 维超立方体微元提供 $n$ 条棱切向量填满 $\\Omega_{\\text{vol}}$，算出总质量、总电荷或相空间总概率 $\\int_V \\Omega_{\\text{vol}}$。</li>
   </ul>
 </div>
 
