@@ -151,6 +151,44 @@ export const diffGeomChapter = {
   <div class="qed-symbol">■ Q.E.D.</div>
 </div>
 
+<div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); margin-top: 16px;">
+  <div class="math-proof-title">
+    <span>🔍 灵魂追问：在莱布尼茨代数证明中，究竟是哪一步要求方向导数必须拘束在“切平面”内？</span>
+    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Why Leibniz Rule Forces Tangency</span>
+  </div>
+  <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:12px;">
+    <strong>极易被忽略的盲点</strong>：回看上面定理 1.0 的整套代数推导，我们只用了线性性和莱布尼茨法则 $X_p(fg) = f(p)X_p(g) + g(p)X_p(f)$，表面上似乎完全没提“切平面”或“禁止指向法线方向”。<strong>那究竟是哪一步暗中把 $X_p$ 的方向死死按在了流形的切平面内？</strong><br/>
+    答案可以从<strong>内蕴定义域</strong>与<strong>外围嵌入约束</strong>两个视角彻底看穿（其中第二个视角堪称微分几何最震撼的代数奇迹）：
+  </p>
+  <div class="math-proof-steps">
+    <div class="proof-step-item">
+      <div class="proof-step-dot">1</div>
+      <div>
+        <strong>视角一（内蕴视角）：紧箍咒藏在输入函数的定义域 $C^\\infty(M)$ 与第三步的坐标个数 $n$ 里！</strong><br/>
+        • 注意定义 1.1 中算子 $X_p : C^\\infty(p) \\to \\mathbb{R}$ 吃进肚子的函数 $f \\in C^\\infty(M)$，<strong>仅仅定义在 $n$ 维流形 $M$ 本身之上</strong>，压根不存在“流形外面的函数值”！<br/>
+        • 当我们在第三步（Hadamard 引理）使用局部图卡 $\\phi(q) = (x^1, \\dots, x^n) \\in \\mathbb{R}^n$ 展开 $f$ 时，这 $n$ 个坐标 $(x^1, \\dots, x^n)$ 是<strong>顺着流形内部贴的 $n$ 个内蕴参数</strong>（例如二维球面上的经纬度 $(\\theta, \\phi)$）。因为 $f$ 在流形法向（如球面半径 $r \\neq 1$ 处）根本没有定义，你连法向差分 $\\frac{f(r+\\epsilon)-f(r)}{\\epsilon}$ 都写不出来，所以展开式天然只有流形内部的 $n$ 个方向 $\\frac{\\partial}{\\partial x^1}, \\dots, \\frac{\\partial}{\\partial x^n}$！
+      </div>
+    </div>
+    <div class="proof-step-item">
+      <div class="proof-step-dot">2</div>
+      <div>
+        <strong>视角二（外围空间嵌入视角 —— 莱布尼茨法则如何自动杀死法向分量？）：</strong><br/>
+        有人会问：<em>“如果我把二维球面 $S^2$ 嵌在三维空间 $\\mathbb{R}^3$ 中（方程为 $x^2 + y^2 + z^2 = 1$），强行用外围的 3 个笛卡尔坐标 $(x, y, z)\\big|_{S^2} \\in C^\\infty(S^2)$ 放进莱布尼茨算子 $X_p$ 里，为什么 $\\big(X_p(x), X_p(y), X_p(z)\\big)$ 不会指向球面外的法线方向？”</em><br/>
+        请看<strong>第一步（杀死常数 $X_p(c) = 0$）与莱布尼茨法则的联手绝杀</strong>：<br/>
+        • 考虑外围三维空间的函数 $G(x,y,z) = x^2 + y^2 + z^2$。当限制在二维球面 $S^2$ 上时，<strong>$G\\big|_{S^2} = x^2 + y^2 + z^2 \\equiv 1$ 是球面 $S^2$ 上的一个常数函数！</strong><br/>
+        • 既然 $x^2 + y^2 + z^2 = 1$ 在 $C^\\infty(S^2)$ 中等于常数 $1$，我们把任意满足莱布尼茨律的算子 $X_p$ 作用在这个恒等式两边：<br/>
+        ① <strong>等式右边（由证明第一步：常数导数必为 0）</strong>：
+        $$X_p(1) = 0$$
+        ② <strong>等式左边（对 $x \\cdot x + y \\cdot y + z \\cdot z$ 直接使用莱布尼茨乘积法则）</strong>：
+        $$X_p(x^2 + y^2 + z^2) = 2x(p)\\,X_p(x) + 2y(p)\\,X_p(y) + 2z(p)\\,X_p(z)$$
+        • 令左右两边相等，莱布尼茨法则<strong>当场自动导出正交方程</strong>：
+        $$2x(p)\\,X_p(x) + 2y(p)\\,X_p(y) + 2z(p)\\,X_p(z) = 0 \\quad \\Longleftrightarrow \\quad \\underbrace{\\nabla G(p)}_{\\text{曲面法向量 } \\vec{n}_p} \\cdot \\underbrace{\\big(X_p(x),\\, X_p(y),\\, X_p(z)\\big)}_{\\text{导子在 } \\mathbb{R}^3 \\text{ 中的方向矢量 } \\vec{v}} = 0 \\; !!$$
+        <span style="color:#38bdf8;"><strong>醍醐灌顶的结论</strong>：正是<strong>定理证明的第一步 $X_p(\\text{常数}) = 0$ 结合莱布尼茨法则</strong>！因为定义流形的约束方程 $G(x,y,z) = c$ 在流形上恒为常数，任何作用在 $C^\\infty(M)$ 上的莱布尼茨导子 $X_p$ 作用在约束函数 $G$ 上必须得 $0$，而 $X_p(G) = \\nabla G(p) \\cdot \\vec{v} = 0$ 恰恰就是<strong>“方向矢量 $\\vec{v}$ 必须与曲面法向量 $\\vec{n}_p = \\nabla G(p)$ 严格垂直（即 100% 拘束在切平面内）”</strong>的充要条件！</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="math-intuition">
   <div class="math-intuition-title">
     <span>💡 为什么切向量是“导数算子”而不是“带箭头的线段”？</span>
