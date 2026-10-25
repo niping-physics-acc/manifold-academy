@@ -558,48 +558,47 @@ export const diffGeomChapter = {
 
 <div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); margin-top: 20px;">
   <div class="math-proof-title">
-    <span>🌉 核心思维转换：在积分 $\\int_M \\omega$ 中，$k$-形式到底吃掉了什么切向量？</span>
-    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Classical Infinitesimals vs. Differential Forms</span>
+    <span>🌉 核心思维转换：在积分 $\\int_M \\omega$ 中，$k$-形式到底吃了什么？$\\Delta u$ 又是什么？</span>
+    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Two-Step Mechanism: Operator Evaluation vs. Riemann Measure</span>
   </div>
   <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:12px;">
-    <strong>初学者最大的两重认知冲突</strong>：<br/>
-    1. 在高等微积分里，大家习惯把 $\\iiint_V \\rho \\, dx dy dz$ 中的 $dx, dy, dz$ 当成“三个微小实数长度相乘”；但现代几何说 $k$-形式 $\\omega$ 是<strong>必须吃进 $k$ 个切向量算子 $\\omega_p(\\cdot, \\dots, \\cdot)$ 才能吐出实数的测量机</strong>——那积分时它到底吃掉了哪几个切向量？<br/>
-    2. 更尖锐的问题：<strong>如果流形 $M$ 是弯曲的（比如三维空间 $(x,y,z)$ 里的二维球面 $S^2$），纯粹的 $x, y, z$ 方向（$\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$）会直接穿出球面，根本不在球面的切空间 $T_p S^2$ 里！</strong>那形式到底吃的是谁？
+    <strong>拒绝“把空间分割 $\\Delta u$ 硬塞给切向量”的和稀泥解释！</strong><br/>
+    很多教材为了迁就微积分直觉，会把 $\\Delta u \\frac{\\partial}{\\partial u}$ 说成“无穷小切向量”塞给微分形式——但这其实混淆了两个完全不同层面的数学操作！在严格的现代微分几何中，外积分 $\\int_M \\omega$ 是<strong>先后发生、职责完全分离的两步流水线</strong>：
   </p>
   <div class="math-proof-steps">
     <div class="proof-step-item">
       <div class="proof-step-dot">1</div>
       <div>
-        <strong>第一步（核心铁律）：形式吃的绝不是外围空间的 $\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$，而是流形“自身内蕴坐标 $(u^1, \\dots, u^k)$”生成的方向导数算子！</strong><br/>
-        • 设 $M$ 是一个 $k$ 维弯曲流形，我们用它<strong>自身的内蕴坐标图卡 $(u^1, \\dots, u^k) \\in \\phi(U) \\subset \\mathbb{R}^k$</strong> 为流形上的点贴标签（例如二维球面 $S^2$ 的内蕴坐标是经纬度 $(u^1, u^2) = (\\theta, \\phi)$，而不是外围三维空间的 $(x,y,z)$！）；<br/>
-        • 真正的“直边小网格” $(\\Delta u^1, \\dots, \\Delta u^k)$ 切在<strong>平直的内蕴参数地图纸 $\\phi(U) \\subset \\mathbb{R}^k$</strong> 上；<br/>
-        • 在弯曲流形 $M$ 的点 $p$ 处，只改变一个内蕴参数 $u^a$（其余固定），点 $p$ <strong>严格沿着流形表面内部</strong>画出一根光滑的内蕴坐标曲线（绝不会穿出流形！）；<br/>
-        • 按照 1.2 节定义，这 $k$ 条躺在流形内部的坐标曲线，在点 $p$ 处生成了<strong>$k$ 个 100% 属于流形切空间 $T_p M$ 的内蕴方向导数算子</strong>：
-        $$\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\; \\dots, \\; \\left.\\frac{\\partial}{\\partial u^k}\\right|_p \\in T_p M$$
-        • 再乘上参数步长实数 $\\Delta u^a$，喂给 $k$-形式 $\\omega_p$ 的正是这 $k$ 个内蕴切算子：
-        $$\\vec{\\varepsilon}_a = \\Delta u^a \\left.\\frac{\\partial}{\\partial u^a}\\right|_p \\in T_p M \\qquad (a = 1, \\dots, k)$$
+        <strong>先看最透明的 1 维典范：曲线积分 $\\int_\\gamma \\alpha = \\int_a^b \\alpha\\big(\\dot{\\gamma}(t)\\big) \\, dt$</strong><br/>
+        • 想想看：1-形式 $\\alpha$ 吃掉的是 $\\dot{\\gamma}(t) \\Delta t$ 吗？<strong>绝不是！</strong>$\\alpha$ 吃掉的仅仅是<strong>有限大小的速度导数算子 $\\dot{\\gamma}(t) = \\gamma_*\\left(\\frac{d}{dt}\\right) \\in T_{\\gamma(t)}M$</strong>（里面根本没有 $\\Delta t$！）；<br/>
+        • <strong>第一阶段（代数喂食）</strong>：1-形式 $\\alpha$ 吃掉有限切向量算子 $\\dot{\\gamma}(t)$ 后，它作为“微分形式”的使命就已经<strong>100% 结束了</strong>，当场吐出一个定义在区间 $[a,b] \\subset \\mathbb{R}$ 上的<strong>普通一元实函数（功率密度）</strong>：$g(t) := \\alpha_{\\gamma(t)}\\big(\\dot{\\gamma}(t)\\big) \\in \\mathbb{R}$；<br/>
+        • <strong>第二阶段（普通大一黎曼积分）</strong>：现在面对普通实函数 $g(t)$，我们在平直实数轴 $[a,b]$ 上做最普通的大一黎曼积分 $\\int_a^b g(t) \\, dt = \\lim_{\\Delta t \\to 0} \\sum g(t_i) \\Delta t_i$。<strong>这里的 $\\Delta t$（即 $dt$）与切向量毫无关系，它纯粹是大一实变函数黎曼求和里的参数区间宽度（勒贝格测度）！</strong>
       </div>
     </div>
     <div class="proof-step-item">
       <div class="proof-step-dot">2</div>
       <div>
-        <strong>第二步（鲜活验证）：当二维弯曲曲面 $\\Sigma(u,v)$ 嵌在三维空间 $(x,y,z)$ 中时，怎么积分？</strong><br/>
-        假设在三维空间 $\\mathbb{R}^3$ 中有一张二维弯曲曲面 $\\Sigma$，其内蕴参数为 $(u, v)$，嵌入方程为 $\\big(x(u,v), y(u,v), z(u,v)\\big)$。现在要在曲面上积分 2-形式 $\\beta = B_z(p) \\, dx \\wedge dy$：<br/>
-        • 曲面切空间 $T_p \\Sigma$ 是 <strong>2 维</strong>的，纯的 $\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$ 确实<strong>不在</strong> $T_p \\Sigma$ 中！<br/>
-        • 真正属于曲面切空间 $T_p \\Sigma$ 的基算子，是沿着曲面内蕴参数 $(u, v)$ 的两个方向导数算子（由链式法则，它们是外围基算子的特定切向组合）：
-        $$\\left.\\frac{\\partial}{\\partial u}\\right|_p = \\frac{\\partial x}{\\partial u}\\frac{\\partial}{\\partial x} + \\frac{\\partial y}{\\partial u}\\frac{\\partial}{\\partial y} + \\frac{\\partial z}{\\partial u}\\frac{\\partial}{\\partial z} \\in T_p \\Sigma, \\qquad \\left.\\frac{\\partial}{\\partial v}\\right|_p = \\frac{\\partial x}{\\partial v}\\frac{\\partial}{\\partial x} + \\frac{\\partial y}{\\partial v}\\frac{\\partial}{\\partial y} + \\frac{\\partial z}{\\partial v}\\frac{\\partial}{\\partial z} \\in T_p \\Sigma$$
-        • 积分 $\\iint_\\Sigma B_z \\, dx \\wedge dy$ 时，喂给 2-形式 $dx \\wedge dy$ 的<strong>正是属于 $T_p \\Sigma$ 的这两个内蕴算子 $\\left(\\Delta u \\left.\\frac{\\partial}{\\partial u}\\right|_p, \\; \\Delta v \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right)$</strong>！因为 $dx\\left(\\frac{\\partial}{\\partial u}\\right) = \\frac{\\partial x}{\\partial u}$，2-形式吃完它们立刻吐出曲面投影的雅可比行列式：
-        $$(B_z \\, dx \\wedge dy)_p\\left(\\Delta u \\left.\\frac{\\partial}{\\partial u}\\right|_p, \\; \\Delta v \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right) = B_z(p) \\det \\begin{pmatrix} \\frac{\\partial x}{\\partial u} & \\frac{\\partial x}{\\partial v} \\\\ \\frac{\\partial y}{\\partial u} & \\frac{\\partial y}{\\partial v} \\end{pmatrix} \\Delta u \\Delta v$$
+        <strong>完全同理：$k$ 维流形外积分 $\\int_M \\omega$ 的严格两步分解</strong><br/>
+        设 $k$ 维弯曲流形 $M$ 的局部内蕴坐标参数为 $(u^1, \\dots, u^k) \\in D \\subset \\mathbb{R}^k$（注意：内蕴坐标曲线完全躺在流形内部，生成的基算子 $\\left.\\frac{\\partial}{\\partial u^a}\\right|_p \\in T_p M$ 100% 属于流形切空间，绝不会穿出流形）：<br/>
+        • <strong>第一步（纯代数求值——形式吃掉有限基导数算子，不含任何 $\\Delta u$！）</strong>：<br/>
+        在每一点 $p = \\Phi(u^1, \\dots, u^k)$，我们把切空间 $T_p M$ 中那 $k$ 个<strong>有限大小的自然基方向导数算子</strong> $\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right)$ 直接喂给 $k$-形式 $\\omega_p$。吃完之后，$\\omega_p$ 立刻退化为一个定义在参数域 $D \\subset \\mathbb{R}^k$ 上的<strong>普通多元标量函数（比率密度函数）</strong>：
+        $$F(u^1, \\dots, u^k) := \\omega_{\\Phi(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\; \\dots, \\; \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right) \\in \\mathbb{R}$$
+        • <strong>第二步（在平直参数空间 $\\mathbb{R}^k$ 上对普通标量函数 $F(u)$ 做大一多重黎曼积分）</strong>：<br/>
+        既然 $\\omega$ 已经吃完切算子变成了 $\\mathbb{R}^k$ 上的普通实函数 $F(u^1, \\dots, u^k)$，接下来根本不再涉及任何流形或切向量，直接用大一微积分的黎曼和（函数高度 $F(u) \\times$ 参数网格宽度 $\\Delta u^1 \\cdots \\Delta u^k$）对 $F(u)$ 积分：
+        $$\\int_M \\omega := \\int_{D \\subset \\mathbb{R}^k} \\underbrace{\\omega_{\\Phi(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right)}_{\\text{普通标量函数 } F(u^1, \\dots, u^k)} \\, du^1 \\cdots du^k = \\lim_{\\Delta u \\to 0} \\sum F(u) \\, \\Delta u^1 \\cdots \\Delta u^k$$
       </div>
     </div>
     <div class="proof-step-item">
       <div class="proof-step-dot">3</div>
       <div>
-        <strong>第三步：回到三维体积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$（当积分区域 $V$ 本身就是三维开集时）</strong>：<br/>
-        只有在积分区域 $V \\subset \\mathbb{R}^3$ <strong>本身就是三维空间</strong>（$\\dim V = 3$）时：
-        <br/>• 若我们用任意三维曲线坐标/内蕴参数 $(u^1, u^2, u^3)$（如球坐标 $(r, \\theta, \\phi)$）给 $V$ 贴标签，喂给 $dx \\wedge dy \\wedge dz$ 的就是 $\\left(\\Delta r \\frac{\\partial}{\\partial r}, \\; \\Delta \\theta \\frac{\\partial}{\\partial \\theta}, \\; \\Delta \\phi \\frac{\\partial}{\\partial \\phi}\\right) \\in T_p V$，吃完自动吐出三维雅可比行列式 $\\det\\left(\\frac{\\partial(x,y,z)}{\\partial(r,\\theta,\\phi)}\\right) \\Delta r \\Delta \\theta \\Delta \\phi = r^2\\sin\\theta \\, \\Delta r \\Delta \\theta \\Delta \\phi$；
-        <br/>• 若我们直接取平直笛卡尔坐标 $(u^1, u^2, u^3) = (x, y, z)$ 本身作为这片三维区域的参数，此时 $\\left.\\frac{\\partial}{\\partial x}\\right|_p, \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\left.\\frac{\\partial}{\\partial z}\\right|_p$ 就在三维切空间 $T_p V$ 中，喂给 $\\rho \\, dx \\wedge dy \\wedge dz$ 后吐出 $\\rho(p) \\cdot 1 \\cdot \\Delta x \\Delta y \\Delta z$，求和取极限即还原为高等微积分的 $\\iiint \\rho \\, dx dy dz$！
-        <br/><span style="color:#38bdf8;"><strong>总结</strong>：传统微积分省略了“<strong>形式吃掉流形内蕴方向导数算子 $\\Delta u^a \\left.\\frac{\\partial}{\\partial u^a}\\right|_p$</strong>”这一步，直接把在平直笛卡尔参数下吃完后剩下的参数步长乘积 $\\Delta x \\Delta y \\Delta z$ 简记成了 $dx dy dz$！</span>
+        <strong>实战检验：二维曲面 $\\Sigma(u,v) \\subset \\mathbb{R}^3$ 与三维体积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$</strong><br/>
+        • <strong>二维弯曲曲面 $\\Sigma(u,v)$ 上积分 $\\beta = B_z \\, dx \\wedge dy$</strong>：<br/>
+        ① <strong>第一步（吃有限算子）</strong>：2-形式 $\\beta$ 吃掉属于曲面切空间 $T_p \\Sigma$ 的两个<strong>有限偏导算子</strong> $\\left(\\left.\\frac{\\partial}{\\partial u}\\right|_p, \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right)$，直接吐出 $(u,v)$ 平面上的普通标量函数：
+        $$F(u,v) = (B_z \\, dx \\wedge dy)_p\\left(\\left.\\frac{\\partial}{\\partial u}\\right|_p, \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right) = B_z(u,v) \\det \\begin{pmatrix} \\frac{\\partial x}{\\partial u} & \\frac{\\partial x}{\\partial v} \\\\ \\frac{\\partial y}{\\partial u} & \\frac{\\partial y}{\\partial v} \\end{pmatrix}$$
+        ② <strong>第二步（普通黎曼积分）</strong>：在平直参数域 $D \\subset \\mathbb{R}^2$ 上对普通二元函数 $F(u,v)$ 做大一二重黎曼积分 $\\iint_D F(u,v) \\, du dv = \\lim \\sum F(u,v) \\Delta u \\Delta v$！<br/>
+        • <strong>三维区域 $V \\subset \\mathbb{R}^3$ 上积分 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$</strong>：<br/>
+        若用平直笛卡尔坐标 $(x,y,z)$ 作参数，<strong>第一步</strong> $\\omega$ 吃掉三个有限基算子 $\\left(\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}\\right)$，因为 $(dx \\wedge dy \\wedge dz)\\left(\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}\\right) = 1$，吐出的普通标量函数就是 $F(x,y,z) = \\rho(x,y,z) \\cdot 1 = \\rho(x,y,z)$；<strong>第二步</strong>再对普通函数 $\\rho(x,y,z)$ 乘上黎曼分割宽度 $\\Delta x \\Delta y \\Delta z$ 求和取极限，得到 $\\iiint_V \\rho(x,y,z) \\, dx dy dz$！<br/>
+        <span style="color:#38bdf8;"><strong>醍醐灌顶的总结</strong>：外代数 $dx \\wedge dy \\wedge dz$ 里的 $dx$ 是<strong>吃有限切算子 $\\frac{\\partial}{\\partial x}$ 的余切标尺（1-形式）</strong>；而当它吃完 $\\left(\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}\\right)$ 化为数值 $1$ 退场后，大一微积分积分号最后剩下的 $dx dy dz$（即 $\\lim \\Delta x \\Delta y \\Delta z$）则是<strong>平直参数空间 $\\mathbb{R}^3$ 上的普通黎曼/勒贝格体积测度</strong>！两者符号碰巧长得一样，但分别活在“第一步（代数求值）”和“第二步（参数域黎曼求和）”里！</span>
       </div>
     </div>
   </div>
@@ -840,11 +839,14 @@ export const diffGeomChapter = {
 <div class="math-definition">
   <div class="math-definition-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
-    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms) —— 从方向导数算子喂食到黎曼积分</span>
+    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms) —— 严格两步法：先吃有限导数算子，再做参数域黎曼积分</span>
   </div>
-  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集 $n$-形式。在局部正向坐标卡 $(U, \\phi)$ 下，形式写为 $\\omega = f(x^1, \\dots, x^n) dx^1 \\wedge \\dots \\wedge dx^n$。将平直坐标参数域 $\\phi(U) \\subset \\mathbb{R}^n$ 剖分为无穷小超立方体网格 $(\\Delta x^1, \\dots, \\Delta x^n)$；在流形点 $p$ 处，穿过点 $p$ 的 $n$ 条坐标曲线在切空间 $T_p M$ 中生成 $n$ 个方向导数算子 $\\left.\\frac{\\partial}{\\partial x^i}\\right|_p$。将经步长数乘后的算子 $\\vec{\\varepsilon}_i = \\Delta x^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p \\in T_p M$ 喂给 $n$-形式 $\\omega_p$，并对所有网格求和取极限，即定义出流形上的外积分：</p>
-  $$\\int_U \\omega := \\lim_{\\Delta x \\to 0} \\sum_{\\text{网格}} \\omega_p\\left(\\Delta x^1 \\left.\\frac{\\partial}{\\partial x^1}\\right|_p, \\dots, \\Delta x^n \\left.\\frac{\\partial}{\\partial x^n}\\right|_p\\right) = \\int_{\\phi(U)} f(x^1, \\dots, x^n) \\, dx^1 \\dots dx^n$$
-  <p style="font-size:0.88rem; color:#94a3b8; margin-top:-6px;">（注：等号最右端去掉了楔积符号 $\\wedge$ 的 $dx^1 \\dots dx^n$，表示 $n$-形式吃完方向导数算子 $\\Delta x^i \\left.\\frac{\\partial}{\\partial x^i}\\right|_p$ 后已经吐出了参数空间里的纯实数步长乘积 $\\Delta x^1 \\cdots \\Delta x^n$，从而正式化归为欧氏参数空间 $\\mathbb{R}^n$ 上普通的多重黎曼积分！）</p>
+  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集 $n$-形式。在局部正向坐标图卡 $(U, \\phi)$（内蕴参数为 $(u^1, \\dots, u^n) \\in \\phi(U) \\subset \\mathbb{R}^n$）下，外积分 $\\int_U \\omega$ 由职责完全分离的两步严格定义：</p>
+  <p><strong>第一步（逐点代数喂食——吃有限基导数算子，化为普通标量函数）</strong>：在流形每一点 $p = \\phi^{-1}(u)$，将切空间 $T_p M$ 中的 $n$ 个<strong>有限大小的自然基方向导数算子</strong> $\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^n}\\right|_p\\right)$（不含任何 $\\Delta u$！）直接喂给 $n$-形式 $\\omega_p$，吐出一个定义在平直参数域 $\\phi(U) \\subset \\mathbb{R}^n$ 上的<strong>普通实值标量函数</strong>：</p>
+  $$F(u^1, \\dots, u^n) := \\omega_{\\phi^{-1}(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\; \\dots, \\; \\left.\\frac{\\partial}{\\partial u^n}\\right|_p\\right) \\in \\mathbb{R}$$
+  <p><strong>第二步（平直参数域上的大一多重黎曼/勒贝格积分）</strong>：在平直欧氏空间 $\\phi(U) \\subset \\mathbb{R}^n$ 上，对第一步得到的普通多元实函数 $F(u^1, \\dots, u^n)$ 进行古典多重黎曼积分（将函数值 $F(u)$ 乘以参数区间分割宽度 $\\Delta u^1 \\cdots \\Delta u^n$ 求和取极限）：</p>
+  $$\\int_U \\omega := \\int_{\\phi(U) \\subset \\mathbb{R}^n} \\underbrace{\\omega_{\\phi^{-1}(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^n}\\right|_p\\right)}_{\\text{普通多元实函数 } F(u^1, \\dots, u^n)} \\, du^1 \\cdots du^n = \\lim_{\\Delta u \\to 0} \\sum_{\\text{参数网格}} F(u) \\, \\Delta u^1 \\cdots \\Delta u^n$$
+  <p style="font-size:0.88rem; color:#94a3b8; margin-top:-6px;">（注：为什么这个定义与坐标图卡 $(u^1, \\dots, u^n)$ 的选取无关？若换一套同向内蕴坐标 $(\\tilde{u}^1, \\dots, \\tilde{u}^n)$，在<strong>第一步</strong>中，由于 $\\frac{\\partial}{\\partial \\tilde{u}^j} = \\sum_i \\frac{\\partial u^i}{\\partial \\tilde{u}^j}\\frac{\\partial}{\\partial u^i}$ 且 $\\omega_p$ 是全反对称多重线性映射，喂食新算子会自动吐出雅可比行列式因子 $\\det\\left(\\frac{\\partial u}{\\partial \\tilde{u}}\\right)$；这与<strong>第二步</strong>高等微积分多重黎曼积分换元定理所需的雅可比行列式精确抵消！）</p>
   <p>对全流形，借助从属于开覆盖的<strong>单位分解（Partition of Unity）</strong> $\\{\\rho_\\alpha\\}$ 定义：</p>
   $$\\int_M \\omega = \\sum_\\alpha \\int_{U_\\alpha} \\rho_\\alpha \\omega$$
 </div>
