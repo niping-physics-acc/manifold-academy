@@ -558,42 +558,48 @@ export const diffGeomChapter = {
 
 <div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); margin-top: 20px;">
   <div class="math-proof-title">
-    <span>🌉 核心思维转换：在积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$ 中，3-形式到底吃掉了哪三个切向量？</span>
+    <span>🌉 核心思维转换：在积分 $\\int_M \\omega$ 中，$k$-形式到底吃掉了什么切向量？</span>
     <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Classical Infinitesimals vs. Differential Forms</span>
   </div>
   <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:12px;">
-    <strong>初学者最大的认知冲突</strong>：在高等微积分里，大家习惯把 $\\iiint_V \\rho \\, dx dy dz$ 中的 $dx, dy, dz$ 当成“三个微小实数长度相乘”。但现在我们说 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$ 是一个 <strong>3-形式（带有 3 个空插槽 $\\omega(\\cdot, \\cdot, \\cdot)$、必须吃进 3 个切向量才能吐出实数的测量算子）</strong>！那么问题来了：<strong>在写下积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$ 时，并没有看到显式写出的切向量，它究竟作用在了哪三个切向量上，才变成了可以相加求和的实数？</strong>
+    <strong>初学者最大的两重认知冲突</strong>：<br/>
+    1. 在高等微积分里，大家习惯把 $\\iiint_V \\rho \\, dx dy dz$ 中的 $dx, dy, dz$ 当成“三个微小实数长度相乘”；但现代几何说 $k$-形式 $\\omega$ 是<strong>必须吃进 $k$ 个切向量算子 $\\omega_p(\\cdot, \\dots, \\cdot)$ 才能吐出实数的测量机</strong>——那积分时它到底吃掉了哪几个切向量？<br/>
+    2. 更尖锐的问题：<strong>如果流形 $M$ 是弯曲的（比如三维空间 $(x,y,z)$ 里的二维球面 $S^2$），纯粹的 $x, y, z$ 方向（$\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$）会直接穿出球面，根本不在球面的切空间 $T_p S^2$ 里！</strong>那形式到底吃的是谁？
   </p>
   <div class="math-proof-steps">
     <div class="proof-step-item">
       <div class="proof-step-dot">1</div>
       <div>
-        <strong>第一步（极其关键的严谨区分）：弯曲流形上没有“直线小立方体”！切向量是怎么从坐标曲线变出来的？</strong><br/>
-        我们在 1.2 节反复强调：<strong>在弯曲流形 $M$ 上根本不存在“有向直线段”，切向量绝不是流形上的小线段，而是切空间 $T_p M$ 里的方向导数算子！</strong>那 3-形式 $\\omega_p \\in \\bigwedge^3 T_p^* M$ 吃掉的三个切向量从哪来？<br/>
-        • 真正的“直边小立方体网格” $(\\Delta x, \\Delta y, \\Delta z)$ 切在<strong>平直的坐标参数空间（地图纸 $\\phi(U) \\subset \\mathbb{R}^3$）</strong>里；<br/>
-        • 在弯曲流形 $M$ 的点 $p$ 处，顺着 $(x, y, z)$ 三个坐标方向穿过点 $p$ 的是<strong>三条弯曲的坐标网格曲线</strong>；<br/>
-        • 按照 1.2 节的定义，这三条穿过点 $p$ 的弯曲坐标曲线，在<strong>同一个点 $p$ 的切空间 $T_p M$ 中各自生成了一个纯正的方向导数算子</strong> $\\left.\\frac{\\partial}{\\partial x}\\right|_p, \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\left.\\frac{\\partial}{\\partial z}\\right|_p \\in T_p M$；<br/>
-        • 再用参数地图上的步长实数 $\\Delta x, \\Delta y, \\Delta z$ 去数乘这三个方向导数算子，就得到了<strong>严格位于点 $p$ 切空间 $T_p M$ 内的三个切向量算子</strong>：
-        $$\\vec{\\varepsilon}_1 = \\Delta x \\left.\\frac{\\partial}{\\partial x}\\right|_p, \\qquad \\vec{\\varepsilon}_2 = \\Delta y \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\qquad \\vec{\\varepsilon}_3 = \\Delta z \\left.\\frac{\\partial}{\\partial z}\\right|_p \\in T_p M$$
-        <span style="color:#38bdf8;"><strong>核心真相</strong>：3-形式 $\\omega_p$ 吃掉的<strong>绝不是流形上弯曲微元的三条曲线棱</strong>，而是那三条坐标曲线在点 $p$ 处的<strong>方向导数算子 $\\left.\\frac{\\partial}{\\partial x^i}\\right|_p$（乘以参数步长 $\\Delta x^i$）</strong>！</span>
+        <strong>第一步（核心铁律）：形式吃的绝不是外围空间的 $\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$，而是流形“自身内蕴坐标 $(u^1, \\dots, u^k)$”生成的方向导数算子！</strong><br/>
+        • 设 $M$ 是一个 $k$ 维弯曲流形，我们用它<strong>自身的内蕴坐标图卡 $(u^1, \\dots, u^k) \\in \\phi(U) \\subset \\mathbb{R}^k$</strong> 为流形上的点贴标签（例如二维球面 $S^2$ 的内蕴坐标是经纬度 $(u^1, u^2) = (\\theta, \\phi)$，而不是外围三维空间的 $(x,y,z)$！）；<br/>
+        • 真正的“直边小网格” $(\\Delta u^1, \\dots, \\Delta u^k)$ 切在<strong>平直的内蕴参数地图纸 $\\phi(U) \\subset \\mathbb{R}^k$</strong> 上；<br/>
+        • 在弯曲流形 $M$ 的点 $p$ 处，只改变一个内蕴参数 $u^a$（其余固定），点 $p$ <strong>严格沿着流形表面内部</strong>画出一根光滑的内蕴坐标曲线（绝不会穿出流形！）；<br/>
+        • 按照 1.2 节定义，这 $k$ 条躺在流形内部的坐标曲线，在点 $p$ 处生成了<strong>$k$ 个 100% 属于流形切空间 $T_p M$ 的内蕴方向导数算子</strong>：
+        $$\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\; \\dots, \\; \\left.\\frac{\\partial}{\\partial u^k}\\right|_p \\in T_p M$$
+        • 再乘上参数步长实数 $\\Delta u^a$，喂给 $k$-形式 $\\omega_p$ 的正是这 $k$ 个内蕴切算子：
+        $$\\vec{\\varepsilon}_a = \\Delta u^a \\left.\\frac{\\partial}{\\partial u^a}\\right|_p \\in T_p M \\qquad (a = 1, \\dots, k)$$
       </div>
     </div>
     <div class="proof-step-item">
       <div class="proof-step-dot">2</div>
       <div>
-        <strong>第二步：3-形式吃掉方向导数算子，吐出黎曼和实数</strong>：<br/>
-        现在让点 $p$ 处的 3-形式 $\\omega_p = \\rho(p) \\, (dx \\wedge dy \\wedge dz)_p$ <strong>吃掉 $T_p M$ 里的这三个方向导数算子</strong>。根据多线性性与对偶律 $\\langle dx^i, \\frac{\\partial}{\\partial x^j} \\rangle = \\delta^i_j$：
-        $$\\omega_p(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) = \\rho(p) \\cdot (dx \\wedge dy \\wedge dz)_p\\left(\\left.\\frac{\\partial}{\\partial x}\\right|_p, \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\left.\\frac{\\partial}{\\partial z}\\right|_p\\right) \\Delta x \\Delta y \\Delta z = \\rho(p) \\cdot 1 \\cdot \\Delta x \\Delta y \\Delta z$$
-        当参数网格步长 $\\Delta x, \\Delta y, \\Delta z \\to 0$ 时，切空间 $T_p M$ 里用方向导数算子算出的线性主部，与流形微元的真实测度之差是高阶无穷小 $O(\\Delta x^4)$，在对所有网格求和取极限时高阶误差精确归零：$\\sum \\omega_p(\\vec{\\varepsilon}_1, \\vec{\\varepsilon}_2, \\vec{\\varepsilon}_3) \\to \\iiint_{\\phi(V)} \\rho \\, dx dy dz$！
+        <strong>第二步（鲜活验证）：当二维弯曲曲面 $\\Sigma(u,v)$ 嵌在三维空间 $(x,y,z)$ 中时，怎么积分？</strong><br/>
+        假设在三维空间 $\\mathbb{R}^3$ 中有一张二维弯曲曲面 $\\Sigma$，其内蕴参数为 $(u, v)$，嵌入方程为 $\\big(x(u,v), y(u,v), z(u,v)\\big)$。现在要在曲面上积分 2-形式 $\\beta = B_z(p) \\, dx \\wedge dy$：<br/>
+        • 曲面切空间 $T_p \\Sigma$ 是 <strong>2 维</strong>的，纯的 $\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$ 确实<strong>不在</strong> $T_p \\Sigma$ 中！<br/>
+        • 真正属于曲面切空间 $T_p \\Sigma$ 的基算子，是沿着曲面内蕴参数 $(u, v)$ 的两个方向导数算子（由链式法则，它们是外围基算子的特定切向组合）：
+        $$\\left.\\frac{\\partial}{\\partial u}\\right|_p = \\frac{\\partial x}{\\partial u}\\frac{\\partial}{\\partial x} + \\frac{\\partial y}{\\partial u}\\frac{\\partial}{\\partial y} + \\frac{\\partial z}{\\partial u}\\frac{\\partial}{\\partial z} \\in T_p \\Sigma, \\qquad \\left.\\frac{\\partial}{\\partial v}\\right|_p = \\frac{\\partial x}{\\partial v}\\frac{\\partial}{\\partial x} + \\frac{\\partial y}{\\partial v}\\frac{\\partial}{\\partial y} + \\frac{\\partial z}{\\partial v}\\frac{\\partial}{\\partial z} \\in T_p \\Sigma$$
+        • 积分 $\\iint_\\Sigma B_z \\, dx \\wedge dy$ 时，喂给 2-形式 $dx \\wedge dy$ 的<strong>正是属于 $T_p \\Sigma$ 的这两个内蕴算子 $\\left(\\Delta u \\left.\\frac{\\partial}{\\partial u}\\right|_p, \\; \\Delta v \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right)$</strong>！因为 $dx\\left(\\frac{\\partial}{\\partial u}\\right) = \\frac{\\partial x}{\\partial u}$，2-形式吃完它们立刻吐出曲面投影的雅可比行列式：
+        $$(B_z \\, dx \\wedge dy)_p\\left(\\Delta u \\left.\\frac{\\partial}{\\partial u}\\right|_p, \\; \\Delta v \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right) = B_z(p) \\det \\begin{pmatrix} \\frac{\\partial x}{\\partial u} & \\frac{\\partial x}{\\partial v} \\\\ \\frac{\\partial y}{\\partial u} & \\frac{\\partial y}{\\partial v} \\end{pmatrix} \\Delta u \\Delta v$$
       </div>
     </div>
     <div class="proof-step-item">
       <div class="proof-step-dot">3</div>
       <div>
-        <strong>第三步：为什么现代“算子吃方向导数”思想彻底秒杀传统“三微元相乘”思想？</strong><br/>
-        • <strong>传统微元思想的缺陷</strong>：传统微积分省略了“3-形式吃掉方向导数算子 $\\left.\\frac{\\partial}{\\partial x^i}\\right|_p$”的过程，直接把吃完后剩余的参数步长乘积 $\\Delta x \\Delta y \\Delta z$ 简记为 $dx dy dz$，让人误以为 $dx, dy, dz$ 只是三个普通微小实数相乘。一旦换用球坐标 $(r, \\theta, \\phi)$，因为实数乘法可交换，从 $dx dy dz$ 根本代数推不出雅可比行列式 $r^2\\sin\\theta \\, dr d\\theta d\\phi$！<br/>
-        • <strong>现代微分形式的威力</strong>：当你改用球坐标参数 $(r, \\theta, \\phi)$ 画出流形上的三条坐标曲线时，它们在点 $p$ 生成的方向导数算子变成了 $\\left.\\frac{\\partial}{\\partial r}\\right|_p, \\left.\\frac{\\partial}{\\partial \\theta}\\right|_p, \\left.\\frac{\\partial}{\\partial \\phi}\\right|_p \\in T_p M$。把它们喂给<strong>同一个</strong> 3-形式 $dx \\wedge dy \\wedge dz$，由于 $\\langle dx, \\frac{\\partial}{\\partial r} \\rangle = \\frac{\\partial x}{\\partial r}$，立刻自动吐出 $3 \\times 3$ 雅可比行列式：
-        $$(dx \\wedge dy \\wedge dz)_p\\left(\\Delta r \\frac{\\partial}{\\partial r}, \\; \\Delta \\theta \\frac{\\partial}{\\partial \\theta}, \\; \\Delta \\phi \\frac{\\partial}{\\partial \\phi}\\right) = \\det\\left(\\frac{\\partial(x,y,z)}{\\partial(r,\\theta,\\phi)}\\right) \\Delta r \\Delta \\theta \\Delta \\phi = r^2 \\sin\\theta \\, \\Delta r \\Delta \\theta \\Delta \\phi$$
+        <strong>第三步：回到三维体积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$（当积分区域 $V$ 本身就是三维开集时）</strong>：<br/>
+        只有在积分区域 $V \\subset \\mathbb{R}^3$ <strong>本身就是三维空间</strong>（$\\dim V = 3$）时：
+        <br/>• 若我们用任意三维曲线坐标/内蕴参数 $(u^1, u^2, u^3)$（如球坐标 $(r, \\theta, \\phi)$）给 $V$ 贴标签，喂给 $dx \\wedge dy \\wedge dz$ 的就是 $\\left(\\Delta r \\frac{\\partial}{\\partial r}, \\; \\Delta \\theta \\frac{\\partial}{\\partial \\theta}, \\; \\Delta \\phi \\frac{\\partial}{\\partial \\phi}\\right) \\in T_p V$，吃完自动吐出三维雅可比行列式 $\\det\\left(\\frac{\\partial(x,y,z)}{\\partial(r,\\theta,\\phi)}\\right) \\Delta r \\Delta \\theta \\Delta \\phi = r^2\\sin\\theta \\, \\Delta r \\Delta \\theta \\Delta \\phi$；
+        <br/>• 若我们直接取平直笛卡尔坐标 $(u^1, u^2, u^3) = (x, y, z)$ 本身作为这片三维区域的参数，此时 $\\left.\\frac{\\partial}{\\partial x}\\right|_p, \\left.\\frac{\\partial}{\\partial y}\\right|_p, \\left.\\frac{\\partial}{\\partial z}\\right|_p$ 就在三维切空间 $T_p V$ 中，喂给 $\\rho \\, dx \\wedge dy \\wedge dz$ 后吐出 $\\rho(p) \\cdot 1 \\cdot \\Delta x \\Delta y \\Delta z$，求和取极限即还原为高等微积分的 $\\iiint \\rho \\, dx dy dz$！
+        <br/><span style="color:#38bdf8;"><strong>总结</strong>：传统微积分省略了“<strong>形式吃掉流形内蕴方向导数算子 $\\Delta u^a \\left.\\frac{\\partial}{\\partial u^a}\\right|_p$</strong>”这一步，直接把在平直笛卡尔参数下吃完后剩下的参数步长乘积 $\\Delta x \\Delta y \\Delta z$ 简记成了 $dx dy dz$！</span>
       </div>
     </div>
   </div>
