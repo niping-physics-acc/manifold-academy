@@ -607,10 +607,11 @@ export const diffGeomChapter = {
     <div class="proof-step-item">
       <div class="proof-step-dot">1</div>
       <div>
-        <strong>先看最透明的 1 维典范：曲线积分 $\\int_\\gamma \\alpha = \\int_a^b \\alpha\\big(\\dot{\\gamma}(t)\\big) \\, dt$</strong><br/>
-        • 想想看：1-形式 $\\alpha$ 吃掉的是 $\\dot{\\gamma}(t) \\Delta t$ 吗？<strong>绝不是！</strong>$\\alpha$ 吃掉的仅仅是<strong>有限大小的速度导数算子 $\\dot{\\gamma}(t) = \\gamma_*\\left(\\frac{d}{dt}\\right) \\in T_{\\gamma(t)}M$</strong>（里面根本没有 $\\Delta t$！）；<br/>
-        • <strong>第一阶段（代数喂食）</strong>：1-形式 $\\alpha$ 吃掉有限切向量算子 $\\dot{\\gamma}(t)$ 后，它作为“微分形式”的使命就已经<strong>100% 结束了</strong>，当场吐出一个定义在区间 $[a,b] \\subset \\mathbb{R}$ 上的<strong>普通一元实函数（功率密度）</strong>：$g(t) := \\alpha_{\\gamma(t)}\\big(\\dot{\\gamma}(t)\\big) \\in \\mathbb{R}$；<br/>
-        • <strong>第二阶段（普通大一黎曼积分）</strong>：现在面对普通实函数 $g(t)$，我们在平直实数轴 $[a,b]$ 上做最普通的大一黎曼积分 $\\int_a^b g(t) \\, dt = \\lim_{\\Delta t \\to 0} \\sum g(t_i) \\Delta t_i$。<strong>这里的 $\\Delta t$（即 $dt$）与切向量毫无关系，它纯粹是大一实变函数黎曼求和里的参数区间宽度（勒贝格测度）！</strong>
+        <strong>先看最透明的 1 维典范：曲线积分 $\\int_C \\alpha$ —— 参数 $t$ 真的是“外部参数”吗？不用 $t$ 能在流形内部直接定义吗？</strong><br/>
+        • <strong>第一阶段（代数喂食）与第二阶段（黎曼积分）</strong>：写成参数形式 $\\int_C \\alpha = \\int_a^b \\alpha_{\\gamma(t)}\\big(\\dot{\\gamma}(t)\\big) \\, dt$ 时，1-形式 $\\alpha$ 在第一步吃掉的是<strong>有限切导数算子 $\\dot{\\gamma}(t) \\in T_{\\gamma(t)}M$</strong>（不含 $\\Delta t$！），当场退化为普通一元实函数 $g(t) := \\alpha\\big(\\dot{\\gamma}(t)\\big)$；第二步再在实数轴上对 $g(t)$ 乘上区间宽度 $\\Delta t$ 做普通大一黎曼积分。<br/>
+        • <strong>核心追问：这里的 $t$ 难道不是路径和 1-形式之外的“外部参数（如物理时间）”吗？能不能完全在流形内部定义？</strong><br/>
+        ① <strong>$t$ 根本不是外部物理时间，而是 1 维子流形 $C$ 自己的“内蕴坐标图卡”</strong>：几何曲线 $C \\subset M$ 本身就是一个 <strong>1 维流形</strong>！按照 1.1 节流形定义，$C$ 自带一维局部坐标映射 $\\phi_C: C \\to [a,b] \\subset \\mathbb{R}$（其逆映射 $\\gamma = \\phi_C^{-1}$ 就是参数化）。你甚至完全不需要引入额外字母 $t$——只要曲线不垂直于流形原本的坐标轴 $x^1$，<strong>直接拿流形自身的坐标函数 $x^1\\big|_C$ 当作这个参数（即令 $t = x^1$）就完全足够了！</strong><br/>
+        ② <strong>完全不借助参数 $t$ 的流形内蕴点分割（Riemann-Stieltjes 视角）与“脚手架抵消”</strong>：如果直接在曲线 $C \\subset M$ 上取一串分点 $p_0, p_1, \\dots, p_N \\in C$（零外部参数！），对 $\\alpha = \\sum_i \\alpha_i dx^i$，每一小段直接用流形坐标函数 $x^i \\in C^\\infty(U)$ 在相邻两点的值相减：$\\sum_k \\sum_i \\alpha_i(p_k)\\big(x^i(p_{k+1}) - x^i(p_k)\\big)$。之所以引入坐标参数 $t$，仅仅是因为 $\\alpha_{p_k}$ 是定义在<strong>单点</strong>切空间 $T_{p_k}M$ 上的算子，不能直接吃“两个不同点之差 $x^i(p_{k+1}) - x^i(p_k)$”；我们通过<strong>先除以 $\\Delta t_k$ 将两点差变成单点方向导数 $\\dot{\\gamma}(t_k) \\in T_{p_k}M$ 喂给 $\\alpha_{p_k}$，随后立即在第二步乘回 $\\Delta t_k$</strong>！正因“一除一乘”，当你换成任何其他单调参数 $\\tau$ 时，链式法则因子 $\\frac{dt}{d\\tau}$ 在第一步与第二步中<strong>100% 精确抵消</strong>：$\\int \\alpha\\big(\\frac{d\\gamma}{d\\tau}\\big) d\\tau = \\int \\alpha\\big(\\frac{d\\gamma}{dt}\\frac{dt}{d\\tau}\\big) d\\tau = \\int \\alpha\\big(\\frac{d\\gamma}{dt}\\big) dt$。因此 $t$ 只是一个“用完即毁的局部坐标脚手架”，积分值完全由流形内部的 $(C, \\alpha)$ 唯一决定！
       </div>
     </div>
     <div class="proof-step-item">
