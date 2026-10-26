@@ -1,3 +1,5 @@
+import { integrationDefinitionSection } from './integrationDefinition.js';
+
 /**
  * Modern Differential Geometry Master Chapter
  * Fully hierarchical, graduate-level geometric theoretical physics & beam dynamics.
@@ -8,9 +10,10 @@
  * 1.3 余切空间 T_p^*M：微分 1-形式作为几何测量尺
  * 1.4 向量丛与截面空间 Γ：从“点”到“场” (底流形、纤维、总空间与场化算子 Γ)
  * 1.5 外代数 (Exterior Algebra)：从 1-形式到 2-形式、3-形式与面积测度 (反对称楔积与行列式本质)
- * 1.6 外微分算子 d 与拓扑幂零律：d² = 0 严格证明 (闭形式、恰当形式与 ∂²=0 对偶)
- * 1.7 流形上的外积分 (Exterior Integration) 与广义 Stokes 定理 (定向、单位分解与相椭圆发射度守恒)
- * 1.8 李导数 L_X 与 Cartan 魔术公式严密推导 (流线、拉回、内积收缩与相流保辛性)
+ * 1.6 现代微分几何中的积分定义 (形式、拉回、勒贝格积分与坐标无关性)
+ * 1.7 外微分算子 d 与拓扑幂零律：d² = 0 严格证明 (闭形式、恰当形式与 ∂²=0 对偶)
+ * 1.8 流形上的外积分 (Exterior Integration) 与广义 Stokes 定理 (定向、单位分解与相椭圆发射度守恒)
+ * 1.9 李导数 L_X 与 Cartan 魔术公式严密推导 (流线、拉回、内积收缩与相流保辛性)
  */
 
 export const diffGeomChapter = {
@@ -20,8 +23,8 @@ export const diffGeomChapter = {
   subtitle: 'Coordinate-Free Geometry: Manifolds, Bundles, Sections, Exterior Algebra, Integration & Cartan Calculus',
   level: 'Graduate Core / 现代几何根基',
   prereqs: ['多变量微积分', '实分析与拓扑初步', '线性代数对偶空间'],
-  readingTime: '70 min',
-  summary: '本章系统重构现代微分几何的内蕴体系，全篇坚持“新概念必有通俗物理基石、认知绝不超前跳步”原则：从流形图卡的世界地图隐喻、切向量方向导数算子本质、余切 1-形式等高线对偶，进入向量丛“底流形、纤维、总空间与截面 Γ”的完整物理拆解；从“如何用 1-形式测量二维面元”的朴素几何问题出发，自然推导反对称外代数（Wedge Product）、2-形式与 3-形式阶梯，揭秘行列式的外代数起源；严格证明外微分幂零律（d²=0）；阐明外代数天生自带换元法的外积分理论与广义 Stokes 定理大一统，并完整证明动力学几何灵魂 Cartan 魔术公式及其在加速器束流相空间保辛守恒中的决定性应用。',
+  readingTime: '85 min',
+  summary: '本章系统重构现代微分几何的内蕴体系，全篇坚持“新概念必有通俗物理基石、认知绝不超前跳步”原则：从流形图卡的世界地图隐喻、切向量方向导数算子本质、余切 1-形式等高线对偶，进入向量丛“底流形、纤维、总空间与截面 Γ”的完整物理拆解；从“如何用 1-形式测量二维面元”的朴素几何问题出发，自然推导反对称外代数（Wedge Product）、2-形式与 3-形式阶梯，揭秘行列式的外代数起源；以拉回、勒贝格积分与单位分解严格定义流形上的积分，证明坐标无关性并辨明 dx 的角色；严格证明外微分幂零律（d²=0）；阐明外代数天生自带换元法的外积分理论与广义 Stokes 定理大一统，并完整证明动力学几何灵魂 Cartan 魔术公式及其在加速器束流相空间保辛守恒中的决定性应用。',
   sections: [
     {
       id: 'sec-1',
@@ -467,7 +470,7 @@ export const diffGeomChapter = {
     <div class="primer-card">
       <div class="primer-card-title">✂️ 2. 反对称化算子：外积 $\\wedge$ 的严格数学定义</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        为了提取张量中的纯定向面元，数学家定义了唯一的反对称投影算子。在微分几何标准约定（Cartan 约定）中，<strong>两个 1-形式的外积，严格定义为其张量积的反对称化</strong>：
+        反对称投影定义为 $\\operatorname{Alt}(T)(u,v)=\\tfrac12[T(u,v)-T(v,u)]$。在本章约定中，<strong>两个 1-形式的外积是张量积反对称投影的两倍</strong>：
         $$\\alpha \\wedge \\beta \\stackrel{\\text{严格定义}}{=} \\alpha \\otimes \\beta - \\beta \\otimes \\alpha$$
       </p>
     </div>
@@ -482,7 +485,7 @@ export const diffGeomChapter = {
     \\end{aligned}$$
     现在选定流形上的<strong>任意局部坐标卡 $(x^1, x^2)$</strong>（可以是球面经纬度 $(\\theta, \\phi)$ 或弯转轨道坐标 $(x, s)$），令 $\\alpha = dx^1, \\beta = dx^2$：
     $$(dx^1 \\wedge dx^2)(u, v) = dx^1(u) dx^2(v) - dx^1(v) dx^2(u) = u^1 v^2 - v^1 u^2 = \\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$$
-    <strong>数学结论</strong>：这个公式绝非单纯借用二维叉乘，它是<strong>张量积 $\\alpha \\otimes \\beta$ 经过唯一的反对称投影后的严格代数必然！</strong>
+    <strong>数学结论</strong>：行列式公式来自 $\\alpha\\wedge\\beta=2\\operatorname{Alt}(\\alpha\\otimes\\beta)$，其归一化使 $(dx^1\\wedge dx^2)(\\partial_{x^1},\\partial_{x^2})=1$。
   </p>
 </div>
 
@@ -509,7 +512,7 @@ export const diffGeomChapter = {
     <div class="primer-card">
       <div class="primer-card-title">🔒 3. 非除法代数与拓扑零因子</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        普通非零实数都有逆元（除法）。在外代数中，任何 1-形式自积必定为零：$\\alpha \\wedge \\alpha = 0$。外代数充满了“零因子”，根本不存在普通意义的除法，这奠定了动力学系统的不可逆性。
+        普通非零实数都有逆元（除法）。在外代数中，任何 1-形式自积必定为零：$\\alpha \\wedge \\alpha = 0$。外代数存在“零因子”，不能把外积当作普通实数乘法来约分；这条代数事实本身不意味着动力学不可逆。
       </p>
     </div>
     <div class="primer-card">
@@ -537,9 +540,9 @@ export const diffGeomChapter = {
       </p>
     </div>
     <div class="primer-card">
-      <div class="primer-card-title">📐 2. 行列式算的到底是什么面积？——“网格数”而非“平方米”！</div>
+      <div class="primer-card-title">📐 2. 行列式给出相对于坐标的有向面积值</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        在弯曲坐标下，行列式 $\\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$ 测量的并不是“平方米（$\\text{m}^2$）”，而是<strong>该平行四边形在当前坐标图卡中跨越了多少个坐标网格单元 $(\\Delta x^1 \\times \\Delta x^2)$</strong>！它量度的是纯代数、纯拓扑的<strong>无量纲网格面积</strong>。
+        行列式 $\\det \\begin{pmatrix} u^1 & v^1 \\\\ u^2 & v^2 \\end{pmatrix}$ 给出 $(dx^1\\wedge dx^2)(u,v)$，即<strong>相对于所选坐标的有向面积值</strong>。这个代数求值不需要度规；其量纲由坐标与输入向量的量纲决定，数值也会随坐标基形式的改变而改变。只有在与度规相容的情形下，它才等于有向物理面积；无度规并不等于无量纲或只依赖拓扑。
       </p>
     </div>
     <div class="primer-card">
@@ -554,7 +557,7 @@ export const diffGeomChapter = {
     <div class="primer-card">
       <div class="primer-card-title">⚛️ 4. 为什么加速器相空间更崇拜“无度规”的外代数？</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        在粒子相空间 $(x, p_x)$ 中，横坐标是位置（米），纵坐标是动量（$\\text{GeV}/c$）。两者量纲不同，在物理上你<strong>根本无法定义勾股定理 $x^2 + p_x^2$（相空间天然没有黎曼度规！）</strong>。然而，相空间却拥有坚不可摧的辛 2-形式：
+        在粒子相空间 $(x, p_x)$ 中，横坐标是位置（米），纵坐标是动量（$\\text{GeV}/c$）。两者量纲不同，不能直接把 $x^2+p_x^2$ 解释成长度平方；可以另选尺度和黎曼度规，但<strong>辛结构本身不指定这样的度规</strong>。相空间却有典范辛 2-形式：
         $$\\omega = dx \\wedge dp_x$$
         它的量纲天然是 $[\\text{米}] \\times [\\text{动量}] = [\\text{作用量}]$，精确对应单粒子发射度 $\\pi\\epsilon$。<strong>正因为外代数完全不依赖度规，它才成为哈密顿力学与相空间动力学唯一合法的几何语言！</strong>
       </p>
@@ -594,59 +597,17 @@ export const diffGeomChapter = {
   </ul>
 </div>
 
-<div class="math-proof" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); margin-top: 20px;">
-  <div class="math-proof-title">
-    <span>🌉 核心思维转换：在积分 $\\int_M \\omega$ 中，$k$-形式到底吃了什么？$\\Delta u$ 又是什么？</span>
-    <span style="font-size:0.8rem; font-family:var(--font-mono); color:#38bdf8;">Two-Step Mechanism: Operator Evaluation vs. Riemann Measure</span>
-  </div>
-  <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:12px;">
-    <strong>拒绝“把空间分割 $\\Delta u$ 硬塞给切向量”的和稀泥解释！</strong><br/>
-    很多教材为了迁就微积分直觉，会把 $\\Delta u \\frac{\\partial}{\\partial u}$ 说成“无穷小切向量”塞给微分形式——但这其实混淆了两个完全不同层面的数学操作！在严格的现代微分几何中，外积分 $\\int_M \\omega$ 是<strong>先后发生、职责完全分离的两步流水线</strong>：
-  </p>
-  <div class="math-proof-steps">
-    <div class="proof-step-item">
-      <div class="proof-step-dot">1</div>
-      <div>
-        <strong>先看最透明的 1 维典范：曲线积分 $\\int_C \\alpha$ —— 参数 $t$ 真的是“外部参数”吗？不用 $t$ 能在流形内部直接定义吗？</strong><br/>
-        • <strong>第一阶段（代数喂食）与第二阶段（黎曼积分）</strong>：写成参数形式 $\\int_C \\alpha = \\int_a^b \\alpha_{\\gamma(t)}\\big(\\dot{\\gamma}(t)\\big) \\, dt$ 时，1-形式 $\\alpha$ 在第一步吃掉的是<strong>有限切导数算子 $\\dot{\\gamma}(t) \\in T_{\\gamma(t)}M$</strong>（不含 $\\Delta t$！），当场退化为普通一元实函数 $g(t) := \\alpha\\big(\\dot{\\gamma}(t)\\big)$；第二步再在实数轴上对 $g(t)$ 乘上区间宽度 $\\Delta t$ 做普通大一黎曼积分。<br/>
-        • <strong>核心追问：这里的 $t$ 难道不是路径和 1-形式之外的“外部参数（如物理时间）”吗？能不能完全在流形内部定义？</strong><br/>
-        ① <strong>$t$ 根本不是外部物理时间，而是 1 维子流形 $C$ 自己的“内蕴坐标图卡”</strong>：几何曲线 $C \\subset M$ 本身就是一个 <strong>1 维流形</strong>！按照 1.1 节流形定义，$C$ 自带一维局部坐标映射 $\\phi_C: C \\to [a,b] \\subset \\mathbb{R}$（其逆映射 $\\gamma = \\phi_C^{-1}$ 就是参数化）。你甚至完全不需要引入额外字母 $t$——只要曲线不垂直于流形原本的坐标轴 $x^1$，<strong>直接拿流形自身的坐标函数 $x^1\\big|_C$ 当作这个参数（即令 $t = x^1$）就完全足够了！</strong><br/>
-        ② <strong>完全不借助参数 $t$ 的流形内蕴点分割（Riemann-Stieltjes 视角）与“脚手架抵消”</strong>：如果直接在曲线 $C \\subset M$ 上取一串分点 $p_0, p_1, \\dots, p_N \\in C$（零外部参数！），对 $\\alpha = \\sum_i \\alpha_i dx^i$，每一小段直接用流形坐标函数 $x^i \\in C^\\infty(U)$ 在相邻两点的值相减：$\\sum_k \\sum_i \\alpha_i(p_k)\\big(x^i(p_{k+1}) - x^i(p_k)\\big)$。之所以引入坐标参数 $t$，仅仅是因为 $\\alpha_{p_k}$ 是定义在<strong>单点</strong>切空间 $T_{p_k}M$ 上的算子，不能直接吃“两个不同点之差 $x^i(p_{k+1}) - x^i(p_k)$”；我们通过<strong>先除以 $\\Delta t_k$ 将两点差变成单点方向导数 $\\dot{\\gamma}(t_k) \\in T_{p_k}M$ 喂给 $\\alpha_{p_k}$，随后立即在第二步乘回 $\\Delta t_k$</strong>！正因“一除一乘”，当你换成任何其他单调参数 $\\tau$ 时，链式法则因子 $\\frac{dt}{d\\tau}$ 在第一步与第二步中<strong>100% 精确抵消</strong>：$\\int \\alpha\\big(\\frac{d\\gamma}{d\\tau}\\big) d\\tau = \\int \\alpha\\big(\\frac{d\\gamma}{dt}\\frac{dt}{d\\tau}\\big) d\\tau = \\int \\alpha\\big(\\frac{d\\gamma}{dt}\\big) dt$。因此 $t$ 只是一个“用完即毁的局部坐标脚手架”，积分值完全由流形内部的 $(C, \\alpha)$ 唯一决定！
-      </div>
-    </div>
-    <div class="proof-step-item">
-      <div class="proof-step-dot">2</div>
-      <div>
-        <strong>完全同理：$k$ 维流形外积分 $\\int_M \\omega$ 的严格两步分解</strong><br/>
-        设 $k$ 维弯曲流形 $M$ 的局部内蕴坐标参数为 $(u^1, \\dots, u^k) \\in D \\subset \\mathbb{R}^k$（注意：内蕴坐标曲线完全躺在流形内部，生成的基算子 $\\left.\\frac{\\partial}{\\partial u^a}\\right|_p \\in T_p M$ 100% 属于流形切空间，绝不会穿出流形）：<br/>
-        • <strong>第一步（纯代数求值——形式吃掉有限基导数算子，不含任何 $\\Delta u$！）</strong>：<br/>
-        在每一点 $p = \\Phi(u^1, \\dots, u^k)$，我们把切空间 $T_p M$ 中那 $k$ 个<strong>有限大小的自然基方向导数算子</strong> $\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right)$ 直接喂给 $k$-形式 $\\omega_p$。吃完之后，$\\omega_p$ 立刻退化为一个定义在参数域 $D \\subset \\mathbb{R}^k$ 上的<strong>普通多元标量函数（比率密度函数）</strong>：
-        $$F(u^1, \\dots, u^k) := \\omega_{\\Phi(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\; \\dots, \\; \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right) \\in \\mathbb{R}$$
-        • <strong>第二步（在平直参数空间 $\\mathbb{R}^k$ 上对普通标量函数 $F(u)$ 做大一多重黎曼积分）</strong>：<br/>
-        既然 $\\omega$ 已经吃完切算子变成了 $\\mathbb{R}^k$ 上的普通实函数 $F(u^1, \\dots, u^k)$，接下来根本不再涉及任何流形或切向量，直接用大一微积分的黎曼和（函数高度 $F(u) \\times$ 参数网格宽度 $\\Delta u^1 \\cdots \\Delta u^k$）对 $F(u)$ 积分：
-        $$\\int_M \\omega := \\int_{D \\subset \\mathbb{R}^k} \\underbrace{\\omega_{\\Phi(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^k}\\right|_p\\right)}_{\\text{普通标量函数 } F(u^1, \\dots, u^k)} \\, du^1 \\cdots du^k = \\lim_{\\Delta u \\to 0} \\sum F(u) \\, \\Delta u^1 \\cdots \\Delta u^k$$
-      </div>
-    </div>
-    <div class="proof-step-item">
-      <div class="proof-step-dot">3</div>
-      <div>
-        <strong>实战检验：二维曲面 $\\Sigma(u,v) \\subset \\mathbb{R}^3$ 与三维体积分 $\\iiint_V \\rho \\, dx \\wedge dy \\wedge dz$</strong><br/>
-        • <strong>二维弯曲曲面 $\\Sigma(u,v)$ 上积分 $\\beta = B_z \\, dx \\wedge dy$</strong>：<br/>
-        ① <strong>第一步（吃有限算子）</strong>：2-形式 $\\beta$ 吃掉属于曲面切空间 $T_p \\Sigma$ 的两个<strong>有限偏导算子</strong> $\\left(\\left.\\frac{\\partial}{\\partial u}\\right|_p, \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right)$，直接吐出 $(u,v)$ 平面上的普通标量函数：
-        $$F(u,v) = (B_z \\, dx \\wedge dy)_p\\left(\\left.\\frac{\\partial}{\\partial u}\\right|_p, \\left.\\frac{\\partial}{\\partial v}\\right|_p\\right) = B_z(u,v) \\det \\begin{pmatrix} \\frac{\\partial x}{\\partial u} & \\frac{\\partial x}{\\partial v} \\\\ \\frac{\\partial y}{\\partial u} & \\frac{\\partial y}{\\partial v} \\end{pmatrix}$$
-        ② <strong>第二步（普通黎曼积分）</strong>：在平直参数域 $D \\subset \\mathbb{R}^2$ 上对普通二元函数 $F(u,v)$ 做大一二重黎曼积分 $\\iint_D F(u,v) \\, du dv = \\lim \\sum F(u,v) \\Delta u \\Delta v$！<br/>
-        • <strong>三维区域 $V \\subset \\mathbb{R}^3$ 上积分 $\\omega = \\rho \\, dx \\wedge dy \\wedge dz$</strong>：<br/>
-        若用平直笛卡尔坐标 $(x,y,z)$ 作参数，<strong>第一步</strong> $\\omega$ 吃掉三个有限基算子 $\\left(\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}\\right)$，因为 $(dx \\wedge dy \\wedge dz)\\left(\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}\\right) = 1$，吐出的普通标量函数就是 $F(x,y,z) = \\rho(x,y,z) \\cdot 1 = \\rho(x,y,z)$；<strong>第二步</strong>再对普通函数 $\\rho(x,y,z)$ 乘上黎曼分割宽度 $\\Delta x \\Delta y \\Delta z$ 求和取极限，得到 $\\iiint_V \\rho(x,y,z) \\, dx dy dz$！<br/>
-        <span style="color:#38bdf8;"><strong>醍醐灌顶的总结</strong>：外代数 $dx \\wedge dy \\wedge dz$ 里的 $dx$ 是<strong>吃有限切算子 $\\frac{\\partial}{\\partial x}$ 的余切标尺（1-形式）</strong>；而当它吃完 $\\left(\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}\\right)$ 化为数值 $1$ 退场后，大一微积分积分号最后剩下的 $dx dy dz$（即 $\\lim \\Delta x \\Delta y \\Delta z$）则是<strong>平直参数空间 $\\mathbb{R}^3$ 上的普通黎曼/勒贝格体积测度</strong>！两者符号碰巧长得一样，但分别活在“第一步（代数求值）”和“第二步（参数域黎曼求和）”里！</span>
-      </div>
-    </div>
-  </div>
+<div class="math-intuition">
+  <div class="math-intuition-title">从逐点测量到积分：下一节的任务</div>
+  <p>本节定义了形式在切向量上的取值，但逐点取值本身还不是积分。接下来的 <a href="#sec-integration-definition">1.6 节：现代微分几何中的积分定义</a> 将从欧氏空间的勒贝格积分出发，通过拉回和单位分解，严格构造有向流形上的积分，并证明结果与坐标选择无关。</p>
+  <p>其中会分别标明坐标微分、参数域测度和有限分割宽度的数学类型，解释传统积分记号与形式语言的对应关系。</p>
 </div>
       `
     },
+    integrationDefinitionSection,
     {
       id: 'sec-6',
-      number: '1.6',
+      number: '1.7',
       heading: '外微分算子 $d$ 与拓扑幂零律：$d^2 = 0$ 严格证明',
       content: `
 <div class="math-primer">
@@ -861,33 +822,13 @@ export const diffGeomChapter = {
     },
     {
       id: 'sec-7',
-      number: '1.7',
+      number: '1.8',
       heading: '流形上的外积分 (Exterior Integration) 与广义 Stokes 定理',
       content: `
 <div class="math-primer">
-  <div class="math-primer-title">
-    <span>🌱 零门槛基石：什么是流形定向？什么是单位分解？为什么需要外积分？</span>
-  </div>
-  <p>
-    • <strong>为什么只有微分形式才能在流形上积分？</strong> 在经典高等微积分中，做重积分坐标变换 $(x,y) \\to (u,v)$ 时，必须人为在公式中硬塞入一个<strong>雅可比行列式的绝对值 $|\\det J|$</strong>。这是因为经典黎曼积分默认体积为正。但在弯曲流形上，没有绝对的“正负”，强加绝对值会彻底破坏几何的协变性。<strong>外代数天生具有定向符号，外积微元在坐标变换下自动吐出 $\\det J$，完全不需要人工绝对值！</strong><br/>
-    • <strong>定向 (Orientation)</strong>：为整个流形规定一个全局自洽的“右手螺旋法则”。像莫比乌斯带（Möbius strip）这种扭转一圈正反面颠倒的空间，就无法定义外积分；<br/>
-    • <strong>单位分解 (Partition of Unity)</strong>：流形像由多张局部图卡拼接而成的“百衲衣”。为了在整个流形上积分且不重复计算重叠区域，数学家引入了一组平滑调节权重的“柔光灯罩”函数 $\\{\\rho_\\alpha\\}$（满足 $\\sum \\rho_\\alpha = 1$），在每个图卡内算完再平滑累加。
-  </p>
-</div>
-
-<div class="math-definition">
-  <div class="math-definition-title">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
-    <span>定义 1.6：流形上的外积分 (Integration of Differential Forms) —— 严格两步法：先吃有限导数算子，再做参数域黎曼积分</span>
-  </div>
-  <p>设 $M$ 为 $n$ 维定向流形，$\\omega \\in \\Omega^n_c(M)$ 为紧支集 $n$-形式。在局部正向坐标图卡 $(U, \\phi)$（内蕴参数为 $(u^1, \\dots, u^n) \\in \\phi(U) \\subset \\mathbb{R}^n$）下，外积分 $\\int_U \\omega$ 由职责完全分离的两步严格定义：</p>
-  <p><strong>第一步（逐点代数喂食——吃有限基导数算子，化为普通标量函数）</strong>：在流形每一点 $p = \\phi^{-1}(u)$，将切空间 $T_p M$ 中的 $n$ 个<strong>有限大小的自然基方向导数算子</strong> $\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^n}\\right|_p\\right)$（不含任何 $\\Delta u$！）直接喂给 $n$-形式 $\\omega_p$，吐出一个定义在平直参数域 $\\phi(U) \\subset \\mathbb{R}^n$ 上的<strong>普通实值标量函数</strong>：</p>
-  $$F(u^1, \\dots, u^n) := \\omega_{\\phi^{-1}(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\; \\dots, \\; \\left.\\frac{\\partial}{\\partial u^n}\\right|_p\\right) \\in \\mathbb{R}$$
-  <p><strong>第二步（平直参数域上的大一多重黎曼/勒贝格积分）</strong>：在平直欧氏空间 $\\phi(U) \\subset \\mathbb{R}^n$ 上，对第一步得到的普通多元实函数 $F(u^1, \\dots, u^n)$ 进行古典多重黎曼积分（将函数值 $F(u)$ 乘以参数区间分割宽度 $\\Delta u^1 \\cdots \\Delta u^n$ 求和取极限）：</p>
-  $$\\int_U \\omega := \\int_{\\phi(U) \\subset \\mathbb{R}^n} \\underbrace{\\omega_{\\phi^{-1}(u)}\\left(\\left.\\frac{\\partial}{\\partial u^1}\\right|_p, \\dots, \\left.\\frac{\\partial}{\\partial u^n}\\right|_p\\right)}_{\\text{普通多元实函数 } F(u^1, \\dots, u^n)} \\, du^1 \\cdots du^n = \\lim_{\\Delta u \\to 0} \\sum_{\\text{参数网格}} F(u) \\, \\Delta u^1 \\cdots \\Delta u^n$$
-  <p style="font-size:0.88rem; color:#94a3b8; margin-top:-6px;">（注：为什么这个定义与坐标图卡 $(u^1, \\dots, u^n)$ 的选取无关？若换一套同向内蕴坐标 $(\\tilde{u}^1, \\dots, \\tilde{u}^n)$，在<strong>第一步</strong>中，由于 $\\frac{\\partial}{\\partial \\tilde{u}^j} = \\sum_i \\frac{\\partial u^i}{\\partial \\tilde{u}^j}\\frac{\\partial}{\\partial u^i}$ 且 $\\omega_p$ 是全反对称多重线性映射，喂食新算子会自动吐出雅可比行列式因子 $\\det\\left(\\frac{\\partial u}{\\partial \\tilde{u}}\\right)$；这与<strong>第二步</strong>高等微积分多重黎曼积分换元定理所需的雅可比行列式精确抵消！）</p>
-  <p>对全流形，借助从属于开覆盖的<strong>单位分解（Partition of Unity）</strong> $\\{\\rho_\\alpha\\}$ 定义：</p>
-  $$\\int_M \\omega = \\sum_\\alpha \\int_{U_\\alpha} \\rho_\\alpha \\omega$$
+  <div class="math-primer-title"><span>从积分定义到边界公式</span></div>
+  <p><a href="#sec-integration-definition">1.6 节</a> 已经定义了定向流形上形式的积分，并证明它不依赖图卡与单位分解。形式的系数按带符号的雅可比行列式变换；正向图之间该行列式为正，因此与测度积分的换元定理相容。</p>
+  <p>在没有全局定向的流形上，普通顶次形式不能直接按这套规则全局积分；密度仍然可以积分。下面使用既有积分定义，讨论形式的阶数、积分域的维数，以及外微分和边界之间的 Stokes 关系。</p>
 </div>
 
 <div class="math-definition">
@@ -938,7 +879,7 @@ export const diffGeomChapter = {
     },
     {
       id: 'sec-8',
-      number: '1.8',
+      number: '1.9',
       heading: '李导数 $\\mathcal{L}_X$ 与 Cartan 魔术公式严密推导',
       content: `
 <div class="math-primer">
