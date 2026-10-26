@@ -1,20 +1,20 @@
 /** A focused definition of integration, inserted between exterior algebra and d. */
 export const integrationDefinitionSection = {
   id: 'sec-integration-definition',
-  number: '1.6',
+  number: '1.7',
   heading: '现代微分几何中的积分定义：从 dx、拉回到坐标无关性',
   content: `
 <div class="math-intuition intuition-box">
   <div class="math-intuition-title">出发点：局部测量怎样成为一个总量？</div>
   <p>做功需要累加沿路径的有向贡献，通量需要累加穿过曲面的有向贡献。微分形式给出每一点的局部测量规则；积分把规则与一个有向几何区域配对，得到一个数。本节只构造这一配对，不预先使用 Stokes 定理或原函数。</p>
-  <p><strong>需要说明的核心：</strong>如何从一个作用在切向量上的多重线性映射，严格定义出一个实数？答案是先在欧氏参数域规定积分，再证明不同参数给出的数相同。</p>
+  <p><a href="#sec-integration-foundations">1.6 节</a> 已定义了测度、可积函数及勒贝格积分。现在的问题是：如何从作用在切向量上的形式得到一个可以积分的坐标系数，并证明不同坐标计算出的数相同？</p>
 </div>
 
 <div class="math-definition">
   <div class="math-definition-title">一、先固定对象与记号</div>
-  <p>设 $M$ 是 $n\\geq 1$ 维、Hausdorff、第二可数的已定向光滑流形，先假设无边界。$T_pM$ 是点 $p$ 的切空间，$T_p^*M$ 是其线性对偶。一个 $n$-形式 $\\omega$ 在每点给出一个随点光滑变化的交替 $n$ 重线性映射：</p>
+  <p>设 $M$ 是 $n\\geq 1$ 维光滑流形，沿用 <a href="#geometry-topology-prerequisites">1.1 节的 Hausdorff、第二可数约定</a>，先假设无边界，并假设可以选择下文定义的定向。回顾 1.2–1.5 节：$T_pM$ 是切空间，$T_p^*M$ 是其线性对偶；一个 $n$-形式 $\\omega$ 在每点给出随点光滑变化的交替 $n$ 重线性映射：</p>
   $$\\omega_p:(T_pM)^n\\longrightarrow\\mathbb{R}.$$
-  <p>所有这样的光滑场构成 $\\Omega^n(M)$；下标 $c$ 表示<strong>支集紧致</strong>，即非零点集的闭包是紧集。先在 $\\Omega_c^n(M)$ 上定义积分，可避免无穷远处的收敛问题。</p>
+  <p>所有这样的光滑场构成 $\\Omega^n(M)$。按照 1.1 节的支集定义，下标 $c$ 表示支集紧致。先在 $\\Omega_c^n(M)$ 上定义积分，可避免无穷远处的收敛问题。</p>
   <p>坐标图 $x=(x^1,\\ldots,x^n):U\\to V\\subset\\mathbb{R}^n$ 是一个光滑坐标对应。其逆映射 $\\Phi=x^{-1}:V\\to U$ 是参数化。<strong>定向</strong>是选定一族覆盖 $M$ 的坐标图，使重叠处的过渡映射雅可比行列式为正；这些图称为正向图。</p>
   <p>对坐标函数 $x^i:U\\to\\mathbb{R}$，它的微分是一个确切的余切向量场：</p>
   $$(dx^i)_p(v):=v(x^i),\\qquad v\\in T_pM.$$
@@ -26,13 +26,9 @@ export const integrationDefinitionSection = {
 
 <div class="math-definition">
   <div class="math-definition-title">二、定义的分析起点：欧氏空间上的顶次形式积分</div>
-  <p>令 $u^1,\\ldots,u^n$ 是 $\\mathbb{R}^n$ 上的标准坐标，$\\lambda^n$ 是标准勒贝格测度，它给矩形赋值 $\\prod_i(b_i-a_i)$。对标准定向开集 $V$ 上的紧支集光滑形式 $\\eta=a(u)\\,du^1\\wedge\\cdots\\wedge du^n$，<strong>规定</strong>：</p>
+  <p>令 $u^1,\\ldots,u^n$ 是欧氏标准坐标，$\\lambda^n$ 是 <a href="#lebesgue-measure-definition">1.6 节定义的勒贝格测度</a>。对标准定向开集 $V$ 上的紧支集光滑形式 $\\eta=a(u)\\,du^1\\wedge\\cdots\\wedge du^n$，<strong>规定</strong>：</p>
   $$\\boxed{\\int_V\\eta:=\\int_V a(u)\\,d\\lambda^n(u).}$$
-  <p>左边的输入是一个形式，右边是已经在实分析中定义的函数对测度的积分。这是一条<strong>定义两种积分之间关系的规则</strong>，没有声称 $du^1\\wedge\\cdots\\wedge du^n$ 与 $d\\lambda^n$ 是同一类对象。</p>
-  <p>若把 $a$ 在 $V$ 外延拓为零，并取包含其支集的矩形 $Q$，右边也等于黎曼和极限：</p>
-  $$\\int_V a\\,d\\lambda^n
-    =\\lim_{|P|\\to0}\\sum_{R\\in P}a(\\xi_R)\\,\\lambda^n(R).$$
-  <p>$P$ 是 $Q$ 的矩形分割，$|P|$ 是最大网格直径，$\\xi_R\\in R$ 是取样点。趋于零的是网格大小；极限作用于<strong>整个和</strong>。不能写成“$dx=\\lim\\Delta x$”。</p>
+  <p>左边的输入是形式，右边按 <a href="#lebesgue-integral-definition">简单函数与上确界的定义</a> 积分系数 $a$。$a$ 光滑且紧支集，因而可积；把它在 $V$ 外延拓为零后，在包住支集的矩形上也可以用熟悉的黎曼和求出相同的数。这条规则连接两种积分，没有把 $du^1\\wedge\\cdots\\wedge du^n$ 与 $d\\lambda^n$ 认作同一类对象。</p>
 </div>
 
 <div class="math-definition">
@@ -74,7 +70,7 @@ export const integrationDefinitionSection = {
       &=\\int_E a(h(v))|\\det Dh(v)|\\,d\\lambda^n(v)\\\\
       &=\\int_D a(u)\\,d\\lambda^n(u).
       \\end{aligned}$$
-      <p>第二个等号使用正向性，第三个等号才是勒贝格换元定理。形式变换律产生的行列式<strong>恰好满足</strong>换元定理所需的因子。证明不需要把 $d\\lambda$ 当成可约分的代数对象。</p>
+      <p>第二个等号使用正向性，第三个等号使用 <a href="#measure-change-of-variables">1.6 节列明的勒贝格换元定理</a>。形式变换律产生的行列式<strong>恰好满足</strong>换元定理所需的因子。证明不需要把 $d\\lambda$ 当成可约分的代数对象。</p>
     </details>
     <details class="proof-step">
       <summary><strong>步骤 3：用共同细分比较两组单位分解</strong></summary>
@@ -120,16 +116,30 @@ export const integrationDefinitionSection = {
   </div>
 </details>
 
+<details class="proof-card math-definition" id="geometric-density-definition">
+  <summary class="proof-header math-definition-title">定义补充：几何密度、度规体积与测度的关系（展开）</summary>
+  <div class="proof-body">
+    <p>1.6 节的密度函数 $r$ 是相对于参考测度的权重。现在另定义<strong>几何密度</strong> $\\delta$：在每个点，它给一个有序切基 $B=(v_1,\\ldots,v_n)$ 赋值；若新基 $B'=BA$，其中 $A$ 是可逆实矩阵，就要求</p>
+    $$\\delta_p(B')=|\\det A|\\,\\delta_p(B).$$
+    <p>再要求它随点光滑变化。它与顶次形式的区别是：顶次形式在换基时使用 $\\det A$，几何密度使用其绝对值。密度可以有符号；下面使用的<strong>非负密度</strong>满足 $\\delta_p(B)\\geq0$。</p>
+    <p>坐标下写 $\\delta=r_x(x)|dx^1\\cdots dx^n|$，竖线表示密度基符号，<strong>不是对一个数取绝对值</strong>。若 $x=h(y)$，则 $r_y(y)=r_x(h(y))|\\det Dh(y)|$。因而可以用单位分解将局部积分 $\\int r_x\\,d\\lambda^n$ 拼接起来，而不需要定向。非负光滑密度由同样的局部规则给出 Borel 集上的测度 $\\mu_\\delta$；对 Borel 集 $A$，使用该集合在坐标中的示性函数乘以 $r_x$，计算 $\\mu_\\delta(A)$。</p>
+    <p>回到 <a href="#geometry-metric-prerequisites">1.3 节的黎曼度规</a>，它选择一个非负体积密度 $\\delta_g$。其坐标系数为 $\\sqrt{\\det(g_{ij})}$；若再给定向，则对应体积形式 $\\mathrm{vol}_g$：</p>
+    $$\\delta_g=\\sqrt{\\det(g_{ij})}|dx^1\\cdots dx^n|,
+      \\qquad\\mathrm{vol}_g=\\sqrt{\\det(g_{ij})}dx^1\\wedge\\cdots\\wedge dx^n.$$
+    <p>体积形式的这个表达式使用正向坐标。物理质量密度若是可积函数 $\\rho$，总质量写作 $\\int_M\\rho\\,d\\mu_{\\delta_g}$；在定向流形上也等于 $\\int_M\\rho\\,\\mathrm{vol}_g$。两种语言在这里通过明确选定的度规和定向相联系。</p>
+  </div>
+</details>
+
 <div class="math-intuition intuition-box">
   <div class="math-intuition-title">六、世界观转换：从“函数乘上小长度”到“完整的几何被积对象”</div>
   <p><strong>传统写法 $\\int f(x)\\,dx$ 隐含了实轴上的标准测量规则。</strong>在形式语言中，完整对象是 $\\alpha=f(x)\\,dx$。换坐标时，系数与基形式一起变化，$\\alpha$ 本身保持不变；积分是它与有向路径的配对。单独一个标量函数在一般流形上没有唯一的积分，必须另给测度或密度。</p>
   <ul>
     <li><strong>$dx$：</strong>坐标函数的微分，是 1-形式；拉回遵守链式法则。</li>
     <li><strong>$d\\lambda^n$：</strong>“对标准勒贝格测度积分”的记号；测度换元使用 $|\\det J|$，没有方向符号。</li>
-    <li><strong>$\\Delta x$：</strong>有限分割宽度；它出现在逼近积分的和中，不是对 $dx$ 的定义。</li>
+    <li><strong>$\\Delta x$：</strong>有限分割宽度；它出现在逼近积分的和中，不是对 $dx$ 的定义。$dx$ 不能定义为 $\\lim\\Delta x$；极限作用于整个黎曼和。</li>
   </ul>
   <p>三者通过本节的定义相联系，并非符号偶然重名。把 $\\Delta u^i$ 乘在切向量上本身也合法：由多重线性性，$\\omega(\\Delta u^1v_1,\\ldots,\\Delta u^nv_n)=\\omega(v_1,\\ldots,v_n)\\prod_i\\Delta u^i$；不能把这种黎曼和近似当成流形上两点之差的内蕴定义。</p>
-  <p><strong>度规在何处进入？</strong>积分一个已经给定的形式不需要度规。若需要物理长度或体积，则黎曼度规 $g$ 选择体积密度 $\\sqrt{\\det(g_{ij})}|dx^1\\cdots dx^n|$；有定向时对应体积形式 $\\mathrm{vol}_g=\\sqrt{\\det(g_{ij})}dx^1\\wedge\\cdots\\wedge dx^n$。密度按雅可比绝对值变换，因此也能在不可定向流形上积分。绝对值在这里保证坐标无关性。</p>
+  <p><strong>度规在何处进入？</strong>积分一个已经给定的形式不需要度规；要求物理长度或体积时，才使用上方定义的 $\\delta_g$ 或 $\\mathrm{vol}_g$。密度按雅可比绝对值变换，因此也能在不可定向流形上积分。</p>
   <p>例如区间 $[1,4]$ 上 $\\int dx=3$；若度规为 $g=4\\,dx\\otimes dx$，其长度却是 $\\int_{[1,4]}2\\,d\\lambda^1=6$。给定形式的积分与由度规选择的长度，可以是不同的量。</p>
 </div>
 

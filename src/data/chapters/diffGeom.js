@@ -1,4 +1,5 @@
 import { integrationDefinitionSection } from './integrationDefinition.js';
+import { geometryPrerequisites, metricPrerequisites, integrationFoundationsSection } from './integrationFoundations.js';
 
 /**
  * Modern Differential Geometry Master Chapter
@@ -9,11 +10,12 @@ import { integrationDefinitionSection } from './integrationDefinition.js';
  * 1.2 切空间 T_pM：切向量作为方向导数算子 (Derivation)
  * 1.3 余切空间 T_p^*M：微分 1-形式作为几何测量尺
  * 1.4 向量丛与截面空间 Γ：从“点”到“场” (底流形、纤维、总空间与场化算子 Γ)
- * 1.5 外代数 (Exterior Algebra)：从 1-形式到 2-形式、3-形式与面积测度 (反对称楔积与行列式本质)
- * 1.6 现代微分几何中的积分定义 (形式、拉回、勒贝格积分与坐标无关性)
- * 1.7 外微分算子 d 与拓扑幂零律：d² = 0 严格证明 (闭形式、恰当形式与 ∂²=0 对偶)
- * 1.8 流形上的外积分 (Exterior Integration) 与广义 Stokes 定理 (定向、单位分解与相椭圆发射度守恒)
- * 1.9 李导数 L_X 与 Cartan 魔术公式严密推导 (流线、拉回、内积收缩与相流保辛性)
+ * 1.5 外代数 (Exterior Algebra)：交替多线性形式与逐点有向测量
+ * 1.6 积分的分析基础 (可测集合、测度、简单函数与勒贝格积分)
+ * 1.7 现代微分几何中的积分定义 (拉回、单位分解、坐标无关性与几何密度)
+ * 1.8 外微分算子 d 与拓扑幂零律：d² = 0 严格证明 (闭形式、恰当形式与 ∂²=0 对偶)
+ * 1.9 广义 Stokes 定理 (形式阶数、积分域维数与边界)
+ * 1.10 李导数 L_X 与 Cartan 魔术公式严密推导 (流线、拉回、内积收缩与相流保辛性)
  */
 
 export const diffGeomChapter = {
@@ -22,15 +24,16 @@ export const diffGeomChapter = {
   title: '微分流形、外微积分与李导数几何图景',
   subtitle: 'Coordinate-Free Geometry: Manifolds, Bundles, Sections, Exterior Algebra, Integration & Cartan Calculus',
   level: 'Graduate Core / 现代几何根基',
-  prereqs: ['多变量微积分', '实分析与拓扑初步', '线性代数对偶空间'],
-  readingTime: '85 min',
-  summary: '本章系统重构现代微分几何的内蕴体系，全篇坚持“新概念必有通俗物理基石、认知绝不超前跳步”原则：从流形图卡的世界地图隐喻、切向量方向导数算子本质、余切 1-形式等高线对偶，进入向量丛“底流形、纤维、总空间与截面 Γ”的完整物理拆解；从“如何用 1-形式测量二维面元”的朴素几何问题出发，自然推导反对称外代数（Wedge Product）、2-形式与 3-形式阶梯，揭秘行列式的外代数起源；以拉回、勒贝格积分与单位分解严格定义流形上的积分，证明坐标无关性并辨明 dx 的角色；严格证明外微分幂零律（d²=0）；阐明外代数天生自带换元法的外积分理论与广义 Stokes 定理大一统，并完整证明动力学几何灵魂 Cartan 魔术公式及其在加速器束流相空间保辛守恒中的决定性应用。',
+  prereqs: ['多变量微积分（含黎曼积分）', '线性代数与对偶空间', '极限与基础集合语言'],
+  readingTime: '100 min',
+  summary: '先由流形、切空间、余切空间与向量丛建立逐点几何语言，再定义外代数中的有向多重线性测量。随后补齐可测集合、测度与勒贝格积分，用拉回和单位分解严格构造流形上的形式积分，证明坐标无关性，区分形式、密度与度规体积。最后研究外微分、Stokes 定理及 Cartan 公式，并连接物理中的做功、通量与相空间守恒。',
   sections: [
     {
       id: 'sec-1',
       number: '1.1',
       heading: '概念诞生背景与初学者基石：什么是流形、图卡与内蕴几何？',
       content: `
+${geometryPrerequisites}
 <div class="math-primer">
   <div class="math-primer-title">
     <span>🌱 零门槛基石：什么是“流形 (Manifold)”与“图卡 (Chart)”？</span>
@@ -218,7 +221,7 @@ export const diffGeomChapter = {
   </div>
   <p>
     • <strong>对偶空间（Dual Space）</strong>：线性代数中的对偶，就是“把向量变成纯数字的线性测量仪器”。例如，向测功仪输入一个速度向量 $\\vec{v}$，测功仪输出一个实数（单位时间做功功率 $P = \\vec{F} \\cdot \\vec{v}$）。所有这种线性测量仪器的集合，就是切空间的对偶空间，称为<strong>余切空间 $T_p^*M$</strong>；<br/>
-    • <strong>余向量 / 1-形式</strong>：余切空间中的元素称为余向量或微分 1-形式。切向量是“沿途奔跑的箭头”，1-形式是“横截在路上的等高线刻度尺”。
+    • <strong>余向量与 1-形式场</strong>：余切空间中的一个元素是单点余向量；在各点光滑地选取余向量，得到 1-形式场。把它想成“刻度尺”，是指它对一个切方向线性求值，而不是已经给某段曲线赋予长度。
   </p>
 </div>
 
@@ -230,21 +233,23 @@ export const diffGeomChapter = {
   <p>流形在点 $p$ 处的<strong>余切空间 $T_p^* M$</strong> 定义为切空间 $T_p M$ 的代数<strong>对偶空间（Dual Vector Space）</strong>：</p>
   $$T_p^* M = \\text{Hom}_\\mathbb{R}(T_p M, \\mathbb{R}) = \\{ \\alpha_p: T_p M \\to \\mathbb{R} \\mid \\alpha_p \\text{ 为实线性泛函} \\}$$
   <p>它作用于切向量 $X_p$ 产生一个无坐标的实数：$\\langle \\alpha_p, X_p \\rangle = \\alpha_p(X_p) \\in \\mathbb{R}$。</p>
+  <p>对光滑实函数 $f$，定义 $(df)_p(X_p):=X_p(f)$。特别地，坐标函数 $x^i$ 的微分满足 $(dx^i)_p(X_p)=X_p(x^i)$。因此 $dx^i$ 测量的是<strong>坐标沿切方向的变化率</strong>；它不是两个点的坐标差，也不是一个区间的长度。若把各点余向量光滑地连成场，就得到后面要在曲线上积分的 1-形式。</p>
 </div>
 
 <div class="math-intuition">
   <div class="math-intuition-title">
-    <span>💡 物理直观：动量 $p_i$ 与做功微元 $dW$ 为什么是 1-形式？</span>
+    <span>💡 物理直观：动量形式与做功形式接受什么输入？</span>
   </div>
   <p>
-    在物理中，<strong>动量 $p_i = \\partial L / \\partial \\dot{q}^i$</strong>、<strong>力的功 $dW = F_i dq^i$</strong>、<strong>电磁标势差 $d\\phi$</strong> 绝不是速度那样的空间箭头，而是对偶的“等值面测量网”：
-    <br/>• 切向量 $X$ 是一个微观位移速度；
-    <br/>• 1-形式 $\\alpha$ 是一簇等高线平面。当矢量 $X$ 穿过这一簇等高线时，穿过的线数就是标量数值 $\\alpha(X)$；
-    <br/>• 局部坐标下，坐标微分基底 $dx^i$ 的本质是一个度量第 $i$ 个坐标增量的探针：
+    给一条粒子轨道，它在点 $p$ 的切向量代表瞬时速度。设 $q^i$ 是局部位形坐标，$F_i$ 是广义力分量，则<strong>做功 1-形式</strong> $\\alpha=\\sum_i F_i\\,dq^i$ 接受这个速度，输出瞬时功率；沿轨道积分后才得到功。动量分量 $p_i$ 也要组合为 $\\theta=\\sum_i p_i\\,dq^i$ 才是完整的动量 1-形式，而不能把单个系数 $p_i$ 本身叫作 1-形式。
+    <br/>• $df$ 可以用函数 $f$ 的等值面作直观图像；一般 1-形式未必是某个函数的全微分，不预设它具有全局等值面图像。
+    <br/>• 非保守力的做功形式不能直接写成某个全局功函数的 $dW$；“局部线性测量”与“存在原函数”是两个不同要求。
+    <br/>• 局部坐标下，$dx^i$ 对坐标切基的求值为：
     $$\\langle dx^i, \\frac{\\partial}{\\partial x^j} \\rangle = \\delta^i_j$$
-    • 标量场 $f$ 的全微分 $df$ 正是天然的 1-形式：$df = \\frac{\\partial f}{\\partial x^i} dx^i$。对任意切向量 $X$，作用结果 $df(X) = X(f)$ 就是该方向上的方向导数！
+    • 标量场 $f$ 的全微分 $df$ 正是天然的 1-形式：$df = \\frac{\\partial f}{\\partial x^i} dx^i$。对任意切向量 $X$，作用结果 $df(X) = X(f)$ 就是该方向上的方向导数！沿整条路径累计的定义将在 1.6–1.7 节给出。
   </p>
 </div>
+${metricPrerequisites}
       `
     },
     {
@@ -406,18 +411,18 @@ export const diffGeomChapter = {
     {
       id: 'sec-5',
       number: '1.5',
-      heading: '外代数 (Exterior Algebra)：从 1-形式到 2-形式、3-形式与面积测度',
+      heading: '外代数 (Exterior Algebra)：交替多线性形式与逐点有向测量',
       content: `
 <div class="math-primer">
   <div class="math-primer-title">
     <span>🌱 第一性原理：如何用两根“1-形式测量尺”去度量一个二维平行四边形的面元？</span>
   </div>
   <p>
-    设在流形某点处有两个微观切向量 $u, v \\in T_p M$（比如带电粒子束流的两个微观偏转速度，它们在相空间张成一个微观平行四边形面元）。<br/>
+    设在流形某点处有两个切向量 $u, v \\in T_p M$；它们在同一个切空间中张成平行四边形。这里的向量是线性空间中的元素，不要求是无穷小位移。<br/>
     我们手头有两个基本的 1-形式测量尺：
-    <br/>• $dx$：专门测量向量在 $x$ 方向的投影跨度；
-    <br/>• $dy$：专门测量向量在 $y$ 方向的投影跨度。
-    <br/>现在，我们想要构建一个<strong>“二维面元测量机”</strong>，输入这两个切向量 $(u, v)$，自动吐出它们张成的<strong>有向平行四边形面积</strong>。这个新的测量仪器，就记为 <strong>$dx \\wedge dy$</strong>（读作 $dx$ 楔积 $dy$）。
+    <br/>• $dx$：输入切向量 $u$，给出 $u(x)$；
+    <br/>• $dy$：输入切向量 $u$，给出 $u(y)$。
+    <br/>我们要把它们组合成接收 $(u,v)$ 的<strong>有向坐标面积测量规则</strong>，记为 <strong>$dx \\wedge dy$</strong>。在欧氏正交单位坐标中，它与熟悉的有向面积一致；一般坐标中，它首先是交替双线性映射。本节只定义这种逐点求值；对区域赋予大小的“测度”将在 1.6 节另行定义。
   </p>
 </div>
 
@@ -546,12 +551,9 @@ export const diffGeomChapter = {
       </p>
     </div>
     <div class="primer-card">
-      <div class="primer-card-title">📏 3. 真实物理面积与度规 $\\sqrt{\\det g}$ 的完美解耦</div>
+      <div class="primer-card-title">📏 3. 物理面积还需要选择度规</div>
       <p style="font-size:0.88rem; color:#cbd5e1; margin:0;">
-        <strong>外代数本身完全不需要度规（Metric-Free）！</strong><br/>
-        只有当你赋予流形一个黎曼度规 $g_{ij}$（提供了实际尺子和夹角）时，真实物理面积形式才由度规行列式给出：
-        $$d\\text{Area} = \\sqrt{\\det g} \\, dx^1 \\wedge dx^2$$
-        例如在半径为 $R$ 的球面上，$ds^2 = R^2 d\\theta^2 + R^2 \\sin^2\\theta d\\phi^2$，度规行列式开方为 $\\sqrt{\\det g} = R^2 \\sin\\theta$。物理面积形式就是 $R^2 \\sin\\theta \\, d\\theta \\wedge d\\phi$。前面的系数 $R^2 \\sin\\theta$ 负责把“经纬度网格数”换算成“真实平方米”，而<strong>底层的反对称代数骨架依然是纯粹的外积 $d\\theta \\wedge d\\phi$</strong>！
+        按 <a href="#geometry-metric-prerequisites">1.3 节的定义</a>，度规 $g$ 提供切向量的长度与夹角；外积的定义不使用这份额外数据。坐标面积值因此不自动等于物理面积。先在 1.6 节定义区域测度，再在 <a href="#geometric-density-definition">1.7 节</a> 说明 $g$ 怎样确定体积密度与体积形式，避免把这些对象提前混同。
       </p>
     </div>
     <div class="primer-card">
@@ -586,7 +588,7 @@ export const diffGeomChapter = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
     <span>形式的物理通量阶梯 (The Ladder of Forms) 与母体空间 $\\Omega^k(M)$</span>
   </div>
-  <p>至此，初学者脑海中可以建立起一座宏伟的<strong>几何测量阶梯</strong>：</p>
+  <p>以下列出各阶形式对应的几何维数和物理用途。这里先识别被积对象；出现的线积分、面积分和体积分将在 1.6–1.7 节统一定义。</p>
   <ul>
     <li><strong>0-形式 $\\Omega^0(M) = C^\\infty(M)$</strong>：<strong>0 维点测量</strong>（计算某点处的标量取值：电势 $\\phi$、温度 $T$、势能 $V$）；</li>
     <li><strong>1-形式 $\\Omega^1(M) = \\Gamma(T^*M)$</strong>：<strong>1 维线测量</strong>（计算沿轨线的线积分做功：$\\int_C \\mathbf{F} \\cdot d\\mathbf{r} = \\int_C F_i dx^i$、动量形式 $p_i dq^i$）；</li>
@@ -598,16 +600,16 @@ export const diffGeomChapter = {
 </div>
 
 <div class="math-intuition">
-  <div class="math-intuition-title">从逐点测量到积分：下一节的任务</div>
-  <p>本节定义了形式在切向量上的取值，但逐点取值本身还不是积分。接下来的 <a href="#sec-integration-definition">1.6 节：现代微分几何中的积分定义</a> 将从欧氏空间的勒贝格积分出发，通过拉回和单位分解，严格构造有向流形上的积分，并证明结果与坐标选择无关。</p>
-  <p>其中会分别标明坐标微分、参数域测度和有限分割宽度的数学类型，解释传统积分记号与形式语言的对应关系。</p>
+  <div class="math-intuition-title">接下来分两步建立积分</div>
+  <p>形式在一个点的取值，尚未给出整片区域的总量。先读 <a href="#sec-integration-foundations">1.6 节</a>：定义可测集合、测度、简单函数与勒贝格积分；再读 <a href="#sec-integration-definition">1.7 节</a>：借助拉回与单位分解，定义有向流形上的形式积分并证明坐标无关性。</p>
 </div>
       `
     },
+    integrationFoundationsSection,
     integrationDefinitionSection,
     {
       id: 'sec-6',
-      number: '1.7',
+      number: '1.8',
       heading: '外微分算子 $d$ 与拓扑幂零律：$d^2 = 0$ 严格证明',
       content: `
 <div class="math-primer">
@@ -822,12 +824,12 @@ export const diffGeomChapter = {
     },
     {
       id: 'sec-7',
-      number: '1.8',
-      heading: '流形上的外积分 (Exterior Integration) 与广义 Stokes 定理',
+      number: '1.9',
+      heading: '广义 Stokes 定理：形式积分与边界的关系',
       content: `
 <div class="math-primer">
   <div class="math-primer-title"><span>从积分定义到边界公式</span></div>
-  <p><a href="#sec-integration-definition">1.6 节</a> 已经定义了定向流形上形式的积分，并证明它不依赖图卡与单位分解。形式的系数按带符号的雅可比行列式变换；正向图之间该行列式为正，因此与测度积分的换元定理相容。</p>
+  <p><a href="#sec-integration-foundations">1.6 节</a> 定义了测度和函数积分，<a href="#sec-integration-definition">1.7 节</a> 已经定义形式积分并证明坐标无关性。1.8 节则定义了外微分。现在可以研究形式在区域上的积分与其在边界上的积分之间的关系。</p>
   <p>在没有全局定向的流形上，普通顶次形式不能直接按这套规则全局积分；密度仍然可以积分。下面使用既有积分定义，讨论形式的阶数、积分域的维数，以及外微分和边界之间的 Stokes 关系。</p>
 </div>
 
@@ -879,7 +881,7 @@ export const diffGeomChapter = {
     },
     {
       id: 'sec-8',
-      number: '1.9',
+      number: '1.10',
       heading: '李导数 $\\mathcal{L}_X$ 与 Cartan 魔术公式严密推导',
       content: `
 <div class="math-primer">
