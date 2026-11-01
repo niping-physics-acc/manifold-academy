@@ -32,10 +32,15 @@ export function createChapterViewer(chapterId, onNavigate) {
   wrapper.innerHTML = `
     <div class="layout-sidebar-main">
       <!-- 左侧学科与章节小节层级导航树 -->
-      <aside class="sidebar glass-panel" style="position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;">
-        <div class="sidebar-title" style="display:flex; justify-content:space-between; align-items:center;">
+      <aside class="sidebar glass-panel">
+        <div class="sidebar-title" id="sidebar-header-toggle" style="display:flex; justify-content:space-between; align-items:center;">
           <span>课程层级索引</span>
-          <span style="font-size:0.72rem; color:var(--accent-cyan); font-family:var(--font-mono);">7 学科体系</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.72rem; color:var(--accent-cyan); font-family:var(--font-mono);">7 学科体系</span>
+            <button type="button" class="sidebar-mobile-toggle" id="btn-sidebar-mobile-toggle" aria-expanded="false">
+              展开目录 ▾
+            </button>
+          </div>
         </div>
         <div class="nav-tree">
           ${DISCIPLINES.map(d => {
@@ -244,6 +249,25 @@ export function createChapterViewer(chapterId, onNavigate) {
     </div>
   `;
 
+  // 0. 窄屏/手机端目录折叠与展开
+  const sidebarEl = wrapper.querySelector('.sidebar');
+  const sidebarHeaderToggle = wrapper.querySelector('#sidebar-header-toggle');
+  const btnSidebarMobileToggle = wrapper.querySelector('#btn-sidebar-mobile-toggle');
+  const setSidebarMobileExpanded = (expanded) => {
+    if (!sidebarEl || !btnSidebarMobileToggle) return;
+    sidebarEl.classList.toggle('mobile-expanded', expanded);
+    btnSidebarMobileToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    btnSidebarMobileToggle.textContent = expanded ? '收起目录 ▴' : '展开目录 ▾';
+  };
+  if (sidebarHeaderToggle && sidebarEl) {
+    sidebarHeaderToggle.addEventListener('click', () => {
+      if (window.innerWidth <= 1024) {
+        const isExpanded = sidebarEl.classList.contains('mobile-expanded');
+        setSidebarMobileExpanded(!isExpanded);
+      }
+    });
+  }
+
   // 1. 侧边栏跨学科点击跳转
   wrapper.querySelectorAll('.tree-item:not(.active)').forEach(item => {
     item.addEventListener('click', () => {
@@ -260,6 +284,9 @@ export function createChapterViewer(chapterId, onNavigate) {
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
         e.preventDefault();
+        if (window.innerWidth <= 1024 && link.classList.contains('tree-sub-item')) {
+          setSidebarMobileExpanded(false);
+        }
         const targetEl = wrapper.querySelector(href);
         if (targetEl) {
           targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
