@@ -1,9 +1,9 @@
-import { integrationDefinitionSection } from './integrationDefinition.js';
+import { integrationJourneySection as integrationDefinitionSection } from './integrationJourney.js';
 import { geometryPrerequisites, metricPrerequisites, integrationFoundationsSection } from './integrationFoundations.js';
 
 /**
  * Modern Differential Geometry Master Chapter
- * Fully hierarchical, graduate-level geometric theoretical physics & beam dynamics.
+ * Rigorous continuation of the calculus bridge and concrete geometry lessons.
  * 
  * Step-by-step cognitive progression:
  * 1.1 现代几何动机与概念基石 (流形、图卡与内蕴几何)
@@ -23,9 +23,9 @@ export const diffGeomChapter = {
   disciplineId: 'diff-geom',
   title: '微分流形、外微积分与李导数几何图景',
   subtitle: 'Coordinate-Free Geometry: Manifolds, Bundles, Sections, Exterior Algebra, Integration & Cartan Calculus',
-  level: 'Graduate Core / 现代几何根基',
-  prereqs: ['多变量微积分（含黎曼积分）', '线性代数与对偶空间', '极限与基础集合语言'],
-  readingTime: '100 min',
+  level: '几何主线 / 例子后的严格化',
+  prereqs: ['起步教程 0.1–0.4', '几何体验 G.1–G.6', '极限与基础集合语言'],
+  readingTime: '分节研读，每节约 30–60 min；证明可多次展开',
   summary: '先由流形、切空间、余切空间与向量丛建立逐点几何语言，再定义外代数中的有向多重线性测量。随后补齐可测集合、测度与勒贝格积分，用拉回和单位分解严格构造流形上的形式积分，证明坐标无关性，区分形式、密度与度规体积。最后研究外微分、Stokes 定理及 Cartan 公式，并连接物理中的做功、通量与相空间守恒。',
   sections: [
     {
@@ -730,7 +730,7 @@ ${metricPrerequisites}
     <strong>项项拆解几何意义：</strong>
     <br/>• $X(\\alpha(Y))$：沿切向 $X$ 观察“向量 $Y$ 上的线积分测量值”如何变化；
     <br/>• $-Y(\\alpha(X))$：沿切向 $Y$ 观察“向量 $X$ 上的线积分测量值”如何变化；
-    <br/>• $-\\alpha([X, Y])$：<strong>几何闭合缺陷补偿</strong>！如果两个向量场不能对易（$[X, Y] \\neq 0$），在流形上位移 $\\epsilon X$ 后沿 $\\epsilon Y$、与先 $\epsilon Y$ 后 $\epsilon X$ 并不能精准闭合成四边形，差出的位移缺口正是李括号 $[X, Y]$，最后一项负责将这个闭合缺口的做功精确扣除！
+    <br/>• $-\\alpha([X, Y])$：<strong>几何闭合缺陷补偿</strong>！如果两个向量场不能对易（$[X, Y] \\neq 0$），在流形上位移 $\\epsilon X$ 后沿 $\\epsilon Y$、与先 $\\epsilon Y$ 后 $\\epsilon X$ 并不能精准闭合成四边形，差出的位移缺口正是李括号 $[X, Y]$，最后一项负责将这个闭合缺口的做功精确扣除！
     <br/>• <strong>自洽性验证</strong>：若代入坐标切基矢 $X = \\frac{\\partial}{\\partial x^i}, Y = \\frac{\\partial}{\\partial x^j}$，因坐标切基矢天生对易 $[\\partial_i, \\partial_j] = 0$，李括号项为 0，直接得出：
     $$(d\\alpha)\\left(\\frac{\\partial}{\\partial x^i}, \\frac{\\partial}{\\partial x^j}\\right) = \\frac{\\partial}{\\partial x^i}\\left(\\alpha_j\\right) - \\frac{\\partial}{\\partial x^j}\\left(\\alpha_i\\right) = \\partial_i \\alpha_j - \\partial_j \\alpha_i$$
     这与我们利用反 Leibniz 律算出的局部坐标结果严格一致！

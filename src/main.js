@@ -2,12 +2,13 @@ import './styles/index.css';
 import './styles/modules.css';
 import './styles/labs.css';
 import './styles/proofs.css';
+import './styles/tutorials.css';
 
 import { createNavbar } from './components/navbar.js';
 import { createHero, createDisciplinesGrid } from './components/hero.js';
 import { createGraphViewer } from './components/graphViewer.js';
 import { createChapterViewer } from './components/chapterViewer.js';
-import { DISCIPLINES } from './data/curriculum.js';
+import { createLearningPath } from './components/learningPath.js';
 
 // 实验室独立展厅
 import { createSymplecticLab } from './labs/symplecticLab.js';
@@ -88,7 +89,7 @@ function createFooter() {
         <div>
           <h4 style="color:#fff; font-size: 1.1rem; margin-bottom: 4px;">Manifold Academy · 流形学堂</h4>
           <p class="footer-credits">
-            以微分几何为统一语言 · 面向高能物理与加速器束流动力学的现代交互式理论物理学堂
+            从基础微积分出发，逐步学习物理模型、微分几何与现代理论物理。
           </p>
         </div>
         <div class="footer-tags">
@@ -104,7 +105,11 @@ function createFooter() {
   return footer;
 }
 
-function navigateTo(view, param = null) {
+function navigateTo(view, param = null, sectionId = null, updateHistory = true) {
+  if (updateHistory) {
+    const hash = view === 'chapter' ? `#chapter-${param || 'calculus-bridge'}${sectionId ? '/' + sectionId : ''}` : `#${view}`;
+    if (location.hash !== hash) history.pushState(null, '', hash);
+  }
   if (currentViewCleanup) {
     currentViewCleanup();
     currentViewCleanup = null;
@@ -112,22 +117,24 @@ function navigateTo(view, param = null) {
 
   const mainArea = document.querySelector('#main-view');
   mainArea.innerHTML = '';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 
   if (view === 'home') {
     mainArea.appendChild(createHero(navigateTo));
-    mainArea.appendChild(createDisciplinesGrid(navigateTo));
+    mainArea.appendChild(createLearningPath(navigateTo));
   } else if (view === 'curriculum') {
+    mainArea.appendChild(createLearningPath(navigateTo));
     mainArea.appendChild(createDisciplinesGrid(navigateTo));
   } else if (view === 'graph') {
     const gView = createGraphViewer(mainArea, navigateTo);
     mainArea.appendChild(gView);
+    currentViewCleanup = gView.cleanup;
   } else if (view === 'labs') {
     const labView = renderLabsShowcase(mainArea, navigateTo);
     mainArea.appendChild(labView);
     currentViewCleanup = labView.cleanup;
   } else if (view === 'chapter') {
-    const chapView = createChapterViewer(param || 'hamiltonian-01', navigateTo);
+    const chapView = createChapterViewer(param || 'calculus-bridge', navigateTo, sectionId);
     mainArea.appendChild(chapView);
     currentViewCleanup = chapView.cleanup;
   }
@@ -154,15 +161,19 @@ function initApp() {
   document.querySelector('#nav-root').appendChild(createNavbar(navigateTo));
   document.querySelector('#footer-root').appendChild(createFooter());
 
-  // 检查初始 hash
-  const hash = window.location.hash.replace('#', '');
+  openLocation();
+  window.addEventListener('popstate', openLocation);
+}
+
+function openLocation() {
+  const hash = window.location.hash.slice(1);
   if (hash.startsWith('chapter-')) {
-    const chapId = hash.replace('chapter-', '');
-    navigateTo('chapter', chapId);
+    const [chapId, sectionId] = hash.slice('chapter-'.length).split('/');
+    navigateTo('chapter', chapId, sectionId || null, false);
   } else if (['curriculum', 'graph', 'labs'].includes(hash)) {
-    navigateTo(hash);
+    navigateTo(hash, null, null, false);
   } else {
-    navigateTo('home');
+    navigateTo('home', null, null, false);
   }
 }
 

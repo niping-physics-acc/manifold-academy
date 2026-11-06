@@ -1,6 +1,6 @@
 /**
  * Manifold Academy - Complete Curriculum & Course Data
- * Tailored for advanced graduate-level geometric theoretical physics & beam dynamics.
+ * A calculus-level entry route followed by geometric theory and applications.
  */
 
 import { diffGeomChapter } from './chapters/diffGeom.js';
@@ -10,8 +10,16 @@ import { electrodynamicsChapter } from './chapters/electrodynamics.js';
 import { lieGroupsChapter } from './chapters/lieGroups.js';
 import { statMechChapter } from './chapters/statMech.js';
 import { quantumChapter } from './chapters/quantum.js';
+import { calculusBridgeChapter, geometryIntroChapter, physicsPrimerChapter } from './chapters/tutorialChapters.js';
 
 export const DISCIPLINES = [
+  {
+    id: 'foundations', title: '从微积分起步', titleEn: 'Tools, Geometry & Physical Models',
+    desc: '先补线性测量、链式法则与矩阵，再用曲线积分、弹簧振子和两态系统进入理论物理。',
+    accent: 'var(--accent-emerald)', glow: 'rgba(16, 185, 129, 0.25)', icon: 'compass', tag: '起步教程',
+    topics: ['微积分桥梁', '六个几何例子', '物理模型', '随文实验与理解检查'],
+    masterChapterId: 'calculus-bridge', chapterIds: ['calculus-bridge', 'geometry-intro', 'physics-primer']
+  },
   {
     id: 'diff-geom',
     title: '现代微分几何',
@@ -105,7 +113,10 @@ export const DISCIPLINES = [
   }
 ];
 
-export const CHAPTERS = {
+const chapters = {
+  'calculus-bridge': calculusBridgeChapter,
+  'geometry-intro': geometryIntroChapter,
+  'physics-primer': physicsPrimerChapter,
   'diff-geom-01': diffGeomChapter,
   'lagrangian-01': lagrangianChapter,
   'hamiltonian-01': hamiltonianChapter,
@@ -114,3 +125,9 @@ export const CHAPTERS = {
   'stat-mech-01': statMechChapter,
   'quantum-01': quantumChapter
 };
+
+// Preserve the historic sec-N anchors for chapters that predate explicit section IDs.
+export const CHAPTERS = Object.fromEntries(Object.entries(chapters).map(([id, chapter]) => [id, {
+  ...chapter,
+  sections: chapter.sections.map((section, index) => ({ ...section, id: section.id || `sec-${index + 1}`, number: section.number || String(index + 1) }))
+}]));

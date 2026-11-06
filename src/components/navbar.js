@@ -32,16 +32,16 @@ export function createNavbar(onNavigate) {
       <nav>
         <ul class="nav-links">
           <li><a href="#home" class="nav-link active" data-view="home">首页</a></li>
-          <li><a href="#curriculum" class="nav-link" data-view="curriculum">学科矩阵 (7科)</a></li>
+          <li><a href="#curriculum" class="nav-link" data-view="curriculum">学习路线</a></li>
           <li><a href="#graph" class="nav-link" data-view="graph">知识拓扑图</a></li>
           <li><a href="#labs" class="nav-link" data-view="labs">数字实验室</a></li>
-          <li><a href="#chapter-hamiltonian-01" class="nav-link" data-view="chapter" data-id="hamiltonian-01">束流辛动力学</a></li>
+          <li><a href="#chapter-geometry-intro" class="nav-link" data-view="chapter" data-id="geometry-intro">几何入门</a></li>
         </ul>
       </nav>
 
       <div style="display: flex; align-items: center; gap: 12px;">
         <span class="badge badge-emerald" id="nav-progress-badge">进度: 0章 / 0题</span>
-        <button class="btn btn-primary btn-sm" id="btn-quick-start">从几何起步</button>
+        <button class="btn btn-primary btn-sm" id="btn-quick-start">从微积分起步</button>
       </div>
     </div>
   `;
@@ -66,11 +66,12 @@ export function createNavbar(onNavigate) {
   });
 
   nav.querySelector('#btn-quick-start').addEventListener('click', () => {
-    onNavigate('chapter', 'diff-geom-01');
+    onNavigate('chapter', 'calculus-bridge');
   });
 
   updateProgress();
   window.addEventListener('storage', updateProgress);
+  window.addEventListener('learning-progress', updateProgress);
 
   return nav;
 }

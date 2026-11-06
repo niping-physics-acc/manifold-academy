@@ -21,6 +21,7 @@ export function toggleChapterCompleted(chapterId) {
   try {
     localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(current));
   } catch (e) {}
+  window.dispatchEvent(new Event('learning-progress'));
   return current;
 }
 
@@ -44,5 +45,14 @@ export function toggleHomeworkCompleted(problemId) {
   try {
     localStorage.setItem(STORAGE_KEY_HOMEWORK, JSON.stringify(current));
   } catch (e) {}
+  window.dispatchEvent(new Event('learning-progress'));
   return current;
+}
+
+export function getReadingPosition(chapterId) {
+  try { return localStorage.getItem(`manifold_reading_${chapterId}`); } catch { return null; }
+}
+
+export function saveReadingPosition(chapterId, sectionId) {
+  try { localStorage.setItem(`manifold_reading_${chapterId}`, sectionId); } catch { /* Reading remains available without storage. */ }
 }

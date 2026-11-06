@@ -8,25 +8,25 @@ export function createHero(onNavigate) {
       <div class="hero-content">
         <div class="hero-pill">
           <span>◆</span>
-          <span>面向高能物理与加速器束流动力学的现代几何范式</span>
+          <span>起点：基础微积分 · 目标：读懂理论物理</span>
         </div>
 
         <h1 class="hero-title">
-          以微分几何为经纬
-          <span class="hero-title-highlight">以辛动力学为骨骼</span>
+          从一个能算清的例子
+          <span class="hero-title-highlight">走向物理的几何结构</span>
         </h1>
 
         <p class="hero-description">
-          告别局部坐标系的碎片化计算。从光滑流形、切丛/余切丛上的微分形式出发，无缝串联拉格朗日变分几何、哈密顿辛流、四维协变规范电动力学、连续对称李群与相空间统计涌现。配备实时交互式数字实验室与严格数学推导，构建直击物理本源的知识闭环。
+          会求导、会定积分，就可以从这里开始。先补齐线性代数与物理模型，用图像和计算理解每个新对象，再学习微分几何、变分、对称性与量子态。每一步先说明为什么需要这个概念，再给出定义与推导。
         </p>
 
         <div class="hero-actions">
           <button class="btn btn-primary" id="hero-btn-explore">
-            <span>浏览 7 大学科大纲</span>
+            <span>查看完整学习路线</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
           <button class="btn btn-secondary" id="hero-btn-hamiltonian">
-            <span>进入辛积分与束流实验室</span>
+            <span>开始第一课</span>
           </button>
           <button class="btn btn-secondary" id="hero-btn-graph">
             <span>查看知识依赖拓扑网络</span>
@@ -39,16 +39,16 @@ export function createHero(onNavigate) {
             <span class="stat-label">现代理论物理学科</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">100%</span>
-            <span class="stat-label">无坐标几何化主线</span>
+            <span class="stat-number">3</span>
+            <span class="stat-label">微积分到理论的桥梁课程</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">6+</span>
-            <span class="stat-label">浏览器内数字仿真室</span>
+            <span class="stat-number">5</span>
+            <span class="stat-label">随文几何交互实验</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">Sp(2n)</span>
-            <span class="stat-label">加速器束流光学映射</span>
+            <span class="stat-number">10</span>
+            <span class="stat-label">按先修关系组织的课程</span>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ export function createHero(onNavigate) {
     onNavigate('curriculum');
   });
   section.querySelector('#hero-btn-hamiltonian').addEventListener('click', () => {
-    onNavigate('chapter', 'hamiltonian-01');
+    onNavigate('chapter', 'calculus-bridge');
   });
   section.querySelector('#hero-btn-graph').addEventListener('click', () => {
     onNavigate('graph');
@@ -88,9 +88,9 @@ export function createDisciplinesGrid(onNavigate) {
     <div style="margin-bottom: 32px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: gap;">
       <div>
         <span class="badge badge-purple" style="margin-bottom: 8px;">CURRICULUM MATRIX</span>
-        <h2 style="font-size: 2rem; color: #fff; font-weight: 800;">现代理论物理 7 大学科矩阵</h2>
+        <h2 style="font-size: 2rem; color: #fff; font-weight: 800;">按主题查阅</h2>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">
-          每个学科均包含系统知识大纲、深入几何推导的深度样板章节、课后作业题与专用数字仿真实验室。
+          初学建议先走上面的学习路线；这里适合按问题寻找起步教程或七个学科的几何研读专题。
         </p>
       </div>
     </div>
@@ -121,7 +121,7 @@ export function createDisciplinesGrid(onNavigate) {
 
           <div class="discipline-card-footer">
             <span style="font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-mono);">
-              样板核心课 + 互动实验
+              ${d.id === 'foundations' ? '三门起步课程' : '理论推导 + 专题实验'}
             </span>
             <span class="card-action-link">
               <span>立即研读</span>

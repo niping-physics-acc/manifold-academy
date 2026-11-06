@@ -12,7 +12,7 @@ export function createGraphViewer(container, onNavigate) {
         <span class="badge badge-cyan" style="margin-bottom: 8px;">TOPOLOGICAL ROADMAP</span>
         <h2 style="font-size: 2rem; color: #fff; font-weight: 800;">现代理论物理知识依赖拓扑网络</h2>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">
-          展示 7 大学科之间严密的几何逻辑衍生链。将鼠标悬停在节点上查看依赖路径，点击节点即可直接跳转至对应研读章节。
+          从微积分工具与具体模型进入七个学科。连线表示概念联系，不都代表逻辑推出；初次学习请先查看学习路线。点击节点可打开对应课程。
         </p>
       </div>
       <div style="display: flex; gap: 8px;">
@@ -62,7 +62,7 @@ export function createGraphViewer(container, onNavigate) {
   }
 
   window.addEventListener('resize', resize);
-  setTimeout(resize, 50);
+  const resizeTimer = setTimeout(resize, 50);
 
   function render() {
     const rect = canvas.getBoundingClientRect();
@@ -194,5 +194,10 @@ export function createGraphViewer(container, onNavigate) {
   });
 
   render();
+  wrapper.cleanup = () => {
+    clearTimeout(resizeTimer);
+    cancelAnimationFrame(animId);
+    window.removeEventListener('resize', resize);
+  };
   return wrapper;
 }

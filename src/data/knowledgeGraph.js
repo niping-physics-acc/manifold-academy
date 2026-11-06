@@ -5,6 +5,9 @@
 
 export const KNOWLEDGE_GRAPH = {
   nodes: [
+    { id: 'calculus-tools', label: '微积分、线性测量与矩阵', disc: 'foundations', x: 110, y: 45, r: 24, chapterId: 'calculus-bridge' },
+    { id: 'geometry-examples', label: '曲线与曲面的具体计算', disc: 'foundations', x: 110, y: 330, r: 24, chapterId: 'geometry-intro' },
+    { id: 'physical-models', label: '振子、场与两态模型', disc: 'foundations', x: 180, y: 490, r: 24, chapterId: 'physics-primer' },
     // 微分几何节点
     { id: 'manifold', label: '光滑流形 M', disc: 'diff-geom', x: 120, y: 180, r: 24, chapterId: 'diff-geom-01' },
     { id: 'tangent', label: '切丛 TQ 与向量场', disc: 'diff-geom', x: 250, y: 130, r: 20, chapterId: 'diff-geom-01' },
@@ -45,6 +48,12 @@ export const KNOWLEDGE_GRAPH = {
     { id: 'wigner', label: '相空间 Wigner 拟概率流', disc: 'quantum', x: 880, y: 350, r: 26, chapterId: 'quantum-01' }
   ],
   links: [
+    { source: 'calculus-tools', target: 'geometry-examples', label: '把求导与积分用到曲线上' },
+    { source: 'calculus-tools', target: 'physical-models', label: '建立并求解最小模型' },
+    { source: 'geometry-examples', target: 'manifold', label: '从例子到严格定义' },
+    { source: 'geometry-examples', target: 'cotangent', label: '从测量到形式' },
+    { source: 'physical-models', target: 'action', label: '从一维路径变分出发' },
+    { source: 'physical-models', target: 'proj-hilbert', label: '从复振幅与相位出发' },
     { source: 'manifold', target: 'tangent', label: '局域微分' },
     { source: 'manifold', target: 'cotangent', label: '线性对偶' },
     { source: 'tangent', target: 'action', label: '切丛速度提升' },
@@ -67,7 +76,7 @@ export const KNOWLEDGE_GRAPH = {
     { source: 'liouville', target: 'phase-measure', label: '微正则测度' },
     { source: 'phase-measure', target: 'poincare-rec', label: '保测度流' },
     { source: 'courant-snyder', target: 'coarse-grain', label: '非线性扭曲丝状化' },
-    { source: 'poincare-rec', target: 'coarse-grain', label: '不可逆熵增涌现' },
+    { source: 'poincare-rec', target: 'coarse-grain', label: '比较精细运动与有限分辨率观察' },
     { source: 'symplectic', target: 'wigner', label: '经典相空间对应' },
     { source: 'proj-hilbert', target: 'berry-phase', label: 'U(1) 配丛曲率' },
     { source: 'faraday-form', target: 'berry-phase', label: '几何规范类似' }

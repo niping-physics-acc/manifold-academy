@@ -148,7 +148,7 @@ export const quantumChapter = {
       id: 'hw-qm-01',
       title: '严格推导自旋 1/2 粒子在缓慢旋转磁场中的 Berry 相位与立体角关系',
       difficulty: 'Advanced',
-      statement: '考虑哈密顿量 $H(t) = - \\mu \\vec{B}(t) \\cdot \\vec{\\sigma}$，其中磁场强度恒定 $|\vec{B}| = B_0$，其方向矢量 $\\hat{b}(t) = (\\sin\\theta \\cos\\phi, \\sin\\theta \\sin\\phi, \\cos\\theta)$ 在布洛赫球面上沿纬度为 $\\theta$ 的圆周极慢扫掠一周（$\\phi: 0 \\to 2\\pi$）。\n1. 写出瞬时自旋基态波函数 $|-\\rangle$；\n2. 计算 Berry 连络 1-形式 $\\mathcal{A}_-$；\n3. 证明回路积累的 Berry 相位精确等于闭合立体角的负一半：$\\gamma_- = - \\frac{1}{2} \\Omega = - \\pi (1 - \\cos\\theta)$。',
+      statement: '考虑哈密顿量 $H(t) = - \\mu \\vec{B}(t) \\cdot \\vec{\\sigma}$，其中磁场强度恒定 $|\\vec{B}| = B_0$，其方向矢量 $\\hat{b}(t) = (\\sin\\theta \\cos\\phi, \\sin\\theta \\sin\\phi, \\cos\\theta)$ 在布洛赫球面上沿纬度为 $\\theta$ 的圆周极慢扫掠一周（$\\phi: 0 \\to 2\\pi$）。\n1. 写出瞬时自旋基态波函数 $|-\\rangle$；\n2. 计算 Berry 连络 1-形式 $\\mathcal{A}_-$；\n3. 证明回路积累的 Berry 相位精确等于闭合立体角的负一半：$\\gamma_- = - \\frac{1}{2} \\Omega = - \\pi (1 - \\cos\\theta)$。',
       hints: [
         '基态自旋波函数标准参数化：$|-\\rangle = \\begin{pmatrix} \\sin(\\theta/2) \\\\ - e^{i\\phi} \\cos(\\theta/2) \\end{pmatrix}$。'
       ],

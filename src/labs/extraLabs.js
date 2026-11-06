@@ -14,11 +14,11 @@ export function createDiffGeomLab(container) {
       <div class="lab-header">
         <div class="lab-title-area">
           <span class="badge badge-cyan">现代微分几何实验</span>
-          <h3 style="font-size: 1.15rem; color: #fff;">外积 2-形式 u ∧ v 与有向微分微元可视化</h3>
+          <h3 style="font-size: 1.15rem; color: #fff;">2-形式 ω = dx ∧ dy 对两个向量的测量</h3>
         </div>
         <div class="lab-status-badge">
           <div class="lab-status-pulse"></div>
-          <span>反对称性: u ∧ v = - v ∧ u</span>
+          <span>反对称性: ω(u, v) = −ω(v, u)</span>
         </div>
       </div>
       <div class="lab-body">
@@ -39,7 +39,7 @@ export function createDiffGeomLab(container) {
           <div class="control-group">
             <label class="control-label">几何直观</label>
             <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
-              在画板上拖动两个切向量 <strong style="color: var(--accent-cyan);">向量 u</strong> 和 <strong style="color: #ff0080;">向量 v</strong>。外积 $u \\wedge v$ 天然表示它们张成的有向平行四边形面积。当两者次序反转或交叉时，外形式的值变号，展示外微分如何将“几何微元定向”公理化。
+              在画板上拖动两个切向量 u、v。$u \\wedge v$ 是一个二重向量；2-形式 $\\omega=dx\\wedge dy$ 对它们求值，才得到有向面积数值 $\\omega(u,v)$。交换输入会变号。旋转正交坐标轴不改变这次求值；图中面积采用固定的显示单位。
             </p>
           </div>
           <div class="control-group">
@@ -69,9 +69,10 @@ export function createDiffGeomLab(container) {
     canvas.width = box.clientWidth * dpr;
     canvas.height = box.clientHeight * dpr;
     ctx.scale(dpr, dpr);
+    render();
   }
   window.addEventListener('resize', resizeCanvas);
-  setTimeout(resizeCanvas, 50);
+  const resizeTimer = setTimeout(resizeCanvas, 50);
 
   function render() {
     const box = container.querySelector('#geom-canvas-box');
@@ -87,8 +88,11 @@ export function createDiffGeomLab(container) {
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(0, cy); ctx.lineTo(w, cy);
-    ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+    const length = Math.max(w, h);
+    ctx.moveTo(cx - Math.cos(rot) * length, cy + Math.sin(rot) * length);
+    ctx.lineTo(cx + Math.cos(rot) * length, cy - Math.sin(rot) * length);
+    ctx.moveTo(cx - Math.sin(rot) * length, cy - Math.cos(rot) * length);
+    ctx.lineTo(cx + Math.sin(rot) * length, cy + Math.cos(rot) * length);
     ctx.stroke();
 
     // 计算外积有向面积: det = u_x * v_y - u_y * v_x
@@ -150,7 +154,7 @@ export function createDiffGeomLab(container) {
     else if (Math.hypot(mx - v.x, my - v.y) < 25) dragging = 'v';
   });
 
-  window.addEventListener('mousemove', (e) => {
+  const onMouseMove = (e) => {
     if (!dragging) return;
     const rect = canvas.getBoundingClientRect();
     const mx = e.clientX - rect.left - canvas.clientWidth / 2;
@@ -158,9 +162,15 @@ export function createDiffGeomLab(container) {
     if (dragging === 'u') { u.x = mx; u.y = my; }
     else if (dragging === 'v') { v.x = mx; v.y = my; }
     render();
+  };
+  const onMouseUp = () => { dragging = null; };
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mouseup', onMouseUp);
+  container.querySelector('#slider-geom-rot').addEventListener('input', e => {
+    rot = Number(e.target.value);
+    container.querySelector('#val-geom-rot').textContent = `${rot.toFixed(2)} rad`;
+    render();
   });
-
-  window.addEventListener('mouseup', () => { dragging = null; });
 
   container.querySelector('#btn-swap-vectors').addEventListener('click', () => {
     const tmp = { ...u };
@@ -170,7 +180,12 @@ export function createDiffGeomLab(container) {
   });
 
   render();
-  return () => window.removeEventListener('resize', resizeCanvas);
+  return () => {
+    clearTimeout(resizeTimer);
+    window.removeEventListener('resize', resizeCanvas);
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+  };
 }
 
 // 2. 经典电动力学：超相对论集束与辐射锥
@@ -249,7 +264,7 @@ export function createRadiationLab(container) {
     ctx.scale(dpr, dpr);
   }
   window.addEventListener('resize', resizeCanvas);
-  setTimeout(resizeCanvas, 50);
+  const resizeTimer = setTimeout(resizeCanvas, 50);
 
   function render() {
     const box = container.querySelector('#rad-canvas-box');
@@ -347,6 +362,7 @@ export function createRadiationLab(container) {
 
   render();
   return () => {
+    clearTimeout(resizeTimer);
     if (animId) cancelAnimationFrame(animId);
     window.removeEventListener('resize', resizeCanvas);
   };
@@ -419,9 +435,10 @@ export function createSpinorLab(container) {
     canvas.width = box.clientWidth * dpr;
     canvas.height = box.clientHeight * dpr;
     ctx.scale(dpr, dpr);
+    render();
   }
   window.addEventListener('resize', resizeCanvas);
-  setTimeout(resizeCanvas, 50);
+  const resizeTimer = setTimeout(resizeCanvas, 50);
 
   function render() {
     const box = container.querySelector('#spin-canvas-box');
@@ -516,7 +533,7 @@ export function createSpinorLab(container) {
   });
 
   render();
-  return () => window.removeEventListener('resize', resizeCanvas);
+  return () => { clearTimeout(resizeTimer); window.removeEventListener('resize', resizeCanvas); };
 }
 
 // 4. 量子力学：波包隧穿与相空间演化
@@ -610,7 +627,7 @@ export function createWavePacketLab(container) {
     ctx.scale(dpr, dpr);
   }
   window.addEventListener('resize', resizeCanvas);
-  setTimeout(resizeCanvas, 50);
+  const resizeTimer = setTimeout(resizeCanvas, 50);
 
   // 薛定谔波包单步演化 (有限差分交错网格)
   function stepQM() {
@@ -712,6 +729,7 @@ export function createWavePacketLab(container) {
 
   render();
   return () => {
+    clearTimeout(resizeTimer);
     if (animId) cancelAnimationFrame(animId);
     window.removeEventListener('resize', resizeCanvas);
   };
