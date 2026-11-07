@@ -3,6 +3,7 @@ import { LEARNING_PATH, getLearningRoute } from '../data/learningPath.js';
 import { renderMathInElement } from '../utils/katexRenderer.js';
 import { getCompletedChapters, toggleChapterCompleted, getCompletedHomework, toggleHomeworkCompleted, getReadingPosition, saveReadingPosition } from '../utils/storage.js';
 import { mountLessonLabs } from '../labs/lessonLabs.js';
+import { renderPracticeSet, renderSectionPractice, mountPracticeSet } from './practiceSet.js';
 import { createSymplecticLab } from '../labs/symplecticLab.js';
 import { createActionLab } from '../labs/actionLab.js';
 import { createBakerMapLab } from '../labs/bakerMapLab.js';
@@ -22,7 +23,7 @@ export function createChapterViewer(chapterId, onNavigate, initialTarget = null)
   const hasLab = Boolean(labFactories[chapter.disciplineId]);
   const pages = ordered.map(s => ({ id: s.id, label: `${s.number} ${s.heading}` }));
   if (hasLab) pages.push({ id: 'inline-lab-slot', label: '专题互动实验室' });
-  if (chapter.homework.length) pages.push({ id: 'homework-section', label: '课后研讨与推导' });
+  if (chapter.homework.length) pages.push({ id: 'homework-section', label: `分层练习（${chapter.homework.length} 题）` });
   const wrapper = document.createElement('div');
   wrapper.className = 'content-view container';
   const controller = new AbortController();
@@ -49,9 +50,9 @@ export function createChapterViewer(chapterId, onNavigate, initialTarget = null)
       <details class="lesson-index"><summary>本课目录 · 按推荐学习顺序排列</summary><nav class="chapter-toc-pillbox"><div class="toc-pills">${pages.map(p => `<a class="toc-pill" href="#${p.id}">${p.label}</a>`).join('')}</div></nav></details>
       <div class="lesson-reading-mode"><label><input type="checkbox" id="reader-all"> 整章阅读</label><span>默认一次读一节；进度自动保存在本机。</span></div>
       ${readerControls}
-      <div class="prose" id="article-prose">${ordered.map(s => `<section class="chapter-sub-section" id="${s.id}"><div class="section-tag-bar"><span class="badge badge-cyan">§ ${s.number}</span></div><h2>${s.heading}</h2><div class="section-body">${s.content}</div></section>`).join('')}</div>
+      <div class="prose" id="article-prose">${ordered.map(s => `<section class="chapter-sub-section" id="${s.id}"><div class="section-tag-bar"><span class="badge badge-cyan">§ ${s.number}</span></div><h2>${s.heading}</h2><div class="section-body">${s.content}</div>${renderSectionPractice(s, chapter.homework)}</section>`).join('')}</div>
       ${hasLab ? '<section id="inline-lab-slot" class="lesson-extra-page" aria-label="专题互动实验室"></section>' : ''}
-      ${chapter.homework.length ? `<section class="homework-section lesson-extra-page" id="homework-section"><h2>课后研讨与自我检验</h2><p>先独立尝试，再展开提示与解答。</p>${chapter.homework.map((hw, i) => `<div class="problem-card glass-panel ${completedHW.includes(hw.id) ? 'completed' : ''}" id="card-${hw.id}"><div class="problem-top"><h3>${i + 1}. ${hw.title}</h3><button class="problem-check-btn ${completedHW.includes(hw.id) ? 'checked' : ''}" data-hw-id="${hw.id}">${completedHW.includes(hw.id) ? '✓ 已掌握' : '标记已掌握'}</button></div><div class="problem-body">${hw.statement}</div><div class="problem-hints-area">${hw.hints.map((hint, j) => `<details class="hint-box"><summary>提示 ${j + 1}</summary><div>${hint}</div></details>`).join('')}<details class="solution-box"><summary>展开完整推导</summary><div>${hw.solution}</div></details></div></div>`).join('')}</section>` : ''}
+      ${chapter.homework.length ? renderPracticeSet(chapter, completedHW) : ''}
       ${readerControls}
       <div class="lesson-exit"><h3>离开本课前，试着解释</h3><p>${route?.question || '你能用一个具体例子说明本课的核心结构吗？'}</p><nav class="lesson-course-nav">${routeIndex > 0 ? lessonLink(LEARNING_PATH[routeIndex - 1].chapterId, '← 上一门：' + LEARNING_PATH[routeIndex - 1].title) : ''}${routeIndex < LEARNING_PATH.length - 1 ? lessonLink(LEARNING_PATH[routeIndex + 1].chapterId, '下一门：' + LEARNING_PATH[routeIndex + 1].title + ' →') : ''}</nav></div>
     </main></div>`;
@@ -72,6 +73,7 @@ export function createChapterViewer(chapterId, onNavigate, initialTarget = null)
   function showTarget(id, scroll = true, updateUrl = true) {
     const target = byId(id) || pageElements[0];
     const page = target.closest('.chapter-sub-section, .lesson-extra-page') || pageElements[0];
+    practice.reveal(target);
     currentIndex = pages.findIndex(p => p.id === page.id);
     pageElements.forEach((el, i) => { el.hidden = !all && i !== currentIndex; });
     // Open containing disclosure cards before navigating to a nested definition.
@@ -125,8 +127,11 @@ export function createChapterViewer(chapterId, onNavigate, initialTarget = null)
   wrapper.querySelectorAll('[data-hw-id]').forEach(btn => listen(btn, 'click', () => {
     const done = toggleHomeworkCompleted(btn.dataset.hwId).includes(btn.dataset.hwId);
     btn.classList.toggle('checked', done); btn.textContent = done ? '✓ 已掌握' : '标记已掌握';
+    btn.setAttribute('aria-pressed', String(done));
     byId(`card-${btn.dataset.hwId}`).classList.toggle('completed', done);
+    practice.refresh();
   }));
+  const practice = mountPracticeSet(wrapper);
   const cleanupLessons = mountLessonLabs(wrapper);
   const startTarget = initialTarget || getReadingPosition(chapter.id) || pages[0].id;
   // Layout-dependent labs and scrolling run after the viewer is attached.
@@ -134,6 +139,6 @@ export function createChapterViewer(chapterId, onNavigate, initialTarget = null)
     renderMathInElement(wrapper); showTarget(startTarget, Boolean(initialTarget), false);
   }, 0);
   pageElements.forEach(el => { el.hidden = true; });
-  wrapper.cleanup = () => { clearTimeout(timer); controller.abort(); cleanupLessons(); cleanupLab?.(); };
+  wrapper.cleanup = () => { clearTimeout(timer); controller.abort(); practice.cleanup(); cleanupLessons(); cleanupLab?.(); };
   return wrapper;
 }

@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { registerHooks } from 'node:module';
 import { JSDOM } from 'jsdom';
 import katex from 'katex';
 import { CHAPTERS } from '../src/data/curriculum.js';
 import { LEARNING_PATH } from '../src/data/learningPath.js';
+import { EXERCISES } from '../src/data/exercises/index.js';
 import { integralModel, areaModel, covectorModel, partitionModel, curveModel } from '../src/labs/lessonLabModels.js';
 
 // Use the real renderer/viewer in a DOM. CSS is checked by Vite, not executed by Node.
@@ -52,10 +53,22 @@ for (const [id, root] of chapterDocuments) for (const link of root.querySelector
   const target = link.dataset.lessonSection || link.getAttribute('href').slice(1);
   if (target) assert.ok(chapterDocuments.get(targetChapter)?.querySelector(`[id="${target}"]`), `Broken lesson link: ${id} -> ${targetChapter}/${target}`);
 }
-for (const file of ['tutorialChapters.js', 'integrationJourney.js']) {
-  const source = readFileSync(new URL(`../src/data/chapters/${file}`, import.meta.url), 'utf8');
+const exerciseFiles = readdirSync(new URL('../src/data/exercises/', import.meta.url)).filter(file => file.endsWith('.js'));
+for (const file of ['chapters/tutorialChapters.js', 'chapters/integrationJourney.js', ...exerciseFiles.map(file => `exercises/${file}`)]) {
+  const source = readFileSync(new URL(`../src/data/${file}`, import.meta.url), 'utf8');
   const bad = [...source.matchAll(/(?<!\\)(?:\\\\)*\\[A-Za-z,;! ]/g)];
   assert.equal(bad.length, 0, `Unescaped TeX in ${file}: ${bad.map(m => source.slice(m.index, m.index + 35)).join(' | ')}`);
+}
+const homeworkIds = Object.values(CHAPTERS).flatMap(c => c.homework.map(hw => hw.id));
+assert.equal(new Set(homeworkIds).size, homeworkIds.length, 'Homework IDs must be unique for saved progress');
+for (const [chapterId, exercises] of Object.entries(EXERCISES)) {
+  const chapter = CHAPTERS[chapterId];
+  for (const section of chapter.sections) assert.ok(exercises.some(hw => hw.sectionId === section.id), `No practice for ${chapterId}/${section.id}`);
+  for (const hw of exercises) {
+    assert.ok(chapter.sections.some(s => s.id === hw.sectionId), `Invalid review link: ${hw.id}`);
+    assert.ok(['基础', '进阶', '挑战'].includes(hw.difficulty));
+    assert.ok(hw.hints.length >= 2, `Missing staged hints: ${hw.id}`);
+  }
 }
 
 // Mathematical invariants of the experiments, including orientation and singular cases.
@@ -109,6 +122,42 @@ assert.equal(visibleSections(view)[0].id, 'start-linear'); assert.ok(location.ha
 view.querySelector('#reader-all').click(); assert.equal(visibleSections(view).length, 6);
 view.querySelector('#reader-all').click(); assert.equal(visibleSections(view).length, 1);
 dispose(view); view = await mount('calculus-bridge'); assert.equal(visibleSections(view)[0].id, 'start-linear'); dispose(view);
+
+// Practice navigation, difficulty/progress filters, disclosures and persisted completion.
+view = await mount('calculus-bridge', 'start-quantities');
+view.querySelector('#start-quantities .section-practice a').click();
+assert.equal(view.querySelector('#homework-section').hidden, false);
+assert.ok(location.hash.endsWith('/card-ex-calc-01'));
+const practiceFilter = view.querySelector('[data-practice-filter]');
+practiceFilter.value = '挑战'; practiceFilter.dispatchEvent(new Event('change'));
+assert.equal([...view.querySelectorAll('[data-practice-level]')].filter(el => !el.hidden).length, 1);
+view.querySelector('.tree-sub-item[href="#start-quantities"]').click();
+view.querySelector('#start-quantities .section-practice a').click();
+assert.equal(practiceFilter.value, 'all', 'Navigating directly to a filtered-out exercise must reveal it');
+const practiceCard = view.querySelector('#card-ex-calc-01');
+assert.equal(practiceCard.querySelector('.solution-box').open, false);
+practiceCard.querySelector('.solution-box > summary').click();
+assert.ok(practiceCard.querySelector('.solution-box').open);
+assert.ok(practiceCard.querySelector('.proof-step').open);
+const remainingFilter = view.querySelector('[data-practice-remaining]');
+remainingFilter.click(); practiceCard.querySelector('[data-hw-id]').click();
+assert.ok(practiceCard.hidden);
+assert.ok(view.querySelector('[data-practice-progress]').textContent.includes('已掌握 1 题'));
+view.querySelector('.tree-sub-item[href="#start-quantities"]').click();
+view.querySelector('#start-quantities .section-practice a').click();
+assert.equal(remainingFilter.checked, false);
+assert.equal(practiceCard.hidden, false);
+practiceCard.querySelector('.practice-meta a').click();
+assert.equal(visibleSections(view)[0].id, 'start-quantities');
+dispose(view); view = await mount('calculus-bridge', 'card-ex-calc-01');
+assert.equal(view.querySelector('#card-ex-calc-01 [data-hw-id]').getAttribute('aria-pressed'), 'true');
+view.querySelector('#card-ex-calc-01 [data-hw-id]').click(); // Restore the test's initial progress.
+view.querySelector('.tree-sub-item[href="#start-linear"]').click();
+const savedCount = view.querySelector('[data-practice-progress]').textContent;
+const oldFilter = view.querySelector('[data-practice-filter]');
+dispose(view); oldFilter.value = '挑战'; oldFilter.dispatchEvent(new Event('change'));
+assert.equal(view.querySelector('[data-practice-progress]').textContent, savedCount, 'Disposed practice listeners must stop');
+
 view = await mount('diff-geom-01', 'geometric-density-definition');
 assert.equal(visibleSections(view)[0].id, 'sec-integration-definition');
 assert.ok(view.querySelector('#integration-rigorous-reference').open);
@@ -179,4 +228,4 @@ document.querySelector('[data-chapter="geometry-intro"]').click(); await tick();
 assert.equal(visibleSections(document)[0].id, 'intro-charts');
 document.querySelector('.nav-link[data-view="home"]').click(); await tick();
 dom.window.close();
-console.log(`Validated ${Object.keys(CHAPTERS).length} courses, ${formulaCount} formulas, all lesson links, five numerical models and reader/lab DOM interactions.`);
+console.log(`Validated ${Object.keys(CHAPTERS).length} courses, ${homeworkIds.length} exercises, ${formulaCount} formulas, section practice coverage, five numerical models and reader/practice/lab DOM interactions.`);

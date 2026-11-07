@@ -3,6 +3,7 @@ import './styles/modules.css';
 import './styles/labs.css';
 import './styles/proofs.css';
 import './styles/tutorials.css';
+import './styles/exercises.css';
 
 import { createNavbar } from './components/navbar.js';
 import { createHero, createDisciplinesGrid } from './components/hero.js';

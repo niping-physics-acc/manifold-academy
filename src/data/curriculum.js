@@ -11,6 +11,7 @@ import { lieGroupsChapter } from './chapters/lieGroups.js';
 import { statMechChapter } from './chapters/statMech.js';
 import { quantumChapter } from './chapters/quantum.js';
 import { calculusBridgeChapter, geometryIntroChapter, physicsPrimerChapter } from './chapters/tutorialChapters.js';
+import { EXERCISES } from './exercises/index.js';
 
 export const DISCIPLINES = [
   {
@@ -129,5 +130,6 @@ const chapters = {
 // Preserve the historic sec-N anchors for chapters that predate explicit section IDs.
 export const CHAPTERS = Object.fromEntries(Object.entries(chapters).map(([id, chapter]) => [id, {
   ...chapter,
+  homework: [...(EXERCISES[id] || []), ...chapter.homework],
   sections: chapter.sections.map((section, index) => ({ ...section, id: section.id || `sec-${index + 1}`, number: section.number || String(index + 1) }))
 }]));

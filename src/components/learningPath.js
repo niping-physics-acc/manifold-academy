@@ -12,7 +12,7 @@ export function createLearningPath(onNavigate) {
       <h3><a href="#chapter-${route.chapterId}" data-chapter="${route.chapterId}">${route.title}</a></h3><p>${route.goal}</p>
       <div class="learning-prereqs">先修：${route.prerequisites.length ? route.prerequisites.map(id => `<a href="#chapter-${id}" data-chapter="${id}">${CHAPTERS[id].title.split('：')[0]}</a>`).join(' · ') : '一元微积分与中学代数'}</div>
       <p class="learning-checkpoint">学后能回答：${route.question}</p>
-      <a class="btn btn-secondary btn-sm" href="#chapter-${route.chapterId}" data-chapter="${route.chapterId}">进入课程 · ${CHAPTERS[route.chapterId].sections.length} 节 →</a>
+      <a class="btn btn-secondary btn-sm" href="#chapter-${route.chapterId}" data-chapter="${route.chapterId}">进入课程 · ${CHAPTERS[route.chapterId].sections.length} 节 · ${CHAPTERS[route.chapterId].homework.length} 题 →</a>
     </li>`).join('')}</ol>`;
   section.addEventListener('click', e => {
     const link = e.target.closest('[data-chapter]');
